@@ -1,0 +1,167 @@
+import React, { useState, useEffect } from 'react';
+import { Check } from 'lucide-react';
+
+export default function DogFeeder() {
+  const [feedings, setFeedings] = useState({
+    kirby: { am: false, pm: false },
+    storm: { am: false, pm: false }
+  });
+
+  const [currentDate, setCurrentDate] = useState(new Date().toLocaleDateString());
+
+  // Check for reset at 11:55 PM
+  useEffect(() => {
+    const checkReset = () => {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const today = now.toLocaleDateString();
+
+      // Reset at 11:55 PM
+      if (hours === 23 && minutes === 55) {
+        setFeedings({
+          kirby: { am: false, pm: false },
+          storm: { am: false, pm: false }
+        });
+        setCurrentDate(today);
+      }
+
+      // Also check if date changed (in case page was open past midnight)
+      if (today !== currentDate) {
+        setFeedings({
+          kirby: { am: false, pm: false },
+          storm: { am: false, pm: false }
+        });
+        setCurrentDate(today);
+      }
+    };
+
+    // Check every minute
+    const interval = setInterval(checkReset, 60000);
+    return () => clearInterval(interval);
+  }, [currentDate]);
+
+  const toggleFeeding = (dog, period) => {
+    setFeedings(prev => ({
+      ...prev,
+      [dog]: {
+        ...prev[dog],
+        [period]: !prev[dog][period]
+      }
+    }));
+  };
+
+  const allFed = feedings.kirby.am && feedings.kirby.pm && 
+                 feedings.storm.am && feedings.storm.pm;
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+      <div className="max-w-2xl mx-auto">
+        <div className="bg-white rounded-2xl shadow-2xl p-8">
+          <h1 className="text-4xl font-bold text-center text-gray-800 mb-2">
+            🐾 Dog Feeding Tracker
+          </h1>
+          <p className="text-center text-gray-600 mb-8">{currentDate}</p>
+
+          {allFed && (
+            <div className="bg-green-100 border-2 border-green-400 rounded-lg p-4 mb-6 text-center">
+              <p className="text-green-800 font-semibold text-lg">
+                ✨ All dogs fed for today! ✨
+              </p>
+            </div>
+          )}
+
+          <div className="space-y-6">
+            {/* Kirby Section */}
+            <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 border-2 border-amber-200">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                🦴 Kirby
+              </h2>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  onClick={() => toggleFeeding('kirby', 'am')}
+                  className={`p-4 rounded-lg font-semibold text-lg transition-all transform hover:scale-105 ${
+                    feedings.kirby.am
+                      ? 'bg-green-500 text-white shadow-lg'
+                      : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-amber-400'
+                  }`}
+                >
+                  {feedings.kirby.am && <Check className="inline mr-2" size={20} />}
+                  AM Feeding
+                </button>
+                <button
+                  onClick={() => toggleFeeding('kirby', 'pm')}
+                  className={`p-4 rounded-lg font-semibold text-lg transition-all transform hover:scale-105 ${
+                    feedings.kirby.pm
+                      ? 'bg-green-500 text-white shadow-lg'
+                      : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-amber-400'
+                  }`}
+                >
+                  {feedings.kirby.pm && <Check className="inline mr-2" size={20} />}
+                  PM Feeding
+                </button>
+              </div>
+            </div>
+
+            {/* Storm Section */}
+            <div className="bg-gradient-to-r from-sky-50 to-blue-50 rounded-xl p-6 border-2 border-blue-200">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                ⚡ Storm
+              </h2>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  onClick={() => toggleFeeding('storm', 'am')}
+                  className={`p-4 rounded-lg font-semibold text-lg transition-all transform hover:scale-105 ${
+                    feedings.storm.am
+                      ? 'bg-green-500 text-white shadow-lg'
+                      : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-blue-400'
+                  }`}
+                >
+                  {feedings.storm.am && <Check className="inline mr-2" size={20} />}
+                  AM Feeding
+                </button>
+                <button
+                  onClick={() => toggleFeeding('storm', 'pm')}
+                  className={`p-4 rounded-lg font-semibold text-lg transition-all transform hover:scale-105 ${
+                    feedings.storm.pm
+                      ? 'bg-green-500 text-white shadow-lg'
+                      : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-blue-400'
+                  }`}
+                >
+                  {feedings.storm.pm && <Check className="inline mr-2" size={20} />}
+                  PM Feeding
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 bg-gray-50 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-700 mb-2">Today's Status:</h3>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="space-y-1">
+                <p className="text-gray-600">
+                  🦴 Kirby AM: {feedings.kirby.am ? '✅ Fed' : '⏳ Not fed'}
+                </p>
+                <p className="text-gray-600">
+                  🦴 Kirby PM: {feedings.kirby.pm ? '✅ Fed' : '⏳ Not fed'}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-gray-600">
+                  ⚡ Storm AM: {feedings.storm.am ? '✅ Fed' : '⏳ Not fed'}
+                </p>
+                <p className="text-gray-600">
+                  ⚡ Storm PM: {feedings.storm.pm ? '✅ Fed' : '⏳ Not fed'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-center text-gray-500 text-sm mt-6">
+            Resets daily at 11:55 PM
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

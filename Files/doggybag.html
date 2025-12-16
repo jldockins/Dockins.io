@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐾 Dog Feeding Tracker - Kirby & Storm</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #ddd6fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1f2937;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .date {
+            text-align: center;
+            color: #6b7280;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+        .sync-status {
+            text-align: center;
+            font-size: 0.85em;
+            color: #10b981;
+            margin-bottom: 20px;
+        }
+
+        .sync-status.offline {
+            color: #ef4444;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            border: 2px solid #34d399;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message p {
+            color: #065f46;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .dog-section {
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 2px solid;
+        }
+
+        .kirby-section {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            border-color: #fbbf24;
+        }
+
+        .storm-section {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bfdbfe 100%);
+            border-color: #60a5fa;
+        }
+
+        .dog-section h2 {
+            color: #1f2937;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        button {
+            padding: 20px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 10px;
+            border: 2px solid #d1d5db;
+            background: white;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        button.fed {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .kirby-section button:not(.fed):hover {
+            border-color: #fbbf24;
+        }
+
+        .storm-section button:not(.fed):hover {
+            border-color: #60a5fa;
+        }
+
+        .status {
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .status h3 {
+            color: #374151;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.95em;
+        }
+
+        .status-item {
+            color: #6b7280;
+        }
+
+        .reset-info {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+
+        .checkmark {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .setup-instructions {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .setup-instructions h3 {
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+
+        .setup-instructions p {
+            color: #78350f;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .setup-instructions code {
+            background: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #dc2626;
+        }
+
+        .setup-instructions ol {
+            margin-left: 20px;
+            color: #78350f;
+        }
+
+        .setup-instructions li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐾 Dog Feeding Tracker</h1>
+        <div class="date" id="currentDate"></div>
+        <div class="sync-status" id="syncStatus">🔄 Connecting...</div>
+
+        <!-- Setup Instructions (will be hidden after Firebase config) -->
+        <div class="setup-instructions" id="setupInstructions">
+            <h3>⚙️ One-Time Setup Required</h3>
+            <p>To sync between devices, you need to set up a free Firebase database:</p>
+            <ol>
+                <li>Go to <a href="https://console.firebase.google.com/" target="_blank">Firebase Console</a></li>
+                <li>Click "Add project" and create a new project (name it anything, like "DogFeeder")</li>
+                <li>When asked about Google Analytics, you can disable it</li>
+                <li>Once created, click "Realtime Database" in the left menu</li>
+                <li>Click "Create Database"</li>
+                <li>Choose a location and click "Next"</li>
+                <li>Select "Start in test mode" and click "Enable"</li>
+                <li>Copy the database URL (looks like: <code>https://your-project.firebaseio.com</code>)</li>
+                <li>Paste it in the code below where it says <code>YOUR_FIREBASE_URL_HERE</code></li>
+            </ol>
+            <p><strong>Note:</strong> After 30 days, you may need to update the security rules. Instructions will be in the Firebase console.</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <p>✨ All dogs fed for today! ✨</p>
+        </div>
+
+        <div class="dog-section kirby-section">
+            <h2>🦴 Kirby</h2>
+            <div class="buttons">
+                <button id="kirby-am" onclick="toggleFeeding('kirby', 'am')">AM Feeding</button>
+                <button id="kirby-pm" onclick="toggleFeeding('kirby', 'pm')">PM Feeding</button>
+            </div>
+        </div>
+
+        <div class="dog-section storm-section">
+            <h2>⚡ Storm</h2>
+            <div class="buttons">
+                <button id="storm-am" onclick="toggleFeeding('storm', 'am')">AM Feeding</button>
+                <button id="storm-pm" onclick="toggleFeeding('storm', 'pm')">PM Feeding</button>
+            </div>
+        </div>
+
+        <div class="status">
+            <h3>Today's Status:</h3>
+            <div class="status-grid">
+                <div class="status-item" id="status-kirby-am">🦴 Kirby AM: ⏳ Not fed</div>
+                <div class="status-item" id="status-storm-am">⚡ Storm AM: ⏳ Not fed</div>
+                <div class="status-item" id="status-kirby-pm">🦴 Kirby PM: ⏳ Not fed</div>
+                <div class="status-item" id="status-storm-pm">⚡ Storm PM: ⏳ Not fed</div>
+            </div>
+        </div>
+
+        <p class="reset-info">Resets daily at 11:55 PM</p>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <script>
+        // ========================================
+        // CONFIGURATION - REPLACE THIS URL!
+        // ========================================
+        const FIREBASE_DATABASE_URL = "https://doggybag-20404-default-rtdb.firebaseio.com/"; // Replace with your Firebase database URL
+        // ========================================
+
+        // Initialize Firebase
+        let database;
+        let isFirebaseConfigured = false;
+
+        if (FIREBASE_DATABASE_URL !== "YOUR_FIREBASE_URL_HERE") {
+            try {
+                const firebaseConfig = {
+                    databaseURL: FIREBASE_DATABASE_URL
+                };
+                firebase.initializeApp(firebaseConfig);
+                database = firebase.database();
+                isFirebaseConfigured = true;
+                document.getElementById('setupInstructions').style.display = 'none';
+            } catch (error) {
+                console.error("Firebase initialization error:", error);
+                updateSyncStatus(false);
+            }
+        } else {
+            updateSyncStatus(false);
+        }
+
+        // Initialize feedings state
+        let feedings = {
+            kirby: { am: false, pm: false },
+            storm: { am: false, pm: false }
+        };
+
+        // Get today's date key
+        function getTodayKey() {
+            const today = new Date();
+            return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+        }
+
+        // Listen for changes from Firebase
+        if (isFirebaseConfigured) {
+            const feedingsRef = database.ref('feedings/' + getTodayKey());
+            
+            feedingsRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    feedings = data;
+                } else {
+                    // Initialize if no data exists
+                    feedings = {
+                        kirby: { am: false, pm: false },
+                        storm: { am: false, pm: false }
+                    };
+                }
+                updateUI();
+                updateSyncStatus(true);
+            });
+
+            // Handle connection status
+            const connectedRef = database.ref('.info/connected');
+            connectedRef.on('value', (snapshot) => {
+                updateSyncStatus(snapshot.val() === true);
+            });
+        }
+
+        // Toggle feeding status
+        function toggleFeeding(dog, period) {
+            feedings[dog][period] = !feedings[dog][period];
+            
+            if (isFirebaseConfigured) {
+                // Save to Firebase
+                database.ref('feedings/' + getTodayKey()).set(feedings);
+            } else {
+                // Fallback to localStorage if Firebase not configured
+                localStorage.setItem('dogFeedings', JSON.stringify(feedings));
+                localStorage.setItem('feedingDate', getTodayKey());
+                updateUI();
+            }
+        }
+
+        // Update sync status indicator
+        function updateSyncStatus(connected) {
+            const statusEl = document.getElementById('syncStatus');
+            if (!isFirebaseConfigured) {
+                statusEl.textContent = '⚠️ Setup required - not syncing between devices';
+                statusEl.classList.add('offline');
+            } else if (connected) {
+                statusEl.textContent = '✓ Synced across devices';
+                statusEl.classList.remove('offline');
+            } else {
+                statusEl.textContent = '⚠️ Offline - changes will sync when connected';
+                statusEl.classList.add('offline');
+            }
+        }
+
+        // Update the UI
+        function updateUI() {
+            // Update date
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Update buttons
+            updateButton('kirby', 'am');
+            updateButton('kirby', 'pm');
+            updateButton('storm', 'am');
+            updateButton('storm', 'pm');
+
+            // Update status
+            updateStatus('kirby', 'am', '🦴 Kirby');
+            updateStatus('kirby', 'pm', '🦴 Kirby');
+            updateStatus('storm', 'am', '⚡ Storm');
+            updateStatus('storm', 'pm', '⚡ Storm');
+
+            // Check if all fed
+            const allFed = feedings.kirby.am && feedings.kirby.pm && 
+                          feedings.storm.am && feedings.storm.pm;
+            
+            const successMsg = document.getElementById('successMessage');
+            if (allFed) {
+                successMsg.classList.add('show');
+            } else {
+                successMsg.classList.remove('show');
+            }
+        }
+
+        function updateButton(dog, period) {
+            const button = document.getElementById(`${dog}-${period}`);
+            const isFed = feedings[dog][period];
+            
+            if (isFed) {
+                button.classList.add('fed');
+                button.innerHTML = '<span class="checkmark">✓</span> ' + (period === 'am' ? 'AM' : 'PM') + ' Feeding';
+            } else {
+                button.classList.remove('fed');
+                button.textContent = (period === 'am' ? 'AM' : 'PM') + ' Feeding';
+            }
+        }
+
+        function updateStatus(dog, period, label) {
+            const statusEl = document.getElementById(`status-${dog}-${period}`);
+            const isFed = feedings[dog][period];
+            statusEl.textContent = `${label} ${period.toUpperCase()}: ${isFed ? '✅ Fed' : '⏳ Not fed'}`;
+        }
+
+        // Check for midnight reset every minute
+        function checkReset() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+
+            // Reset at 11:55 PM
+            if (hours === 23 && minutes === 55) {
+                if (isFirebaseConfigured) {
+                    // Firebase will auto-load tomorrow's data (which will be empty)
+                    // Just update the reference
+                    const feedingsRef = database.ref('feedings/' + getTodayKey());
+                    feedingsRef.once('value').then(() => {
+                        updateUI();
+                    });
+                } else {
+                    feedings = {
+                        kirby: { am: false, pm: false },
+                        storm: { am: false, pm: false }
+                    };
+                    localStorage.setItem('dogFeedings', JSON.stringify(feedings));
+                    localStorage.setItem('feedingDate', getTodayKey());
+                    updateUI();
+                }
+            }
+        }
+
+        // Initialize on load
+        if (!isFirebaseConfigured) {
+            // Load from localStorage as fallback
+            const saved = localStorage.getItem('dogFeedings');
+            const savedDate = localStorage.getItem('feedingDate');
+            const today = getTodayKey();
+
+            if (saved && savedDate === today) {
+                feedings = JSON.parse(saved);
+            }
+        }
+        updateUI();
+
+        // Check for reset every minute
+        setInterval(checkReset, 60000);
+    </script>
+</body>
+</html>

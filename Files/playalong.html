@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Along - Dockins Family</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 1.2rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255, 20, 147, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-logo a {
+            display: block;
+            line-height: 0;
+        }
+
+        .nav-logo img {
+            height: 50px;
+            width: auto;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.8));
+        }
+
+        .nav-projects {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .projects-button {
+            background: linear-gradient(45deg, #ff1493, #00d9ff);
+            color: white;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .projects-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
+        }
+
+        /* Main Content */
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #ff1493, #00d9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(255, 20, 147, 0.3);
+            animation: fadeIn 1s ease-in;
+        }
+
+        .video-selector {
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .selector-label {
+            font-size: 1.2rem;
+            color: #00d9ff;
+            margin-bottom: 1rem;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .video-dropdown {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            background: rgba(26, 26, 46, 0.95);
+            color: #fff;
+            border: 2px solid rgba(255, 20, 147, 0.5);
+            border-radius: 8px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .video-dropdown:hover {
+            border-color: rgba(0, 217, 255, 0.8);
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
+        }
+
+        .video-dropdown:focus {
+            border-color: #00d9ff;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+        }
+
+        .video-dropdown option {
+            background: rgba(26, 26, 46, 0.98);
+            color: #fff;
+            padding: 1rem;
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 16 / 9;
+            background: rgba(26, 26, 46, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 20, 147, 0.3);
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Audio Player Section */
+        .audio-section {
+            margin-top: 4rem;
+            width: 100%;
+            max-width: 900px;
+            padding: 2rem;
+            background: rgba(26, 26, 46, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 20, 147, 0.3);
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        .audio-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(45deg, #ff1493, #00d9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .audio-selector {
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .audio-dropdown {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            background: rgba(26, 26, 46, 0.95);
+            color: #fff;
+            border: 2px solid rgba(255, 20, 147, 0.5);
+            border-radius: 8px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .audio-dropdown:hover {
+            border-color: rgba(0, 217, 255, 0.8);
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
+        }
+
+        .audio-dropdown:focus {
+            border-color: #00d9ff;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+        }
+
+        .audio-dropdown option {
+            background: rgba(26, 26, 46, 0.98);
+            color: #fff;
+            padding: 1rem;
+        }
+
+        .audio-player-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 600px;
+            height: 54px;
+            outline: none;
+            border-radius: 8px;
+            background: rgba(10, 14, 39, 0.9);
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.3));
+        }
+
+        audio::-webkit-media-controls-panel {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(10, 14, 39, 0.95));
+        }
+
+        .audio-placeholder {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.2rem;
+            padding: 2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .nav-logo img {
+                height: 40px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .video-selector {
+                max-width: 100%;
+            }
+
+            .video-dropdown {
+                font-size: 1rem;
+                padding: 0.8rem 1rem;
+            }
+
+            .audio-section {
+                padding: 1.5rem;
+            }
+
+            .audio-title {
+                font-size: 1.5rem;
+            }
+
+            .audio-dropdown {
+                font-size: 1rem;
+                padding: 0.8rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-logo img {
+                height: 35px;
+            }
+
+            .projects-button {
+                font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .selector-label {
+                font-size: 1rem;
+            }
+
+            .video-dropdown {
+                font-size: 0.9rem;
+            }
+
+            .audio-section {
+                padding: 1rem;
+                margin-top: 3rem;
+            }
+
+            .audio-title {
+                font-size: 1.2rem;
+            }
+
+            .audio-dropdown {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="/images/Dio.png" alt="Dockins Family Symbol">
+                </a>
+            </div>
+            <div class="nav-projects">
+                <a href="/projects.html" class="projects-button">Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <h1 class="page-title">Play Along</h1>
+        
+        <div class="video-selector">
+            <label class="selector-label" for="videoSelect">Select a Song:</label>
+            <select id="videoSelect" class="video-dropdown">
+                <option value="">-- Choose a song --</option>
+                <option value="_-l3s2MXnhI">Before You Accuse Me</option>
+                <option value="DDrS9uNG83w">Call Me the Breeze</option>
+                <option value="45cYwDMibGo">Come Together</option>
+                <option value="uX9k9aoX6gk">Cortez the Killer</option>
+                <option value="BRcs_OzQb14">Hard to Handle</option>
+                <option value="AL8chWFuM-s">I Fought the Law</option>
+                <option value="wY_Kwyy6a9s">I Love It</option>
+                <option value="5LUfDEATQHM">Please Come Home for Christmas</option>
+                <option value="V5UOC0C0x8Q">Plush</option>
+                <option value="MW6E_TNgCsY">Santa Monica</option>
+                <option value="83ji4HioauM">Sharp Dressed Man</option>
+                <option value="BN1WwnEDWAM">Should I Stay or Should I Go</option>
+                <option value="-_KkgPRo4wA">Sweet Home Chicago</option>    
+                <option value="h8MAHQhKe7Q">Take a Picture</option>
+            </select>
+        </div>
+
+        <div class="video-container" id="videoContainer">
+            <div class="placeholder">
+                Select a song from the dropdown to start playing along!
+            </div>
+        </div>
+
+        <!-- Audio Player Section -->
+        <div class="audio-section">
+            <h2 class="audio-title">Practice Tracks</h2>
+            
+            <div class="audio-selector">
+                <label class="selector-label" for="audioSelect">Select a Demo Track:</label>
+                <select id="audioSelect" class="audio-dropdown">
+                    <option value="">-- Choose a demo track --</option>
+                    <option value="audio/Come_Together_Demo.m4a">Come Together - Demo</option>
+                    <option value="audio/Plush-Demo.m4a">Plush - Demo</option>
+                    <option value="audio/Sharp_Dressed_Man_Demo.m4a">Sharp Dressed Man - Demo</option>
+                    <option value="audio/Sweet_Home_Demo.m4a">Sweet Home Chicago - Demo</option>
+                </select>
+            </div>
+
+            <div class="audio-player-container" id="audioPlayerContainer">
+                <div class="audio-placeholder">
+                    Select a demo track to start practicing!
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Video player functionality
+        const videoSelect = document.getElementById('videoSelect');
+        const videoContainer = document.getElementById('videoContainer');
+
+        videoSelect.addEventListener('change', function() {
+            const videoId = this.value;
+            
+            if (videoId) {
+                videoContainer.innerHTML = `
+                    <iframe 
+                        src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                `;
+            } else {
+                videoContainer.innerHTML = `
+                    <div class="placeholder">
+                        Select a song from the dropdown to start playing along!
+                    </div>
+                `;
+            }
+        });
+
+        // Audio player functionality
+        const audioSelect = document.getElementById('audioSelect');
+        const audioPlayerContainer = document.getElementById('audioPlayerContainer');
+        let currentAudio = null;
+
+        audioSelect.addEventListener('change', function() {
+            const audioFile = this.value;
+            
+            if (audioFile) {
+                // Remove existing audio if present
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                }
+
+                // Create new audio element
+                audioPlayerContainer.innerHTML = `
+                    <audio controls controlsList="nodownload">
+                        <source src="${audioFile}" type="audio/mp4">
+                        Your browser does not support the audio element.
+                    </audio>
+                `;
+
+                // Store reference to current audio
+                currentAudio = audioPlayerContainer.querySelector('audio');
+            } else {
+                // Show placeholder if no audio selected
+                audioPlayerContainer.innerHTML = `
+                    <div class="audio-placeholder">
+                        Select a demo track to start practicing!
+                    </div>
+                `;
+                currentAudio = null;
+            }
+        });
+    </script>
+</body>
+</html>

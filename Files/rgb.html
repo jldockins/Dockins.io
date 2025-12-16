@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGB Color Creator - Dockins Family</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 1.2rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255, 20, 147, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-logo a {
+            display: block;
+            line-height: 0;
+        }
+
+        .nav-logo img {
+            height: 50px;
+            width: auto;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.8));
+        }
+
+        .nav-projects {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .projects-button {
+            background: linear-gradient(45deg, #ff1493, #00d9ff);
+            color: white;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .projects-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
+        }
+
+        /* Main Content */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+            padding: 2rem;
+        }
+
+        .rgb-container {
+            background: #1a1a1a;
+            padding: 2rem;
+            border-radius: 5px;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 0, 0.3),
+                inset 0 0 30px rgba(0, 0, 0, 0.8),
+                0 0 100px rgba(0, 255, 0, 0.1);
+            border: 4px solid #333;
+            max-width: 700px;
+            width: 100%;
+            animation: fadeIn 1s ease-in;
+            position: relative;
+        }
+
+        .rgb-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 255, 0, 0.03) 0px,
+                transparent 1px,
+                transparent 2px,
+                rgba(0, 255, 0, 0.03) 3px
+            );
+            pointer-events: none;
+            border-radius: 5px;
+        }
+
+        .rgb-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #00ff00;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 
+                0 0 10px #00ff00,
+                0 0 20px #00ff00,
+                0 0 30px #00ff00;
+            font-family: 'Courier New', monospace;
+            animation: flicker 3s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            94%, 96% { opacity: 0.8; }
+            95% { opacity: 0.9; }
+        }
+
+        .color-display {
+            width: 100%;
+            height: 140px;
+            margin-bottom: 2rem;
+            box-shadow: 
+                inset 0 0 30px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(0, 255, 0, 0.2);
+            border: 3px solid #333;
+            background: #000;
+            position: relative;
+        }
+
+        .color-display::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                transparent 50%,
+                rgba(0, 0, 0, 0.3) 100%
+            );
+            pointer-events: none;
+        }
+
+        .sliders-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            gap: 3rem;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #333;
+            border-radius: 5px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .slider-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider-label {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .slider-label.red {
+            color: #ff0000;
+            text-shadow: 
+                0 0 10px #ff0000,
+                0 0 20px #ff0000;
+        }
+
+        .slider-label.green {
+            color: #00ff00;
+            text-shadow: 
+                0 0 10px #00ff00,
+                0 0 20px #00ff00;
+        }
+
+        .slider-label.blue {
+            color: #0088ff;
+            text-shadow: 
+                0 0 10px #0088ff,
+                0 0 20px #0088ff;
+        }
+
+        .slider-track {
+            position: relative;
+            width: 40px;
+            height: 210px;
+            background: #000;
+            border: 3px solid #333;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.9),
+                0 0 10px rgba(0, 255, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+
+        .slider-vertical {
+            -webkit-appearance: slider-vertical;
+            writing-mode: bt-lr;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            outline: none;
+            cursor: pointer;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .slider-vertical::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 34px;
+            height: 20px;
+            background: linear-gradient(90deg, #444, #666, #444);
+            cursor: pointer;
+            box-shadow: 
+                0 0 10px rgba(0, 255, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+            border: 2px solid #222;
+            transition: all 0.1s ease;
+        }
+
+        .slider-vertical::-webkit-slider-thumb:hover {
+            box-shadow: 
+                0 0 15px rgba(0, 255, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .slider-vertical::-moz-range-thumb {
+            width: 34px;
+            height: 20px;
+            background: linear-gradient(90deg, #444, #666, #444);
+            cursor: pointer;
+            border: 2px solid #222;
+            box-shadow: 
+                0 0 10px rgba(0, 255, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+            transition: all 0.1s ease;
+        }
+
+        .slider-vertical::-moz-range-thumb:hover {
+            box-shadow: 
+                0 0 15px rgba(0, 255, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .value-display {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #00ff00;
+            text-align: center;
+            min-width: 80px;
+            padding: 0.8rem;
+            background: #000;
+            border: 3px solid #333;
+            font-family: 'Courier New', monospace;
+            text-shadow: 
+                0 0 10px #00ff00,
+                0 0 20px #00ff00;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.9),
+                0 0 10px rgba(0, 255, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .rgb-code {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #000;
+            border: 3px solid #333;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.9),
+                0 0 10px rgba(0, 255, 0, 0.2);
+        }
+
+        .rgb-code-label {
+            font-size: 1rem;
+            color: #00ff00;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .rgb-code-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            text-shadow: 
+                0 0 10px #00ff00,
+                0 0 20px #00ff00;
+            letter-spacing: 2px;
+        }
+
+        /* Corner bolts */
+        .rgb-container::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle, #555, #222);
+            border-radius: 50%;
+            box-shadow: inset 0 -2px 3px rgba(0, 0, 0, 0.8);
+            top: 15px;
+            left: 15px;
+        }
+
+        .corner-bolt {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle, #555, #222);
+            border-radius: 50%;
+            box-shadow: inset 0 -2px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .corner-bolt.top-right {
+            top: 15px;
+            right: 15px;
+        }
+
+        .corner-bolt.bottom-left {
+            bottom: 15px;
+            left: 15px;
+        }
+
+        .corner-bolt.bottom-right {
+            bottom: 15px;
+            right: 15px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .nav-logo img {
+                height: 40px;
+            }
+
+            .rgb-container {
+                padding: 2rem;
+            }
+
+            .rgb-title {
+                font-size: 2rem;
+            }
+
+            .color-display {
+                height: 100px;
+            }
+
+            .sliders-container {
+                gap: 1rem;
+            }
+
+            .slider-vertical {
+                height: 200px;
+            }
+
+            .value-display {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-logo img {
+                height: 35px;
+            }
+
+            .projects-button {
+                font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
+            }
+
+            .rgb-container {
+                padding: 1.5rem;
+            }
+
+            .rgb-title {
+                font-size: 1.5rem;
+            }
+
+            .color-display {
+                height: 80px;
+                margin-bottom: 2rem;
+            }
+
+            .slider-vertical {
+                height: 150px;
+            }
+
+            .slider-label {
+                font-size: 1.2rem;
+            }
+
+            .value-display {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="/images/Dio.png" alt="Dockins Family Symbol">
+                </a>
+            </div>
+            <div class="nav-projects">
+                <a href="/projects.html" class="projects-button">Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="rgb-container">
+            <div class="corner-bolt top-right"></div>
+            <div class="corner-bolt bottom-left"></div>
+            <div class="corner-bolt bottom-right"></div>
+            
+            <h1 class="rgb-title">RGB COLOR CREATOR</h1>
+            
+            <div class="color-display" id="colorDisplay"></div>
+            
+            <div class="sliders-container">
+                <div class="slider-wrapper">
+                    <span class="slider-label red">R</span>
+                    <div class="slider-track">
+                        <input type="range" min="0" max="255" value="128" 
+                               class="slider-vertical" id="redSlider" orient="vertical">
+                    </div>
+                    <div class="value-display" id="redValue">128</div>
+                </div>
+                
+                <div class="slider-wrapper">
+                    <span class="slider-label green">G</span>
+                    <div class="slider-track">
+                        <input type="range" min="0" max="255" value="128" 
+                               class="slider-vertical" id="greenSlider" orient="vertical">
+                    </div>
+                    <div class="value-display" id="greenValue">128</div>
+                </div>
+                
+                <div class="slider-wrapper">
+                    <span class="slider-label blue">B</span>
+                    <div class="slider-track">
+                        <input type="range" min="0" max="255" value="128" 
+                               class="slider-vertical" id="blueSlider" orient="vertical">
+                    </div>
+                    <div class="value-display" id="blueValue">128</div>
+                </div>
+            </div>
+
+            <div class="rgb-code">
+                <div class="rgb-code-label">RGB CODE:</div>
+                <div class="rgb-code-value" id="rgbCode">rgb(128, 128, 128)</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const redSlider = document.getElementById('redSlider');
+        const greenSlider = document.getElementById('greenSlider');
+        const blueSlider = document.getElementById('blueSlider');
+        
+        const redValue = document.getElementById('redValue');
+        const greenValue = document.getElementById('greenValue');
+        const blueValue = document.getElementById('blueValue');
+        
+        const colorDisplay = document.getElementById('colorDisplay');
+        const rgbCode = document.getElementById('rgbCode');
+
+        function updateColor() {
+            const r = redSlider.value;
+            const g = greenSlider.value;
+            const b = blueSlider.value;
+            
+            const rgbColor = `rgb(${r}, ${g}, ${b})`;
+            
+            colorDisplay.style.backgroundColor = rgbColor;
+            rgbCode.textContent = rgbColor;
+            
+            redValue.textContent = r;
+            greenValue.textContent = g;
+            blueValue.textContent = b;
+        }
+
+        redSlider.addEventListener('input', updateColor);
+        greenSlider.addEventListener('input', updateColor);
+        blueSlider.addEventListener('input', updateColor);
+
+        // Initialize color
+        updateColor();
+    </script>
+</body>
+</html>

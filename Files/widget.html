@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget - Dockins Family</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 1.2rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255, 20, 147, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-logo a {
+            display: block;
+            line-height: 0;
+        }
+
+        .nav-logo img {
+            height: 50px;
+            width: auto;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.8));
+        }
+
+        .nav-projects {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .projects-button {
+            background: linear-gradient(45deg, #ff1493, #00d9ff);
+            color: white;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .projects-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #ff1493, #00d9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .widgets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .widget {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 20, 147, 0.3);
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        .widget:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(255, 20, 147, 0.4);
+            border-color: rgba(0, 217, 255, 0.5);
+        }
+
+        .widget-title {
+            font-size: 1.2rem;
+            color: #00d9ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .widget-content {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
+        }
+
+        .widget-content.large {
+            font-size: 3rem;
+        }
+
+        .widget-subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 0.5rem;
+        }
+
+        .loading {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.5rem;
+        }
+
+        .weather-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .temperature-unit {
+            font-size: 2rem;
+            color: #ff1493;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .widget:nth-child(1) { animation-delay: 0.1s; }
+        .widget:nth-child(2) { animation-delay: 0.2s; }
+        .widget:nth-child(3) { animation-delay: 0.3s; }
+        .widget:nth-child(4) { animation-delay: 0.4s; }
+        .widget:nth-child(5) { animation-delay: 0.5s; }
+        .widget:nth-child(6) { animation-delay: 0.6s; }
+        .widget:nth-child(7) { animation-delay: 0.7s; }
+        .widget:nth-child(8) { animation-delay: 0.8s; }
+        .widget:nth-child(9) { animation-delay: 0.9s; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .nav-logo img {
+                height: 40px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .widgets-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .widget {
+                padding: 2rem;
+            }
+
+            .widget-content {
+                font-size: 2rem;
+            }
+
+            .widget-content.large {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-logo img {
+                height: 35px;
+            }
+
+            .projects-button {
+                font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .widget-content {
+                font-size: 1.8rem;
+            }
+
+            .widget-content.large {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="/images/Dio.png" alt="Dockins Family Symbol">
+                </a>
+            </div>
+            <div class="nav-projects">
+                <a href="/projects.html" class="projects-button">Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <h1 class="page-title">Widget</h1>
+        
+        <div class="widgets-grid">
+            <!-- Current Time & Date Widget -->
+            <div class="widget">
+                <div class="widget-title">Current Time & Date</div>
+                <div class="widget-content large" id="currentTime">--:--:--</div>
+                <div class="widget-content" id="currentDate" style="font-size: 1.5rem; margin-top: 1rem;">Loading...</div>
+                <div class="widget-subtitle" id="dayOfWeek"></div>
+            </div>
+
+            <!-- Temperature Widget -->
+            <div class="widget">
+                <div class="widget-title">Temperature</div>
+                <div class="widget-content" id="temperature">
+                    <span class="loading">Loading...</span>
+                </div>
+                <div class="widget-subtitle" id="highLowTemp"></div>
+                <div class="widget-subtitle" id="locationName"></div>
+            </div>
+
+            <!-- Weather Widget -->
+            <div class="widget">
+                <div class="widget-title">Today's Weather</div>
+                <div class="weather-icon" id="weatherIcon">☁️</div>
+                <div class="widget-content" id="weatherDescription">
+                    <span class="loading">Loading...</span>
+                </div>
+            </div>
+
+            <!-- Tomorrow's Weather Widget -->
+            <div class="widget">
+                <div class="widget-title">Tomorrow's Weather</div>
+                <div class="weather-icon" id="tomorrowWeatherIcon">☁️</div>
+                <div class="widget-content" id="tomorrowWeatherDescription" style="font-size: 1.8rem;">
+                    <span class="loading">Loading...</span>
+                </div>
+                <div class="widget-subtitle" id="tomorrowTemp"></div>
+            </div>
+
+            <!-- Holiday Countdowns Widget -->
+            <div class="widget">
+                <div class="widget-title">Holiday Countdowns</div>
+                <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 1rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem;">🦃</div>
+                        <div class="widget-content" id="thanksgivingCountdown" style="font-size: 1.8rem; margin: 0.5rem 0;">--</div>
+                        <div class="widget-subtitle" id="thanksgivingDate" style="margin: 0; font-size: 0.85rem;"></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem;">🎄</div>
+                        <div class="widget-content" id="christmasCountdown" style="font-size: 1.8rem; margin: 0.5rem 0;">--</div>
+                        <div class="widget-subtitle" id="christmasDate" style="margin: 0; font-size: 0.85rem;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UV Index & Air Quality Widget -->
+            <div class="widget">
+                <div class="widget-title">UV & Air Quality</div>
+                <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 1rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem;">☀️</div>
+                        <div class="widget-content" id="uvIndex" style="font-size: 2rem; margin: 0.5rem 0;">
+                            <span class="loading" style="font-size: 1.2rem;">...</span>
+                        </div>
+                        <div class="widget-subtitle" id="uvLevel" style="margin: 0;">UV Index</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem;" id="aqiIcon">🌫️</div>
+                        <div class="widget-content" id="airQuality" style="font-size: 2rem; margin: 0.5rem 0;">
+                            <span class="loading" style="font-size: 1.2rem;">...</span>
+                        </div>
+                        <div class="widget-subtitle" id="aqiLevel" style="margin: 0;">AQI</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Humidity & Rain Chance Widget -->
+            <div class="widget">
+                <div class="widget-title">Humidity & Rain</div>
+                <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 1rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem;">💧</div>
+                        <div class="widget-content" id="humidity" style="font-size: 2rem; margin: 0.5rem 0;">
+                            <span class="loading" style="font-size: 1.2rem;">...</span>
+                        </div>
+                        <div class="widget-subtitle" style="margin: 0;">Humidity</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem;">🌧️</div>
+                        <div class="widget-content" id="precipitation" style="font-size: 2rem; margin: 0.5rem 0;">
+                            <span class="loading" style="font-size: 1.2rem;">...</span>
+                        </div>
+                        <div class="widget-subtitle" style="margin: 0;">Rain Chance</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- School Closings Widget -->
+            <div class="widget">
+                <div class="widget-title">Bedford Schools</div>
+                <div class="weather-icon">🏫</div>
+                <div class="widget-content" id="schoolStatus">
+                    <span class="loading">Loading...</span>
+                </div>
+                <div class="widget-subtitle" id="schoolInfo"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            // Convert to 12-hour format
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // Convert 0 to 12
+            const hoursStr = String(hours).padStart(2, '0');
+            
+            document.getElementById('currentTime').textContent = `${hoursStr}:${minutes}:${seconds} ${ampm}`;
+        }
+
+        // Update current date
+        function updateDate() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('en-US', options);
+            const dayOptions = { weekday: 'long' };
+            const dayString = now.toLocaleDateString('en-US', dayOptions);
+            
+            document.getElementById('currentDate').textContent = dateString;
+            document.getElementById('dayOfWeek').textContent = dayString;
+        }
+
+        // Get weather icon emoji based on condition
+        function getWeatherIcon(condition) {
+            const icons = {
+                'clear': '☀️',
+                'clouds': '☁️',
+                'rain': '🌧️',
+                'drizzle': '🌦️',
+                'thunderstorm': '⛈️',
+                'snow': '❄️',
+                'mist': '🌫️',
+                'fog': '🌫️',
+                'haze': '🌫️'
+            };
+            
+            const conditionLower = condition.toLowerCase();
+            for (const [key, icon] of Object.entries(icons)) {
+                if (conditionLower.includes(key)) {
+                    return icon;
+                }
+            }
+            return '🌤️';
+        }
+
+        // Fetch weather data using National Weather Service API
+        async function fetchWeather() {
+            try {
+                // Using Bedford, New Hampshire coordinates
+                const lat = 42.9465;
+                const lon = -71.5162;
+                
+                // First, get the grid point data for the coordinates
+                const pointResponse = await fetch(
+                    `https://api.weather.gov/points/${lat},${lon}`
+                );
+                
+                if (!pointResponse.ok) {
+                    throw new Error('Unable to fetch weather point data');
+                }
+                
+                const pointData = await pointResponse.json();
+                
+                // Get the forecast URL from the point data
+                const forecastUrl = pointData.properties.forecast;
+                const forecastHourlyUrl = pointData.properties.forecastHourly;
+                
+                // Fetch the actual forecast
+                const forecastResponse = await fetch(forecastUrl);
+                
+                if (!forecastResponse.ok) {
+                    throw new Error('Unable to fetch forecast data');
+                }
+                
+                const forecastData = await forecastResponse.json();
+                
+                // Fetch hourly forecast for more detailed data
+                const hourlyResponse = await fetch(forecastHourlyUrl);
+                const hourlyData = hourlyResponse.ok ? await hourlyResponse.json() : null;
+                
+                // Get current period (today)
+                const currentPeriod = forecastData.properties.periods[0];
+                
+                // Update current temperature
+                const temp = currentPeriod.temperature;
+                document.getElementById('temperature').innerHTML = 
+                    `${temp}<span class="temperature-unit">°F</span>`;
+                
+                // Calculate today's high and low from forecast periods
+                const today = new Date().toDateString();
+                let highTemp = -999;
+                let lowTemp = 999;
+                
+                // Look at today's periods to find high and low
+                for (let period of forecastData.properties.periods) {
+                    const periodDate = new Date(period.startTime).toDateString();
+                    if (periodDate === today) {
+                        if (period.temperature > highTemp) {
+                            highTemp = period.temperature;
+                        }
+                        if (period.temperature < lowTemp) {
+                            lowTemp = period.temperature;
+                        }
+                    }
+                }
+                
+                // Display high/low if found
+                if (highTemp !== -999 && lowTemp !== 999) {
+                    document.getElementById('highLowTemp').textContent = 
+                        `H: ${highTemp}°F  L: ${lowTemp}°F`;
+                } else {
+                    document.getElementById('highLowTemp').textContent = '';
+                }
+                
+                // Update location
+                document.getElementById('locationName').textContent = 
+                    'Bedford, NH';
+                
+                // Update weather description
+                const shortForecast = currentPeriod.shortForecast;
+                document.getElementById('weatherDescription').textContent = shortForecast;
+                
+                // Update weather icon based on forecast
+                const icon = getWeatherIcon(shortForecast);
+                document.getElementById('weatherIcon').textContent = icon;
+                
+                // Get tomorrow's forecast
+                // Find the period for tomorrow (look for next day period)
+                let tomorrowPeriod = null;
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const tomorrowDateString = tomorrow.toDateString();
+                
+                for (let period of forecastData.properties.periods) {
+                    const periodDate = new Date(period.startTime).toDateString();
+                    if (periodDate === tomorrowDateString && !period.isDaytime === false) {
+                        tomorrowPeriod = period;
+                        break;
+                    }
+                }
+                
+                // If we didn't find tomorrow's daytime period, use the next available period
+                if (!tomorrowPeriod && forecastData.properties.periods.length > 1) {
+                    tomorrowPeriod = forecastData.properties.periods[1];
+                }
+                
+                if (tomorrowPeriod) {
+                    // Update tomorrow's weather description
+                    const tomorrowForecast = tomorrowPeriod.shortForecast;
+                    document.getElementById('tomorrowWeatherDescription').textContent = tomorrowForecast;
+                    
+                    // Update tomorrow's weather icon
+                    const tomorrowIcon = getWeatherIcon(tomorrowForecast);
+                    document.getElementById('tomorrowWeatherIcon').textContent = tomorrowIcon;
+                    
+                    // Update tomorrow's temperature
+                    const tomorrowTemp = tomorrowPeriod.temperature;
+                    document.getElementById('tomorrowTemp').textContent = `High: ${tomorrowTemp}°F`;
+                } else {
+                    document.getElementById('tomorrowWeatherDescription').textContent = 'Unavailable';
+                    document.getElementById('tomorrowTemp').textContent = '';
+                }
+                
+                // Update humidity from hourly data
+                if (hourlyData && hourlyData.properties.periods[0]) {
+                    const currentHourly = hourlyData.properties.periods[0];
+                    const humidity = currentHourly.relativeHumidity.value;
+                    document.getElementById('humidity').textContent = `${Math.round(humidity)}%`;
+                } else {
+                    document.getElementById('humidity').textContent = '--';
+                }
+                
+                // Update precipitation chance
+                const precipChance = currentPeriod.probabilityOfPrecipitation?.value || 0;
+                document.getElementById('precipitation').textContent = `${precipChance}%`;
+                
+            } catch (error) {
+                console.error('Error fetching weather:', error);
+                
+                // Fallback display
+                document.getElementById('temperature').innerHTML = 
+                    `--<span class="temperature-unit">°F</span>`;
+                document.getElementById('highLowTemp').textContent = '';
+                document.getElementById('locationName').textContent = 
+                    'Bedford, NH';
+                document.getElementById('weatherDescription').textContent = 'Unavailable';
+                document.getElementById('weatherIcon').textContent = '🌤️';
+                document.getElementById('humidity').textContent = '--';
+                document.getElementById('precipitation').textContent = '--';
+                document.getElementById('tomorrowWeatherDescription').textContent = 'Unavailable';
+                document.getElementById('tomorrowTemp').textContent = '';
+            }
+        }
+
+        // Fetch UV Index data
+        async function fetchUVIndex() {
+            try {
+                const lat = 42.9465;
+                const lon = -71.5162;
+                
+                // Using OpenUV API (requires free API key from https://www.openuv.io/)
+                // For now, we'll use a mock calculation based on time of day and season
+                const now = new Date();
+                const hour = now.getHours();
+                const month = now.getMonth();
+                
+                // Simple UV estimation (would be better with actual API)
+                let uvIndex = 0;
+                
+                // UV is higher during daylight hours (8am - 6pm)
+                if (hour >= 8 && hour <= 18) {
+                    // Peak UV around noon
+                    const peakHour = 12;
+                    const hourDiff = Math.abs(hour - peakHour);
+                    
+                    // Base UV on season (higher in summer)
+                    let seasonalBase = 5;
+                    if (month >= 5 && month <= 7) { // June-August
+                        seasonalBase = 8;
+                    } else if (month >= 3 && month <= 4 || month >= 8 && month <= 9) { // Spring/Fall
+                        seasonalBase = 6;
+                    } else { // Winter
+                        seasonalBase = 3;
+                    }
+                    
+                    // Reduce UV based on distance from peak hour
+                    uvIndex = Math.max(0, seasonalBase - hourDiff * 0.5);
+                    uvIndex = Math.round(uvIndex);
+                }
+                
+                // Update UV display
+                document.getElementById('uvIndex').textContent = uvIndex;
+                
+                // Set UV level description
+                let uvLevel = '';
+                let uvColor = '';
+                if (uvIndex <= 2) {
+                    uvLevel = 'Low';
+                } else if (uvIndex <= 5) {
+                    uvLevel = 'Moderate';
+                } else if (uvIndex <= 7) {
+                    uvLevel = 'High';
+                } else if (uvIndex <= 10) {
+                    uvLevel = 'Very High';
+                } else {
+                    uvLevel = 'Extreme';
+                }
+                
+                document.getElementById('uvLevel').textContent = uvLevel;
+                
+            } catch (error) {
+                console.error('Error fetching UV index:', error);
+                document.getElementById('uvIndex').textContent = '--';
+                document.getElementById('uvLevel').textContent = 'Unavailable';
+            }
+        }
+
+        // Fetch Air Quality data
+        async function fetchAirQuality() {
+            try {
+                const lat = 42.9465;
+                const lon = -71.5162;
+                
+                // Using AirNow API (requires free API key from https://docs.airnowapi.org/)
+                // For demonstration, showing estimated values
+                // You would need to sign up for an API key and use:
+                // const apiKey = 'YOUR_AIRNOW_API_KEY';
+                // const response = await fetch(`https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=${lat}&longitude=${lon}&API_KEY=${apiKey}`);
+                
+                // Mock AQI value for demonstration
+                const mockAQI = Math.floor(Math.random() * 50) + 20; // Random between 20-70 (good range)
+                
+                document.getElementById('airQuality').textContent = mockAQI;
+                
+                // Set AQI level and icon
+                let aqiLevel = '';
+                let aqiIcon = '🌫️';
+                
+                if (mockAQI <= 50) {
+                    aqiLevel = 'Good';
+                    aqiIcon = '😊';
+                } else if (mockAQI <= 100) {
+                    aqiLevel = 'Moderate';
+                    aqiIcon = '😐';
+                } else if (mockAQI <= 150) {
+                    aqiLevel = 'Unhealthy for Sensitive';
+                    aqiIcon = '😷';
+                } else if (mockAQI <= 200) {
+                    aqiLevel = 'Unhealthy';
+                    aqiIcon = '😨';
+                } else if (mockAQI <= 300) {
+                    aqiLevel = 'Very Unhealthy';
+                    aqiIcon = '🤢';
+                } else {
+                    aqiLevel = 'Hazardous';
+                    aqiIcon = '☠️';
+                }
+                
+                document.getElementById('aqiLevel').textContent = aqiLevel;
+                document.getElementById('aqiIcon').textContent = aqiIcon;
+                
+            } catch (error) {
+                console.error('Error fetching air quality:', error);
+                document.getElementById('airQuality').textContent = '--';
+                document.getElementById('aqiLevel').textContent = 'Unavailable';
+            }
+        }
+
+        // Fetch school closings/delays
+        async function fetchSchoolStatus() {
+            try {
+                // Note: School closing data would typically come from:
+                // - School district RSS feeds
+                // - Emergency alert systems
+                // - Weather-related closure APIs
+                
+                // For now, we'll check if it's a weekend or holiday
+                const now = new Date();
+                const dayOfWeek = now.getDay();
+                const month = now.getMonth();
+                const date = now.getDate();
+                
+                // Check if weekend
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    document.getElementById('schoolStatus').textContent = 'Weekend';
+                    document.getElementById('schoolInfo').textContent = 'No School';
+                    return;
+                }
+                
+                // Check for major holidays (simplified)
+                // Summer break (approximate)
+                if (month >= 6 && month <= 7) {
+                    document.getElementById('schoolStatus').textContent = 'Summer Break';
+                    document.getElementById('schoolInfo').textContent = 'No School';
+                    return;
+                }
+                
+                // Christmas break (approximate)
+                if (month === 11 && date >= 20 || month === 0 && date <= 5) {
+                    document.getElementById('schoolStatus').textContent = 'Holiday Break';
+                    document.getElementById('schoolInfo').textContent = 'No School';
+                    return;
+                }
+                
+                // Regular school day
+                document.getElementById('schoolStatus').textContent = 'Open';
+                document.getElementById('schoolInfo').textContent = 'Regular Schedule';
+                
+                // Note: To get real closings, you could check:
+                // - https://www.sau25.net/ (Bedford School District)
+                // - Local news APIs
+                // - WMUR school closings feed
+                
+            } catch (error) {
+                console.error('Error fetching school status:', error);
+                document.getElementById('schoolStatus').textContent = 'Unknown';
+                document.getElementById('schoolInfo').textContent = 'Check sau25.net';
+            }
+        }
+
+        // Get the date of Thanksgiving (4th Thursday of November)
+        function getThanksgivingDate(year) {
+            let november = new Date(year, 10, 1); // November is month 10
+            let firstDay = november.getDay();
+            
+            // Find first Thursday
+            let firstThursday = 1 + (4 - firstDay + 7) % 7;
+            
+            // Fourth Thursday is 3 weeks later
+            let thanksgivingDay = firstThursday + 21;
+            
+            return new Date(year, 10, thanksgivingDay);
+        }
+
+        // Get Christmas date
+        function getChristmasDate(year) {
+            return new Date(year, 11, 25); // December 25
+        }
+
+        // Calculate days until a date
+        function getDaysUntil(targetDate) {
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+            targetDate.setHours(0, 0, 0, 0);
+            
+            const diff = targetDate - now;
+            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            
+            return days;
+        }
+
+        // Update countdown displays
+        function updateCountdowns() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            
+            // Thanksgiving
+            let thanksgiving = getThanksgivingDate(currentYear);
+            let daysUntilThanksgiving = getDaysUntil(thanksgiving);
+            
+            // If Thanksgiving has passed this year, show next year's
+            if (daysUntilThanksgiving < 0) {
+                thanksgiving = getThanksgivingDate(currentYear + 1);
+                daysUntilThanksgiving = getDaysUntil(thanksgiving);
+            }
+            
+            // Christmas
+            let christmas = getChristmasDate(currentYear);
+            let daysUntilChristmas = getDaysUntil(christmas);
+            
+            // If Christmas has passed this year, show next year's
+            if (daysUntilChristmas < 0) {
+                christmas = getChristmasDate(currentYear + 1);
+                daysUntilChristmas = getDaysUntil(christmas);
+            }
+            
+            // Update Thanksgiving display
+            if (daysUntilThanksgiving === 0) {
+                document.getElementById('thanksgivingCountdown').textContent = 'Today!';
+            } else if (daysUntilThanksgiving === 1) {
+                document.getElementById('thanksgivingCountdown').textContent = '1 Day';
+            } else {
+                document.getElementById('thanksgivingCountdown').textContent = `${daysUntilThanksgiving} Days`;
+            }
+            
+            const thanksgivingDateStr = thanksgiving.toLocaleDateString('en-US', { 
+                month: 'long', 
+                day: 'numeric', 
+                year: 'numeric' 
+            });
+            document.getElementById('thanksgivingDate').textContent = thanksgivingDateStr;
+            
+            // Update Christmas display
+            if (daysUntilChristmas === 0) {
+                document.getElementById('christmasCountdown').textContent = 'Today!';
+            } else if (daysUntilChristmas === 1) {
+                document.getElementById('christmasCountdown').textContent = '1 Day';
+            } else {
+                document.getElementById('christmasCountdown').textContent = `${daysUntilChristmas} Days`;
+            }
+            
+            const christmasDateStr = christmas.toLocaleDateString('en-US', { 
+                month: 'long', 
+                day: 'numeric', 
+                year: 'numeric' 
+            });
+            document.getElementById('christmasDate').textContent = christmasDateStr;
+        }
+
+        // Initialize
+        updateTime();
+        updateDate();
+        updateCountdowns();
+        fetchWeather();
+        fetchUVIndex();
+        fetchAirQuality();
+        fetchSchoolStatus();
+
+        // Update time every second
+        setInterval(updateTime, 1000);
+
+        // Update date every minute
+        setInterval(updateDate, 60000);
+
+        // Update countdowns every hour
+        setInterval(updateCountdowns, 3600000);
+
+        // Update weather every 10 minutes
+        setInterval(fetchWeather, 600000);
+
+        // Update UV index every hour
+        setInterval(fetchUVIndex, 3600000);
+
+        // Update air quality every 30 minutes
+        setInterval(fetchAirQuality, 1800000);
+
+        // Update school status every hour
+        setInterval(fetchSchoolStatus, 3600000);
+    </script>
+</body>
+</html>
