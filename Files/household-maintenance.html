@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Household Maintenance | Dockins Family</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 1.2rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255, 20, 147, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-logo a {
+            display: block;
+            line-height: 0;
+        }
+
+        .nav-logo img {
+            height: 50px;
+            width: auto;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.8));
+        }
+
+        .nav-projects {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            background: linear-gradient(45deg, #ff1493, #00d9ff);
+            color: white;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #ff1493, #00d9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #00d9ff;
+            opacity: 0.9;
+        }
+
+        /* Category Cards */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background: rgba(26, 26, 46, 0.6);
+            border: 2px solid rgba(255, 20, 147, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 20, 147, 0.6);
+            box-shadow: 0 12px 40px rgba(255, 20, 147, 0.3);
+        }
+
+        .category-card h2 {
+            color: #ff1493;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+        }
+
+        .item-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .item-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .item-title {
+            color: #00d9ff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-details {
+            color: #ccc;
+            line-height: 1.8;
+            padding-left: 1rem;
+        }
+
+        .item-details p {
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-label {
+            color: #ff1493;
+            font-weight: 600;
+        }
+
+        .empty-placeholder {
+            color: #888;
+            font-style: italic;
+            padding: 0.5rem 0;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .page-header h1 {
+                color: #000;
+                text-shadow: none;
+                -webkit-text-fill-color: #000;
+            }
+
+            .page-header p {
+                color: #333;
+            }
+
+            .category-card {
+                background: white;
+                border: 2px solid #333;
+                box-shadow: none;
+                page-break-inside: avoid;
+                margin-bottom: 1.5rem;
+            }
+
+            .category-card:hover {
+                transform: none;
+            }
+
+            .category-card h2 {
+                color: #000;
+                border-bottom-color: #333;
+            }
+
+            .item-title {
+                color: #000;
+            }
+
+            .item-details {
+                color: #333;
+            }
+
+            .detail-label {
+                color: #000;
+                font-weight: 700;
+            }
+
+            .empty-placeholder {
+                color: #666;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .nav-logo img {
+                height: 40px;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-button {
+                font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-logo img {
+                height: 35px;
+            }
+
+            main {
+                padding: 2rem 1rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="/images/Dio.png" alt="Dockins Family Symbol">
+                </a>
+            </div>
+            <div class="nav-projects">
+                <a href="index.html" class="nav-button">Home</a>
+                <a href="/projects.html" class="nav-button">Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="page-header">
+            <h1>Household Maintenance</h1>
+            <p>Reference guide for systems, equipment, and supplies</p>
+        </div>
+
+        <div class="category-grid">
+            <!-- HVAC & Climate Control -->
+            <div class="category-card">
+                <h2>HVAC & Climate Control</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">Heating System</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Add system type</span></p>
+                        <p><span class="detail-label">Model:</span> <span class="empty-placeholder">Add model number</span></p>
+                        <p><span class="detail-label">Last Service:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Service Contact:</span> <span class="empty-placeholder">Add contact info</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Air Conditioning</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Add system type</span></p>
+                        <p><span class="detail-label">Model:</span> <span class="empty-placeholder">Add model number</span></p>
+                        <p><span class="detail-label">Last Service:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Service Contact:</span> <span class="empty-placeholder">Add contact info</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Air Filters</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Size:</span> 16 x 25 x 1</p>
+                        <p><span class="detail-label">Brand/Type:</span> Filtrete MERV 11 1085 MPR Allergen Defense Extra Electrostatic pleated Air Filter</p>
+                        <p><span class="detail-label">Change Frequency:</span> <span class="empty-placeholder">Add schedule (typically every 3 months)</span></p>
+                        <p><span class="detail-label">Last Changed:</span> <span class="empty-placeholder">Add date</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plumbing & Water Systems -->
+            <div class="category-card">
+                <h2>Plumbing & Water Systems</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">Water Heater</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Add type (tank/tankless)</span></p>
+                        <p><span class="detail-label">Model:</span> <span class="empty-placeholder">Add model number</span></p>
+                        <p><span class="detail-label">Capacity:</span> <span class="empty-placeholder">Add capacity</span></p>
+                        <p><span class="detail-label">Last Service:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Service Contact:</span> <span class="empty-placeholder">Add contact info</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Water Softener</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Model:</span> <span class="empty-placeholder">Add model number</span></p>
+                        <p><span class="detail-label">Salt Type:</span> Morton 40-lb Water Softener Salt Solar crystals</p>
+                        <p><span class="detail-label">Last Service:</span> <span class="empty-placeholder">Add date</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Septic/Sewer</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Septic/Sewer</span></p>
+                        <p><span class="detail-label">Last Pumped:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Service Contact:</span> Kent Clean Septic Service</p>
+                        <p><span class="detail-label">Phone:</span> (603) 668-5368</p>
+                        <p><span class="detail-label">Address:</span> 4B Crane Way, Hooksett, NH 03106</p>
+                        <p><span class="detail-label">Hours:</span> Monday - Friday 8:30 AM - 4:30 PM</p>
+                        <p><span class="detail-label">Services:</span> Septic Pumping, Inspections, Pump Station Installation, Jetting</p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Water Services Contact</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Company:</span> MDM Water Services</p>
+                        <p><span class="detail-label">Phone:</span> (603) 529-6707 / 1-(800)-420-7363</p>
+                        <p><span class="detail-label">Email:</span> MDMWaterServices@yahoo.com</p>
+                        <p><span class="detail-label">Address:</span> 274 Clough Park Road, Weare, NH 03281</p>
+                        <p><span class="detail-label">Hours:</span> Monday - Friday 8:00am - 5:00pm</p>
+                        <p><span class="detail-label">Services:</span> Water Testing, Well Pumps, Water Filtration, Well Inspections</p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Plumbing Contact</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Company:</span> <span class="empty-placeholder">Add plumber info</span></p>
+                        <p><span class="detail-label">Phone:</span> <span class="empty-placeholder">Add phone number</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Electrical Systems -->
+            <div class="category-card">
+                <h2>Electrical Systems</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">Main Panel</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Location:</span> <span class="empty-placeholder">Add location</span></p>
+                        <p><span class="detail-label">Amperage:</span> <span class="empty-placeholder">Add amp rating</span></p>
+                        <p><span class="detail-label">Last Inspection:</span> <span class="empty-placeholder">Add date</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Generator</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Whole house/portable</span></p>
+                        <p><span class="detail-label">Model:</span> Cat RP12000 E 12000</p>
+                        <p><span class="detail-label">Fuel Type:</span> <span class="empty-placeholder">Add fuel type</span></p>
+                        <p><span class="detail-label">Last Service:</span> <span class="empty-placeholder">Add date</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Smoke/CO Detectors</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Battery Type:</span> <span class="empty-placeholder">Add battery type</span></p>
+                        <p><span class="detail-label">Last Changed:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Replace Units By:</span> <span class="empty-placeholder">Add expiration</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Electrician Contact</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Company:</span> <span class="empty-placeholder">Add electrician info</span></p>
+                        <p><span class="detail-label">Phone:</span> <span class="empty-placeholder">Add phone number</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kitchen Appliances -->
+            <div class="category-card">
+                <h2>Kitchen Appliances</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">Refrigerator</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Brand/Model:</span> <span class="empty-placeholder">Add info</span></p>
+                        <p><span class="detail-label">Purchase Date:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Water Filter:</span> <span class="empty-placeholder">Add filter model</span></p>
+                        <p><span class="detail-label">Last Filter Change:</span> <span class="empty-placeholder">Add date</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Dishwasher</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Brand/Model:</span> <span class="empty-placeholder">Add info</span></p>
+                        <p><span class="detail-label">Detergent Type:</span> <span class="empty-placeholder">Add preferred brand</span></p>
+                        <p><span class="detail-label">Rinse Aid:</span> <span class="empty-placeholder">Add brand</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Oven/Range</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Brand/Model:</span> <span class="empty-placeholder">Add info</span></p>
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Gas/Electric</span></p>
+                        <p><span class="detail-label">Last Cleaned:</span> <span class="empty-placeholder">Add date</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Microwave</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Brand/Model:</span> <span class="empty-placeholder">Add info</span></p>
+                        <p><span class="detail-label">Purchase Date:</span> <span class="empty-placeholder">Add date</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Garbage Disposal</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Model:</span> <span class="empty-placeholder">Add model</span></p>
+                        <p><span class="detail-label">Install Date:</span> <span class="empty-placeholder">Add date</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Laundry -->
+            <div class="category-card">
+                <h2>Laundry</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">Washer</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Brand/Model:</span> <span class="empty-placeholder">Add info</span></p>
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Top/Front load</span></p>
+                        <p><span class="detail-label">Detergent:</span> <span class="empty-placeholder">Add preferred brand</span></p>
+                        <p><span class="detail-label">Last Service:</span> <span class="empty-placeholder">Add date</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Dryer</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Brand/Model:</span> <span class="empty-placeholder">Add info</span></p>
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Gas/Electric</span></p>
+                        <p><span class="detail-label">Vent Cleaned:</span> <span class="empty-placeholder">Add last cleaning date</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lawn & Garden Equipment -->
+            <div class="category-card">
+                <h2>Lawn & Garden Equipment</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">Lawn Mower</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Push/Riding/Zero-turn</span></p>
+                        <p><span class="detail-label">Brand/Model:</span> <span class="empty-placeholder">Add info</span></p>
+                        <p><span class="detail-label">Oil Type:</span> <span class="empty-placeholder">Add oil spec</span></p>
+                        <p><span class="detail-label">Last Service:</span> <span class="empty-placeholder">Add date</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">String Trimmer/Edger</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Gas/Electric/Battery</span></p>
+                        <p><span class="detail-label">Brand/Model:</span> <span class="empty-placeholder">Add info</span></p>
+                        <p><span class="detail-label">Line Size:</span> <span class="empty-placeholder">Add trimmer line spec</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Leaf Blower</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Gas/Electric/Battery</span></p>
+                        <p><span class="detail-label">Brand/Model:</span> <span class="empty-placeholder">Add info</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Snow Blower</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Single/Two-stage</span></p>
+                        <p><span class="detail-label">Brand/Model:</span> <span class="empty-placeholder">Add info</span></p>
+                        <p><span class="detail-label">Oil Type:</span> <span class="empty-placeholder">Add oil spec</span></p>
+                        <p><span class="detail-label">Last Service:</span> <span class="empty-placeholder">Add date</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exterior Maintenance -->
+            <div class="category-card">
+                <h2>Exterior Maintenance</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">Roof</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Asphalt/Metal/Tile</span></p>
+                        <p><span class="detail-label">Install Date:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Last Inspection:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Roofer Contact:</span> <span class="empty-placeholder">Add contact info</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Gutters</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Last Cleaned:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Gutter Guards:</span> <span class="empty-placeholder">Yes/No</span></p>
+                        <p><span class="detail-label">Service Contact:</span> <span class="empty-placeholder">Add contact info</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Siding/Exterior</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Vinyl/Wood/Brick</span></p>
+                        <p><span class="detail-label">Last Painted/Sealed:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Paint Color:</span> <span class="empty-placeholder">Add color/brand</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interior Maintenance -->
+            <div class="category-card">
+                <h2>Interior Maintenance</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">Paint</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Interior Colors:</span> <span class="empty-placeholder">Add room colors/brands</span></p>
+                        <p><span class="detail-label">Last Painted:</span> <span class="empty-placeholder">Add dates by room</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Flooring</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Types:</span> <span class="empty-placeholder">Add flooring types by room</span></p>
+                        <p><span class="detail-label">Carpet Cleaned:</span> <span class="empty-placeholder">Add last cleaning date</span></p>
+                        <p><span class="detail-label">Wood Floor Product:</span> <span class="empty-placeholder">Add cleaning/care products</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Chimney/Fireplace</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Type:</span> <span class="empty-placeholder">Wood/Gas</span></p>
+                        <p><span class="detail-label">Last Cleaned:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Chimney Sweep:</span> <span class="empty-placeholder">Add contact info</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seasonal Tasks -->
+            <div class="category-card">
+                <h2>Seasonal Maintenance</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">Spring</div>
+                    <div class="item-details">
+                        <p>• AC service & test</p>
+                        <p>• Clean gutters</p>
+                        <p>• Irrigation system startup</p>
+                        <p>• Power wash exterior</p>
+                        <p>• Service lawn equipment</p>
+                        <p>• Check/repair screens</p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Summer</div>
+                    <div class="item-details">
+                        <p>• Deep clean AC filters</p>
+                        <p>• Deck/patio maintenance</p>
+                        <p>• Trim trees/bushes</p>
+                        <p>• Pest control</p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Fall</div>
+                    <div class="item-details">
+                        <p>• Heating system service</p>
+                        <p>• Clean gutters</p>
+                        <p>• Winterize irrigation</p>
+                        <p>• Service snow blower</p>
+                        <p>• Seal driveway (if needed)</p>
+                        <p>• Check weatherstripping</p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Winter</div>
+                    <div class="item-details">
+                        <p>• Clear snow from vents</p>
+                        <p>• Check for ice dams</p>
+                        <p>• Test generator</p>
+                        <p>• Deep clean carpets</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Contacts -->
+            <div class="category-card">
+                <h2>Emergency & Service Contacts</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">General Contractor</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Company:</span> <span class="empty-placeholder">Add contact</span></p>
+                        <p><span class="detail-label">Phone:</span> <span class="empty-placeholder">Add number</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Handyman</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Name:</span> <span class="empty-placeholder">Add contact</span></p>
+                        <p><span class="detail-label">Phone:</span> <span class="empty-placeholder">Add number</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Landscaping</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Company:</span> Lawn Craft NH</p>
+                        <p><span class="detail-label">Phone:</span> (603) 714-9794</p>
+                        <p><span class="detail-label">Address:</span> 56 North Amherst Road, Bedford, NH 03110</p>
+                        <p><span class="detail-label">Services:</span> Lawn Mowing, Bed Maintenance, Spring/Fall Cleanup, Mulch Installation, Shrub Pruning</p>
+                        <p><span class="detail-label">Note:</span> Set up for automatic service visits with autopay enabled</p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Pest Control</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Company:</span> <span class="empty-placeholder">Add contact</span></p>
+                        <p><span class="detail-label">Phone:</span> <span class="empty-placeholder">Add number</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Home Insurance</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Company:</span> <span class="empty-placeholder">Add insurer</span></p>
+                        <p><span class="detail-label">Policy #:</span> <span class="empty-placeholder">Add policy number</span></p>
+                        <p><span class="detail-label">Phone:</span> <span class="empty-placeholder">Add number</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cleaning Supplies -->
+            <div class="category-card">
+                <h2>Preferred Cleaning Supplies</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">General Cleaning</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">All-Purpose Cleaner:</span> <span class="empty-placeholder">Add brand</span></p>
+                        <p><span class="detail-label">Glass Cleaner:</span> <span class="empty-placeholder">Add brand</span></p>
+                        <p><span class="detail-label">Floor Cleaner:</span> <span class="empty-placeholder">Add brand</span></p>
+                        <p><span class="detail-label">Disinfectant:</span> <span class="empty-placeholder">Add brand</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Kitchen</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Dish Soap:</span> <span class="empty-placeholder">Add brand</span></p>
+                        <p><span class="detail-label">Dishwasher Detergent:</span> <span class="empty-placeholder">Add brand</span></p>
+                        <p><span class="detail-label">Stainless Cleaner:</span> <span class="empty-placeholder">Add brand</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Bathroom</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Toilet Cleaner:</span> <span class="empty-placeholder">Add brand</span></p>
+                        <p><span class="detail-label">Tub/Shower Cleaner:</span> <span class="empty-placeholder">Add brand</span></p>
+                        <p><span class="detail-label">Tile Cleaner:</span> <span class="empty-placeholder">Add brand</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pet Care -->
+            <div class="category-card">
+                <h2>Pet Care</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">Our Pets</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Dogs:</span> Kirby & Storm</p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Veterinarian</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Clinic:</span> Bedford Veterinary Medical Center</p>
+                        <p><span class="detail-label">Phone:</span> (603) 353-0123</p>
+                        <p><span class="detail-label">Email:</span> info@bedfordvetcenter.com</p>
+                        <p><span class="detail-label">Address:</span> 246 Route 101, Bedford, NH 03110</p>
+                        <p><span class="detail-label">Hours:</span> Mon-Fri: 7AM - 6PM (Closed weekends)</p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Emergency Vet</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Clinic:</span> Bedford Pet Urgent Care</p>
+                        <p><span class="detail-label">Phone:</span> (603) 206-0148</p>
+                        <p><span class="detail-label">Address:</span> 246 Route 101, Bedford, NH 03110</p>
+                        <p><span class="detail-label">Hours:</span> Mon-Fri 6PM-10PM, Sat 9AM-9PM, Sun 9AM-8PM</p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Pet Food & Supplies</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Food Brand:</span> Diamond Naturals Small Breed Adult Chicken & Rice Formula Dry Dog Food, 18-lb bag</p>
+                        <p><span class="detail-label">Treats:</span> <span class="empty-placeholder">Add favorite treats</span></p>
+                        <p><span class="detail-label">Medications:</span> <span class="empty-placeholder">Add regular medications</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Grooming</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Groomer:</span> Pet Supplies Plus Bedford</p>
+                        <p><span class="detail-label">Phone:</span> (603) 625-9237</p>
+                        <p><span class="detail-label">Address:</span> 87 S River Rd, Bedford, NH 03110</p>
+                        <p><span class="detail-label">Hours:</span> Mon-Sat: 9:00 AM - 9:00 PM, Sun: 10:00 AM - 6:00 PM</p>
+                        <p><span class="detail-label">Last Visit:</span> <span class="empty-placeholder">Add date</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vehicles & Auto Maintenance -->
+            <div class="category-card">
+                <h2>Vehicles & Auto Maintenance</h2>
+                
+                <div class="item-section">
+                    <div class="item-title">Oil Changes</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Service:</span> Prompto 10 Minute Oil Change</p>
+                        <p><span class="detail-label">Email:</span> contact@promptooil.com</p>
+                        <p><span class="detail-label">Locations:</span> 26 locations throughout Maine & New Hampshire</p>
+                        <p><span class="detail-label">Note:</span> No appointment necessary, 10-minute service</p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Vehicle 1</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Make/Model:</span> <span class="empty-placeholder">Add vehicle info</span></p>
+                        <p><span class="detail-label">Year:</span> <span class="empty-placeholder">Add year</span></p>
+                        <p><span class="detail-label">Last Oil Change:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Insurance:</span> <span class="empty-placeholder">Add insurance info</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Vehicle 2</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Make/Model:</span> <span class="empty-placeholder">Add vehicle info</span></p>
+                        <p><span class="detail-label">Year:</span> <span class="empty-placeholder">Add year</span></p>
+                        <p><span class="detail-label">Last Oil Change:</span> <span class="empty-placeholder">Add date</span></p>
+                        <p><span class="detail-label">Insurance:</span> <span class="empty-placeholder">Add insurance info</span></p>
+                    </div>
+                </div>
+
+                <div class="item-section">
+                    <div class="item-title">Auto Repair & Tire Shop</div>
+                    <div class="item-details">
+                        <p><span class="detail-label">Shop Name:</span> Carson City Tire, Inc</p>
+                        <p><span class="detail-label">Phone:</span> (603) 673-5402</p>
+                        <p><span class="detail-label">Fax:</span> (603) 673-6119</p>
+                        <p><span class="detail-label">Email:</span> cct@carsoncitytire.com</p>
+                        <p><span class="detail-label">Address:</span> 18 Pine Road, Amherst, NH 03031</p>
+                        <p><span class="detail-label">Hours:</span> Monday - Friday 7:30 am - 6:00 pm (Closed weekends)</p>
+                        <p><span class="detail-label">Services:</span> Tires, Brake Repairs, Wheel Alignment, Steering & Suspension</p>
+                        <p><span class="detail-label">Features:</span> After-hours key drop, free loaner vehicles for jobs over 1 hour</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
