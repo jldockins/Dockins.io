@@ -203,6 +203,14 @@ var PLAN_DATA = {
           "priority": "medium",
           "duration": "30min",
           "notes": "Plan these pages: Homepage, How It Works (features), Pricing, Demo, Blog, About/Team, Contact/Book a Demo. Draw a simple sitemap tree. Decide which pages are launch-critical (Homepage, How It Works, Pricing, Contact) vs. can-wait (Blog, About)."
+        },
+        {
+          "id": "d2-brand-add",
+          "bucket": "brand",
+          "priority": "high",
+          "duration": "1hr",
+          "task": "Write the positioning statement / north-star one-liner (before any visual work)",
+          "notes": "The single source of truth everything else derives from: WHO it's for (your ICP), the CATEGORY you're in, your one-sentence VALUE PROP, and the ALTERNATIVE you beat (manual QA / other tools). Nail this and your logo, website copy, pitch deck, and cold emails all get sharper and consistent. Draft it, pressure-test it on a few developers, and lock it with your co-founder."
         }
       ]
     },
@@ -268,6 +276,22 @@ var PLAN_DATA = {
           "priority": "low",
           "duration": "20min",
           "notes": "Template: What did we accomplish this week? What didn't get done? Key metrics (leads contacted, demos booked, website traffic). Blockers. Priorities for next week. Budget update. Keep this in Notion or Google Docs and fill it out every Friday."
+        },
+        {
+          "id": "d3-legal-add",
+          "bucket": "legal",
+          "priority": "high",
+          "duration": "45min",
+          "task": "Run a name/trademark clearance check on 'Sprits AI' and 'QAI Agent' before building the brand",
+          "notes": "Search the USPTO trademark database (tmsearch.uspto.gov), plus a general web + domain + social-handle search, for conflicts on both names. Finding a clash after launch means a costly rebrand. If clear, consider filing an intent-to-use trademark application. Coordinate with the branding handle-securing task."
+        },
+        {
+          "id": "d3-brand-add",
+          "bucket": "brand",
+          "priority": "medium",
+          "duration": "30min",
+          "task": "Secure matching social/product handles and lock naming consistency",
+          "notes": "Grab your handle (e.g. @spritsai) on LinkedIn, X, and GitHub, and reserve matching domains before someone else does. Confirm the exact casing/spelling of 'Sprits AI' and 'QAI Agent' and use it identically everywhere. Coordinate with the legal trademark-clearance task."
         }
       ]
     },
@@ -349,6 +373,14 @@ var PLAN_DATA = {
           "priority": "medium",
           "duration": "30min",
           "notes": "Recommended KPIs: 1) Prospects contacted per week, 2) Demo meetings booked, 3) Demo-to-proposal conversion rate, 4) Website visitors (once site is live), 5) Cash remaining / burn rate. Set up a simple Google Sheet dashboard or Notion table to track these weekly."
+        },
+        {
+          "id": "d6-legal-add",
+          "bucket": "legal",
+          "priority": "high",
+          "duration": "30min",
+          "task": "File 83(b) election with the IRS — within 30 DAYS of your stock grant (hard deadline)",
+          "notes": "If your founder shares are subject to vesting (see the equity decision), each founder must mail an 83(b) election to the IRS within 30 days of the grant date — no exceptions, no extensions. Missing it means you're taxed on shares AS THEY VEST, which can be financially brutal. File it even if the shares are cheap now. Send by certified mail, keep the receipt, and give a copy to your accountant. Confirm mechanics with your CPA/lawyer."
         }
       ]
     },
@@ -406,6 +438,14 @@ var PLAN_DATA = {
           "priority": "medium",
           "duration": "45min",
           "notes": "In HubSpot, go to Conversations > Templates. Create: 1) Cold Intro (short, focus on their pain, end with question), 2) Follow-Up (reference the intro, add value like a blog post or stat), 3) Demo Invitation (clear value prop, easy scheduling link). Keep emails under 150 words. Personalize the first line for each prospect."
+        },
+        {
+          "id": "d7-legal-add",
+          "bucket": "legal",
+          "priority": "high",
+          "duration": "45min",
+          "task": "Have both founders + any contractor sign IP / invention assignment agreements",
+          "notes": "The company must legally own ALL its IP — code, designs, product, copy. Each founder signs an assignment of all relevant IP to the company; every contractor (Fiverr designer, the developer if not an owner-employee) signs one too, ideally before they start work. Missing assignments are a classic dealbreaker in fundraising and acquisition due diligence. Use your legal template source or a startup lawyer."
         }
       ]
     },
@@ -1039,6 +1079,14 @@ var PLAN_DATA = {
           "priority": "high",
           "duration": "30min",
           "notes": "Open Wave/QuickBooks. Sum all expenses to date. Calculate monthly burn rate. With $10K starting capital, how many months of runway do you have? Where are you spending the most? Any expenses you can cut? This keeps you honest about the financial reality."
+        },
+        {
+          "id": "d20-web-add",
+          "bucket": "web",
+          "priority": "medium",
+          "duration": "1hr",
+          "task": "Put a 'See it in action' interactive/live demo on the homepage",
+          "notes": "Showing beats describing — and you already built the demo site with 40 planted bugs. Feature it front-and-center: embed the demo video prominently above the fold, and/or a short guided interactive demo (or a 'run on a sample PR' sandbox) so a visitor experiences the QAI Agent finding bugs in seconds. This is your strongest conversion asset — don't bury it."
         }
       ]
     },
@@ -1177,6 +1225,14 @@ var PLAN_DATA = {
           "priority": "high",
           "duration": "1hr",
           "notes": "Message people in your existing network who work in tech. Not a pitch — a conversation: 'Hey [Name], I've been building something in the QA/testing space and would love your perspective. We built an AI agent that does browser QA testing directly from PR comments. Would you have 15 minutes to chat? I'd really value your input.' Warm intros convert 5-10x better than cold outreach."
+        },
+        {
+          "id": "d22-web-add",
+          "bucket": "web",
+          "priority": "high",
+          "duration": "1hr",
+          "task": "Run a Lighthouse performance + accessibility pass — target 90+",
+          "notes": "You sell QUALITY to DEVELOPERS — they will open devtools and judge your Lighthouse score. Run Lighthouse (Chrome devtools) on every page; fix render-blocking resources, oversized images, layout shift, and accessibility issues until you're 90+ on Performance and Accessibility. A slow, janky site quietly undercuts a quality pitch."
         }
       ]
     },
@@ -1299,6 +1355,14 @@ var PLAN_DATA = {
           "duration": "1hr",
           "task": "Draft a Data Processing Agreement (DPA) + a security & data-handling one-pager",
           "notes": "Prospects granting repo access WILL ask how you handle their code. Write a 1-page doc: exactly what data QAI Agent reads from a repo, where it's stored, encryption in transit/at rest, retention period, and deletion on cancellation. Add a short DPA addendum to your SaaS agreement. Missing these stalls deals."
+        },
+        {
+          "id": "d24-web-add",
+          "bucket": "web",
+          "priority": "high",
+          "duration": "45min",
+          "task": "Make 'Book a Demo' the single primary CTA + track it as a GA conversion",
+          "notes": "Point every page at ONE action: book a demo. Remove competing CTAs. Then set up a Google Analytics conversion/event that fires on demo-form submission (or Calendly booking) so you can measure your real site->demo conversion rate, not just traffic. That number tells you whether the site is actually working."
         }
       ]
     },
@@ -1372,6 +1436,22 @@ var PLAN_DATA = {
           "priority": "high",
           "duration": "45min",
           "notes": "Phase 2 is all about pipeline. Plan: Week 5-6: 10 cold emails/day, 3 LinkedIn posts/week, 5 community engagements/day. Week 7-8: Increase to 15/day, add referral asks, attend events. Set up tracking in HubSpot: email sequence for cold outreach, follow-up reminders at Day 3 and Day 7."
+        },
+        {
+          "id": "d27-brand-add",
+          "bucket": "brand",
+          "priority": "medium",
+          "duration": "45min",
+          "task": "Brand consistency audit across every touchpoint",
+          "notes": "One pass to confirm logo, colors, typography, and voice are IDENTICAL across: website, pitch deck, email signature, your GitHub Marketplace/App listing, LinkedIn company + personal pages, and any leave-behind PDF. Inconsistency reads as amateur to the buyers you want. Fix anything that's off."
+        },
+        {
+          "id": "d27-web-add",
+          "bucket": "web",
+          "priority": "high",
+          "duration": "1hr",
+          "task": "Build a public Trust & Security page",
+          "notes": "Since QAI Agent accesses their source code, buyers' #1 unspoken objection is 'is my code safe?' Answer it publicly BEFORE the demo: what data you access, encryption in transit/at rest, retention + deletion, subprocessors, and a clear 'we do NOT train models on your code.' Link it from the nav and pricing page. Reuse the security one-pager / DPA content from the Legal section."
         }
       ]
     },
@@ -1486,6 +1566,14 @@ var PLAN_DATA = {
           "priority": "high",
           "duration": "30min",
           "notes": "Summary: What was accomplished in all 6 buckets. Key metrics: prospects in pipeline, website launched (yes/no), legal status. Budget spent vs. remaining. Lessons learned. Phase 2 priorities and adjustments. Bring this to the co-founder meeting tomorrow."
+        },
+        {
+          "id": "d29-legal-add",
+          "bucket": "legal",
+          "priority": "medium",
+          "duration": "30min",
+          "task": "Build a recurring compliance calendar (franchise tax, annual reports, renewals)",
+          "notes": "One place with due dates + reminders so nothing lapses into penalties or administrative dissolution: Delaware franchise tax + annual report, NH annual report, registered-agent renewal, business-insurance renewal, and any trademark deadlines. Put reminders in your shared calendar 30 days ahead of each."
         }
       ]
     },
@@ -3807,7 +3895,7 @@ var PLAN_DATA = {
       "date": "2026-08-09",
       "bucket": "legal",
       "priority": "high",
-      "context": "Must be documented before any revenue comes in. A handshake agreement is not enough — you need this in writing. Consider using Clerky or Stripe Atlas templates."
+      "context": "Must be documented before any revenue comes in. A handshake agreement is not enough — you need this in writing. Consider using Clerky or Stripe Atlas templates. CRITICAL FOLLOW-UP: if shares vest, each founder must file an 83(b) election with the IRS within 30 days of the grant — see the separate '83(b) Elections' decision."
     },
     {
       "id": "dec-2",
@@ -3998,6 +4086,16 @@ var PLAN_DATA = {
       "bucket": "ops",
       "priority": "high",
       "context": "The next 90 days should build on this one. If you have a client, focus on success and case studies. If you're close, focus on closing. If pipeline is thin, reassess your ICP and messaging."
+    },
+    {
+      "id": "dec-21",
+      "title": "File 83(b) Elections (30-day IRS deadline)",
+      "description": "If founder shares vest, each founder must file an 83(b) election with the IRS within 30 days of the stock grant — a hard, unextendable deadline. Act immediately after finalizing equity/vesting.",
+      "dueByDay": 6,
+      "date": "2026-08-10",
+      "bucket": "legal",
+      "priority": "high",
+      "context": "This is the single most time-sensitive item in the plan. The 30-day window starts at the stock-grant date and cannot be extended. Even if you think your shares aren't 'worth' anything, file protectively — the downside of filing is nil, the downside of missing it is large. Confirm mechanics with a CPA/startup lawyer, mail by certified mail, and keep proof of mailing. Tied to the Equity Split & Vesting decision."
     }
   ]
 };
