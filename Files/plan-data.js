@@ -1285,6 +1285,14 @@ var PLAN_DATA = {
           "priority": "medium",
           "duration": "15min",
           "notes": "Update your Google Sheet: prospects contacted, replies received, any demos booked, website visitors (from GA). Even if numbers are small, start tracking now. The trend matters more than the absolute numbers."
+        },
+        {
+          "id": "d24-legal-add",
+          "bucket": "legal",
+          "priority": "high",
+          "duration": "1hr",
+          "task": "Draft a Data Processing Agreement (DPA) + a security & data-handling one-pager",
+          "notes": "Prospects granting repo access WILL ask how you handle their code. Write a 1-page doc: exactly what data QAI Agent reads from a repo, where it's stored, encryption in transit/at rest, retention period, and deletion on cancellation. Add a short DPA addendum to your SaaS agreement. Missing these stalls deals."
         }
       ]
     },
@@ -1407,6 +1415,14 @@ var PLAN_DATA = {
           "priority": "high",
           "duration": "45min",
           "notes": "In HubSpot, review all templates. Add: Post-Demo Follow-Up (thank them, recap key points, attach one-pager, propose next steps) and Proposal Email (summarize the deal, attach proposal, include timeline). Make sure every template has your email signature and correct links."
+        },
+        {
+          "id": "d28-ops-add",
+          "bucket": "operations",
+          "priority": "high",
+          "duration": "1hr",
+          "task": "Set up a dedicated cold-email sending domain + CAN-SPAM compliance",
+          "notes": "Don't cold-email from sprits.ai — a spam flag would hurt your primary domain and website email. Register a lookalike domain (e.g. getsprits.ai), set SPF/DKIM/DMARC, and warm it up before outreach starts Day 31. Legally (CAN-SPAM) every cold email needs a working opt-out and a physical mailing address in the footer — add both to your templates now."
         }
       ]
     },
@@ -1493,10 +1509,10 @@ var PLAN_DATA = {
         {
           "id": "d30-legal-1",
           "bucket": "legal",
-          "task": "Record all April expenses in bookkeeping — close the month cleanly",
+          "task": "Record all August expenses in bookkeeping — close the month cleanly",
           "priority": "high",
           "duration": "45min",
-          "notes": "In Wave/QuickBooks, ensure every April expense is recorded and categorized. Download the bank statement and reconcile. Note total spend. Categories to check: legal fees, software subscriptions, marketing, hosting. This is your first month-end close — establish the habit now."
+          "notes": "In Wave/QuickBooks, ensure every August expense is recorded and categorized. Download the bank statement and reconcile. Note total spend. Categories to check: legal fees, software subscriptions, marketing, hosting. This is your first month-end close — establish the habit now."
         },
         {
           "id": "d30-product-1",
@@ -1504,7 +1520,7 @@ var PLAN_DATA = {
           "task": "Prioritize product improvements for Phase 2 with co-founder",
           "priority": "high",
           "duration": "45min",
-          "notes": "Based on your Day 26 list and any feedback from conversations: what 2-3 product improvements will have the biggest impact on closing deals? Maybe: faster test runs, better reports, support for more frameworks, self-service signup. Align with co-founder on what to build in May."
+          "notes": "Based on your Day 26 list and any feedback from conversations: what 2-3 product improvements will have the biggest impact on closing deals? Maybe: faster test runs, better reports, support for more frameworks, self-service signup. Align with co-founder on what to build in September."
         },
         {
           "id": "d30-brand-1",
@@ -1521,6 +1537,14 @@ var PLAN_DATA = {
           "priority": "medium",
           "duration": "20min",
           "notes": "Check GA4: Total visitors, top pages, average session duration, bounce rate, traffic sources. Where are people dropping off? Which page has the highest exit rate? Use these insights to improve the site in Phase 2. Even small data is useful."
+        },
+        {
+          "id": "d30-ops-add",
+          "bucket": "operations",
+          "priority": "high",
+          "duration": "30min",
+          "task": "Set concrete numeric targets for Phases 2-3 with co-founder",
+          "notes": "Make the plan outcome-based, not just activity-based. Write down and track weekly: # demos booked, # proposals sent, total pipeline $, and # founding customers to close by Oct 31. Review against these numbers at every weekly and monthly check-in."
         }
       ]
     },
@@ -1580,14 +1604,6 @@ var PLAN_DATA = {
           "notes": "Edit the draft from Day 28. Add images, formatting, and a CTA at the end. Publish on your blog. Share on LinkedIn, Dev.to, and Reddit (if the subreddit allows). Add meta description and OG tags for the post. Submit to Hacker News (news.ycombinator.com/submit) if it's genuinely useful content."
         },
         {
-          "id": "d31-product-1",
-          "bucket": "product",
-          "task": "Record full 5-7 minute product demo video (polished version)",
-          "priority": "high",
-          "duration": "1hr30min",
-          "notes": "Re-record if the Day 29 version wasn't polished enough. Use Loom or OBS. Follow your script. Add a branded intro slide (5 seconds). Speak clearly and confidently. This is the video you send to prospects who can't do a live demo. Upload to YouTube (unlisted) and embed on your site."
-        },
-        {
           "id": "d31-legal-1",
           "bucket": "legal",
           "task": "Finalize the SaaS Subscription Agreement — ready for client signature",
@@ -1631,10 +1647,10 @@ var PLAN_DATA = {
         {
           "id": "d34-sales-1",
           "bucket": "sales",
-          "task": "Send 10 cold outreach emails — personalize each first line",
-          "priority": "high",
-          "duration": "1hr30min",
-          "notes": "Continue the campaign. For personalization, check each prospect's: recent LinkedIn posts, company blog, recent funding, job postings (if hiring QA, they need help). Example first line: 'I noticed [Company] just opened a QA engineer role — sounds like your team is growing fast.' Track in HubSpot."
+          "task": "Labor Day (US holiday) — light day: draft & personalize tomorrow's 10 cold emails, don't send today",
+          "priority": "low",
+          "duration": "45min",
+          "notes": "Sept 7 is Labor Day — most US prospects are off, so cold email sent today gets buried. Use the light day to PREP: research and personalize tomorrow's 10 prospects so Day 35 is a fast send. Rest up; Phase 2's outreach grind starts in earnest tomorrow."
         },
         {
           "id": "d34-sales-2",
@@ -2034,6 +2050,14 @@ var PLAN_DATA = {
           "priority": "low",
           "duration": "20min",
           "notes": "Some prospects will ask for: Privacy Policy (link), Terms of Service (link), Security overview, SOC 2 status (you likely don't have this yet — be honest). Have answers ready. Create a 'Trust & Security' one-pager if needed."
+        },
+        {
+          "id": "d43-ops-add",
+          "bucket": "operations",
+          "priority": "medium",
+          "duration": "45min",
+          "task": "Prepare answers to common security-questionnaire questions",
+          "notes": "Larger prospects send security questionnaires that can stall a deal for a week. Draft crisp answers now for: data encryption, access controls, hosting location, subprocessors, incident response, and SOC 2 status (be honest — 'not yet, on the roadmap'). Keep them in a doc ready to paste."
         }
       ]
     },
@@ -2110,14 +2134,6 @@ var PLAN_DATA = {
           "notes": "Search LinkedIn for 'QA Consultant' or 'Test Automation Freelancer'. These people work with multiple companies and can be incredible referral sources. Message them: 'I'm building an AI QA tool — would love to get your expert opinion and explore if there's a referral opportunity.' Some may even want to recommend your tool to their clients."
         },
         {
-          "id": "d45-web-1",
-          "bucket": "web",
-          "task": "Submit guest post pitches to 3 dev publications",
-          "priority": "medium",
-          "duration": "1hr",
-          "notes": "Target: Dev.to (publish directly), The New Stack (thenewstack.io — submit pitch via email), DZone (dzone.com — submit via their portal), Hacker Noon (hackernoon.com — free submission). Pitch topics: 'How AI is Automating QA Testing in CI/CD Pipelines' or 'The Future of PR-Level Quality Assurance'. Getting published = credibility + backlinks."
-        },
-        {
           "id": "d45-product-1",
           "bucket": "product",
           "task": "Create a 'How It Works' technical deep-dive document",
@@ -2175,14 +2191,6 @@ var PLAN_DATA = {
           "notes": "Attend the event you identified. Be active: introduce yourself in chat, ask thoughtful questions, mention what you're building if there's a relevant opportunity. Connect with speakers and attendees on LinkedIn within 24 hours. Look for speaking/demo opportunities at future events."
         },
         {
-          "id": "d48-web-1",
-          "bucket": "web",
-          "task": "Publish blog post #6 and share across all channels",
-          "priority": "medium",
-          "duration": "30min",
-          "notes": "Edit, format, publish. Share on LinkedIn, Dev.to, Reddit, and any relevant Discord/Slack communities. Six blog posts is a solid content foundation — you're building SEO authority."
-        },
-        {
           "id": "d48-product-1",
           "bucket": "product",
           "task": "Prepare for live demos — create backup plans for common technical issues",
@@ -2196,7 +2204,7 @@ var PLAN_DATA = {
           "task": "Mid-plan review meeting with co-founder — assess Phase 2 progress",
           "priority": "high",
           "duration": "1hr",
-          "notes": "Agenda: 1) Pipeline status — how many active prospects?, 2) Demo results — what's converting?, 3) Product feedback — what are prospects asking for?, 4) Budget update — how much runway left?, 5) Phase 3 preparation — what needs to be true to close a deal in June?, 6) Action items for the rest of Phase 2."
+          "notes": "Agenda: 1) Pipeline status — how many active prospects?, 2) Demo results — what's converting?, 3) Product feedback — what are prospects asking for?, 4) Budget update — how much runway left?, 5) Phase 3 preparation — what needs to be true to close a deal in October?, 6) Action items for the rest of Phase 2."
         }
       ]
     },
@@ -2265,28 +2273,12 @@ var PLAN_DATA = {
           "notes": "Try sending 5 of today's 15 emails as video emails using Loom: record a 60-second personalized video for each prospect ('Hey [Name], I checked out [Company] and noticed...'). Video emails get 3x higher response rates. It's more effort but potentially much higher conversion."
         },
         {
-          "id": "d50-sales-2",
-          "bucket": "sales",
-          "task": "Attend a second virtual dev event or webinar this week",
-          "priority": "medium",
-          "duration": "1hr30min",
-          "notes": "Double your event attendance this week. Look for opportunities to present or demo at future events. Many meetup organizers are looking for speakers — offer to do a talk on 'AI in QA Testing' or 'How We Built an AI Testing Agent.'"
-        },
-        {
           "id": "d50-product-1",
           "bucket": "product",
           "task": "Check in with co-founder on product roadmap — Phase 3 readiness",
           "priority": "high",
           "duration": "30min",
           "notes": "Phase 3 starts in 11 days. Is the product ready for real client onboarding? What still needs to be built? What can be deferred post-first-client? Align on priorities: stability and reliability over new features."
-        },
-        {
-          "id": "d50-web-1",
-          "bucket": "web",
-          "task": "Start writing blog post #7 — 'How AI QA Testing Works (A Technical Overview)'",
-          "priority": "medium",
-          "duration": "1hr",
-          "notes": "Deep technical content that positions you as experts. Cover: how the AI analyzes pages, how Playwright is used, how test reports are generated, what types of bugs are detected. Include code snippets or architecture diagrams if possible. This post is for the technically curious prospect."
         },
         {
           "id": "d50-ops-1",
@@ -2320,14 +2312,6 @@ var PLAN_DATA = {
           "priority": "medium",
           "duration": "45min",
           "notes": "Continue building your referral network. Look for: testing podcasters, QA bloggers, dev tool reviewers, testing community Slack/Discord admins. These people have influence in your target market. A single recommendation from them can generate multiple leads."
-        },
-        {
-          "id": "d51-web-1",
-          "bucket": "web",
-          "task": "Publish blog post #7 and share across all channels",
-          "priority": "medium",
-          "duration": "30min",
-          "notes": "Technical content often performs well on Hacker News and Reddit. Submit thoughtfully — don't spam, add value. These communities can drive significant traffic if your content is genuinely useful."
         },
         {
           "id": "d51-product-1",
@@ -2369,14 +2353,6 @@ var PLAN_DATA = {
           "priority": "high",
           "duration": "30min",
           "notes": "Message 5 people who've been supportive: 'Hey [Name], I'm looking for intros to engineering leaders at SaaS companies with 10-50 devs. Do you know anyone who might be struggling with QA? Even one name would be incredibly helpful.' Make it specific and easy — people want to help but need direction."
-        },
-        {
-          "id": "d52-web-1",
-          "bucket": "web",
-          "task": "Write blog post #8 — 'The Real Cost of Bugs in Production (With Data)'",
-          "priority": "medium",
-          "duration": "1hr",
-          "notes": "Use industry data: IBM's study on bug cost multipliers, Stripe's report on developer time, your own calculations. Make it data-rich and shareable. Include an infographic if you can (Canva has great infographic templates). Data-driven content gets cited and linked to."
         },
         {
           "id": "d52-product-1a",
@@ -2437,11 +2413,11 @@ var PLAN_DATA = {
       "tasks": [
         {
           "id": "d55-ops-1",
-          "bucket": "ops",
-          "task": "Memorial Day — light work day. Rest and recharge for the Phase 3 sprint",
-          "priority": "low",
-          "duration": "30min",
-          "notes": "Take a break. You've been grinding for 55 days. Rest is productive — you'll come back sharper. If you must work, spend 30 minutes reviewing your pipeline and planning tomorrow's outreach."
+          "bucket": "sales",
+          "task": "Send 10 personalized cold outreach emails to top prospects (volume moved off Labor Day)",
+          "priority": "high",
+          "duration": "1hr30min",
+          "notes": "Normal working Monday (the old plan mislabeled this as Memorial Day). Kick off Pipeline Maturation week with a focused send to your best-fit prospects, referencing the founding-customer offer and the Oct 31 deadline."
         },
         {
           "id": "d55-sales-1",
@@ -2477,14 +2453,6 @@ var PLAN_DATA = {
           "notes": "Post: 'We're looking for 3 founding customers for QAI Agent. 50% off for the first year, direct input on our roadmap, and priority support. If your team ships PRs daily and QA is a bottleneck, DM me.' This creates public urgency and can generate inbound interest."
         },
         {
-          "id": "d56-web-1",
-          "bucket": "web",
-          "task": "Publish blog post #8 and optimize landing pages for conversion",
-          "priority": "medium",
-          "duration": "45min",
-          "notes": "Publish the data-driven blog post. Then review all website CTAs: Is the copy compelling? Is the button visible? Is the form working? Are you capturing leads at every opportunity? Add a banner or popup for the founding customer offer if appropriate."
-        },
-        {
           "id": "d56-product-1",
           "bucket": "product",
           "task": "Final product readiness check with co-founder — is onboarding smooth?",
@@ -2499,6 +2467,14 @@ var PLAN_DATA = {
           "priority": "low",
           "duration": "20min",
           "notes": "Create a support email (support@sprits.ai) or Slack channel. Even before you have clients, having this ready shows professionalism. Consider Intercom free tier (intercom.com) for live chat on your site — prospects often prefer chatting to emailing."
+        },
+        {
+          "id": "d56-product-add",
+          "bucket": "product",
+          "priority": "high",
+          "duration": "1hr",
+          "task": "Set up Stripe recurring billing to match your pricing tiers",
+          "notes": "So a signed deal turns into revenue with zero friction. Create Stripe subscription Products/Prices for each tier, run a real test checkout end-to-end, and confirm invoices/receipts look right. Don't wait until a client says yes to figure out how to charge them."
         }
       ]
     },
@@ -2515,7 +2491,7 @@ var PLAN_DATA = {
           "task": "Send 15 cold outreach emails — emphasize the founding customer deadline",
           "priority": "high",
           "duration": "2hr",
-          "notes": "Create urgency: 'We're only taking 3 founding customers before June 30.' This is real urgency — Phase 3 ends June 30. Use this natural deadline in every outreach. People respond to deadlines."
+          "notes": "Create urgency: 'We're only taking 3 founding customers before October 31.' This is real urgency — Phase 3 ends November 3. Use this natural deadline in every outreach. People respond to deadlines."
         },
         {
           "id": "d57-sales-2",
@@ -2544,10 +2520,10 @@ var PLAN_DATA = {
         {
           "id": "d57-ops-1",
           "bucket": "ops",
-          "task": "Review financials — May expenses, remaining budget, and revenue projections",
+          "task": "Review financials — September expenses, remaining budget, and revenue projections",
           "priority": "medium",
           "duration": "30min",
-          "notes": "In Wave/QuickBooks, record all May expenses. What's your total burn to date? How much of the $10K is left? Project: if you close a client at $149/mo, when do you break even? This financial clarity keeps you grounded and motivated."
+          "notes": "In Wave/QuickBooks, record all September expenses. What's your total burn to date? How much of the $10K is left? Project: if you close a client at $149/mo, when do you break even? This financial clarity keeps you grounded and motivated."
         }
       ]
     },
@@ -2577,10 +2553,10 @@ var PLAN_DATA = {
         {
           "id": "d58-web-1",
           "bucket": "web",
-          "task": "Review website analytics for May — identify what's working and what's not",
+          "task": "Review website analytics for September — identify what's working and what's not",
           "priority": "medium",
           "duration": "30min",
-          "notes": "Full May analytics review: total visitors, top pages, conversion rate (form submissions / visitors), traffic sources, blog post performance. Compare to April. Which blog posts drive the most traffic? Which pages convert best? Use these insights for Phase 3 optimization."
+          "notes": "Full September analytics review: total visitors, top pages, conversion rate (form submissions / visitors), traffic sources, blog post performance. Compare to August. Which blog posts drive the most traffic? Which pages convert best? Use these insights for Phase 3 optimization."
         },
         {
           "id": "d58-ops-1",
@@ -2634,10 +2610,10 @@ var PLAN_DATA = {
         {
           "id": "d59-legal-1",
           "bucket": "legal",
-          "task": "Record all May expenses in bookkeeping — close the month",
+          "task": "Record all September expenses in bookkeeping — close the month",
           "priority": "medium",
           "duration": "30min",
-          "notes": "In Wave/QuickBooks: record all May expenses, reconcile bank statement, note total spend. Categories: software subscriptions, email tools, any marketing spend, hosting. Keep the books clean — it's a discipline."
+          "notes": "In Wave/QuickBooks: record all September expenses, reconcile bank statement, note total spend. Categories: software subscriptions, email tools, any marketing spend, hosting. Keep the books clean — it's a discipline."
         },
         {
           "id": "d59-web-1",
@@ -2776,7 +2752,7 @@ var PLAN_DATA = {
           "task": "Send 20 outreach emails — focus on urgency and deadline",
           "priority": "high",
           "duration": "2hr30min",
-          "notes": "Emphasize the June 30 founding customer deadline in every email. 'Only 3 founding customer spots, and we're already in conversations with several teams. Want to make sure [Company] has a chance before spots fill up.' Real but ethical urgency."
+          "notes": "Emphasize the October 31 founding customer deadline in every email. 'Only 3 founding customer spots, and we're already in conversations with several teams. Want to make sure [Company] has a chance before spots fill up.' Real but ethical urgency."
         },
         {
           "id": "d64-sales-2",
@@ -3094,7 +3070,7 @@ var PLAN_DATA = {
           "task": "Weekly review — Demo Blitz results, refine Week 11 plan",
           "priority": "high",
           "duration": "30min",
-          "notes": "Metrics: demos completed, proposals sent, positive signals received. Is the timeline to close a deal by June 30 realistic? What needs to happen next week to make it real? Next week is Negotiation & Close — be ready."
+          "notes": "Metrics: demos completed, proposals sent, positive signals received. Is the timeline to close a deal by October 31 realistic? What needs to happen next week to make it real? Next week is Negotiation & Close — be ready."
         },
         {
           "id": "d72-web-1",
@@ -3168,7 +3144,7 @@ var PLAN_DATA = {
           "task": "Send 20 outreach emails — including re-engagement of stale leads",
           "priority": "high",
           "duration": "2hr30min",
-          "notes": "Go back to prospects from Phase 2 who went quiet. 'Hi [Name], we spoke back in May about QAI Agent. A lot has improved since then — would you be open to a fresh look? We're also offering founding customer pricing through end of June.' Old leads can convert with the right timing."
+          "notes": "Go back to prospects from Phase 2 who went quiet. 'Hi [Name], we spoke back in September about QAI Agent. A lot has improved since then — would you be open to a fresh look? We're also offering founding customer pricing through end of October.' Old leads can convert with the right timing."
         },
         {
           "id": "d76-sales-2",
@@ -3282,7 +3258,7 @@ var PLAN_DATA = {
           "task": "Send 20 outreach emails — emphasize founding customer deadline approaching",
           "priority": "high",
           "duration": "2hr30min",
-          "notes": "12 days left. The urgency is real. Every email should mention: limited founding customer spots, June 30 deadline, specific benefits of joining now vs. later. Urgency sells when the offer is genuinely time-limited."
+          "notes": "12 days left. The urgency is real. Every email should mention: limited founding customer spots, October 31 deadline, specific benefits of joining now vs. later. Urgency sells when the offer is genuinely time-limited."
         },
         {
           "id": "d78-sales-2",
@@ -3445,7 +3421,7 @@ var PLAN_DATA = {
           "task": "Re-engage every single stale lead from the entire 90 days",
           "priority": "high",
           "duration": "1hr",
-          "notes": "Go through your entire HubSpot database. Anyone who ever responded positively but didn't convert: send a final email. 'We're closing out our founding customer program on June 30. I know the timing wasn't right before — is anything different now? Just 20 minutes for a fresh look.'"
+          "notes": "Go through your entire HubSpot database. Anyone who ever responded positively but didn't convert: send a final email. 'We're closing out our founding customer program on October 31. I know the timing wasn't right before — is anything different now? Just 20 minutes for a fresh look.'"
         },
         {
           "id": "d83-product-1",
@@ -3494,7 +3470,7 @@ var PLAN_DATA = {
           "task": "Send a 'last chance' email to all LinkedIn connections who showed interest",
           "priority": "medium",
           "duration": "30min",
-          "notes": "Final LinkedIn DM push: 'Hey [Name], just wanted to let you know — we're closing our founding customer program on June 30. If you've been considering it, now's the time. Happy to do a quick 15-min demo anytime this week.'"
+          "notes": "Final LinkedIn DM push: 'Hey [Name], just wanted to let you know — we're closing our founding customer program on October 31. If you've been considering it, now's the time. Happy to do a quick 15-min demo anytime this week.'"
         },
         {
           "id": "d84-legal-1",
@@ -3719,10 +3695,10 @@ var PLAN_DATA = {
         {
           "id": "d90-legal-1",
           "bucket": "legal",
-          "task": "Record all June expenses and close the month in bookkeeping",
+          "task": "Record all October expenses and close the month in bookkeeping",
           "priority": "high",
           "duration": "30min",
-          "notes": "Final month-end close. Record all June expenses. Reconcile bank statement. Note total 90-day spend. If you have revenue, record it. Prepare a simple P&L for the quarter."
+          "notes": "Final month-end close. Record all October expenses. Reconcile bank statement. Note total 90-day spend. If you have revenue, record it. Prepare a simple P&L for the quarter."
         },
         {
           "id": "d90-ops-1a",
@@ -3746,7 +3722,7 @@ var PLAN_DATA = {
           "task": "Hold the retrospective meeting with co-founder — 90 minutes, no distractions",
           "priority": "high",
           "duration": "1hr30min",
-          "notes": "Block 90 minutes with no interruptions. Go through the agenda together. Be honest — this is about learning, not blame. Document all decisions and action items. This meeting sets the direction for Q3."
+          "notes": "Block 90 minutes with no interruptions. Go through the agenda together. Be honest — this is about learning, not blame. Document all decisions and action items. This meeting sets the direction for Q4."
         },
         {
           "id": "d90-product-1",
@@ -3784,18 +3760,10 @@ var PLAN_DATA = {
         {
           "id": "d91-ops-1c",
           "bucket": "ops",
-          "task": "Draft the next 90-day plan priorities — carry momentum into Q3",
+          "task": "Draft the next 90-day plan priorities — carry momentum into Q4",
           "priority": "high",
           "duration": "45min",
           "notes": "Based on the retrospective: If you have a client, focus on success, case study, and replicating. If you're close, focus on closing and expanding pipeline. If pipeline is thin, reassess ICP and messaging. Write down the top 3 priorities for July-September."
-        },
-        {
-          "id": "d91-ops-2",
-          "bucket": "ops",
-          "task": "Set priorities for the next 90 days — carry momentum forward",
-          "priority": "high",
-          "duration": "1hr",
-          "notes": "Draft a high-level plan for July-September. Based on results: If you have a client, focus on success, case study, and replicating. If you're close, focus on closing and expanding pipeline. If you're still building pipeline, double down on what's working. The next 90 days start tomorrow — don't lose momentum."
         },
         {
           "id": "d91-sales-1",
@@ -3953,7 +3921,7 @@ var PLAN_DATA = {
       "date": "2026-09-18",
       "bucket": "product",
       "priority": "high",
-      "context": "For your first customers, demo-only is recommended — you learn more and can hand-hold. Plan self-service for Q3/Q4 once you have the onboarding flow refined."
+      "context": "For your first customers, demo-only is recommended — you learn more and can hand-hold. Plan self-service for future quarters once you have the onboarding flow refined."
     },
     {
       "id": "dec-14",
