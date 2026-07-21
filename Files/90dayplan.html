@@ -254,6 +254,12 @@ body {
 .bd-stats { font-size: 0.85rem; color: var(--text-dim); margin-top: 8px; }
 .bd-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; margin-top: 12px; }
 .bd-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+.bd-goal { margin-top: 16px; padding: 14px 16px; background: rgba(255,255,255,0.04); border-left: 3px solid var(--cyan); border-radius: 8px; }
+.bd-goal-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--cyan); font-weight: 700; margin-bottom: 6px; }
+.bd-goal-text { font-size: 0.9rem; color: var(--text); line-height: 1.55; }
+.bd-guidance { margin-top: 10px; padding: 12px 16px; background: rgba(255,165,2,0.07); border: 1px solid rgba(255,165,2,0.22); border-radius: 8px; }
+.bd-guidance-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--yellow); font-weight: 700; margin-bottom: 6px; }
+.bd-guidance-text { font-size: 0.82rem; color: var(--text-dim); line-height: 1.55; }
 .bd-phase { margin-bottom: 24px; }
 .bd-phase-title {
   font-size: 0.85rem; font-weight: 700; color: var(--text-dim); margin-bottom: 12px;
@@ -911,6 +917,8 @@ body {
     html += '<div class="bd-title"><div class="color-dot" style="background:'+bucket.color+';width:14px;height:14px"></div>'+esc(bucket.name)+'</div>';
     html += '<div class="bd-stats"><strong>'+done+'</strong> of <strong>'+total+'</strong> tasks completed ('+pct+'%)</div>';
     html += '<div class="bd-bar"><div class="bd-bar-fill" style="width:'+pct+'%;background:'+bucket.color+'"></div></div>';
+    if(bucket.goal){ html += '<div class="bd-goal" style="border-left-color:'+bucket.color+'"><div class="bd-goal-label">\uD83C\uDFAF Your Goal</div><div class="bd-goal-text">'+esc(bucket.goal)+'</div></div>'; }
+    if(bucket.guidance){ html += '<div class="bd-guidance"><div class="bd-guidance-label">You own this section</div><div class="bd-guidance-text">'+esc(bucket.guidance)+'</div></div>'; }
     html += '</div>';
 
     // Group by phase

@@ -10,17 +10,23 @@ var PLAN_DATA = {
     {
       "id": "legal",
       "name": "Legal & Finance",
-      "color": "#ff6b6b"
+      "color": "#ff6b6b",
+      "goal": "Stand Sprits AI up as a legitimate, protected, financially disciplined company — the foundation that lets you sign your first client with total confidence and zero exposure. When this section hits 100%, nothing legal or financial should be able to slow down a deal.",
+      "guidance": "This plan covers the essentials — entity, EIN, banking, bookkeeping, contracts, ToS/privacy — but it is not legal or tax advice and can't know the specifics of your situation. You own this: verify your state's requirements, confirm tax treatment, read every clause, and bring in a professional wherever the stakes are high. If a task feels thin for your case, that's your cue to dig deeper."
     },
     {
       "id": "brand",
       "name": "Branding & Identity",
-      "color": "#ffd93d"
+      "color": "#ffd93d",
+      "goal": "Make Sprits AI look and sound like a company serious buyers already trust — a clear, credible, memorable brand that gives your outreach, website, and demos instant authority. When this section is done, someone who's never heard of you should take you seriously in five seconds.",
+      "guidance": "This gives you a structured path — logo, palette, voice, guidelines, collateral — but branding is subjective and iterative, and a checklist can't judge what truly resonates with your audience. You own the taste and the polish: push past 'done' to 'right,' and go deeper anywhere the brand doesn't yet feel like a company you'd buy from."
     },
     {
       "id": "web",
       "name": "Website & Online Presence",
-      "color": "#6bcb77"
+      "color": "#6bcb77",
+      "goal": "Build a website that does the selling when you're not in the room — turning a stranger's click into a booked demo with a fast, credible, unmistakably clear story about the QAI Agent. Every page should move a visitor one step closer to talking to you.",
+      "guidance": "This lays out the pages and sections you need, but it can't write perfect copy or catch every conversion leak for your specific audience. You own the outcome: test it on real people, watch where they drop off, tighten the messaging, and fill any gap the checklist didn't anticipate. 'Live' is the start, not the finish."
     },
     {
       "id": "product",
