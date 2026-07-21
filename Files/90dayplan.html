@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprits AI — 90 Day Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a1a;
+  --card-bg: rgba(255,255,255,0.05);
+  --card-border: rgba(255,255,255,0.1);
+  --text: #ffffff;
+  --text-dim: rgba(255,255,255,0.7);
+  --text-muted: rgba(255,255,255,0.4);
+  --pink: #ff1493;
+  --cyan: #00d9ff;
+  --red: #ff4757;
+  --yellow: #ffa502;
+  --green: #2ed573;
+  --orange: #ff6348;
+  --radius: 12px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1628 100%);
+  color: var(--text); min-height: 100vh; line-height: 1.6;
+}
+
+/* === App === */
+
+/* === Nav === */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,26,0.9); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--card-border);
+  padding: 12px 24px; display: flex; align-items: center;
+  justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.nav-brand { font-weight: 700; font-size: 1rem; }
+.nav-brand span {
+  background: linear-gradient(135deg, var(--pink), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.nav-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.nav-btn {
+  padding: 6px 14px; background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 6px; color: var(--text-dim); font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+}
+.nav-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+.nav-btn.active { background: rgba(0,217,255,0.15); border-color: rgba(0,217,255,0.3); color: var(--cyan); }
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* === Header === */
+.hdr { text-align: center; margin-bottom: 24px; padding: 24px 0; }
+.hdr h1 { font-size: 2rem; font-weight: 800; }
+.hdr h1 span {
+  background: linear-gradient(135deg, var(--pink), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.badges { display: flex; justify-content: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+.badge-pill {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 50px; font-size: 0.8rem; color: var(--text-dim);
+}
+.badge-pill strong { color: var(--text); }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* === Focus Banner === */
+.focus {
+  background: linear-gradient(135deg, rgba(255,20,147,0.1), rgba(0,217,255,0.1));
+  border: 1px solid rgba(255,20,147,0.2); border-radius: var(--radius);
+  padding: 16px 20px; margin-bottom: 24px;
+}
+.focus h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--pink); margin-bottom: 8px; }
+.focus-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-dim); padding: 3px 0; }
+.focus-bullet { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.focus-empty { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+.focus-section { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); }
+.focus-section h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); margin-bottom: 6px; }
+.decision-item { display: flex; align-items: flex-start; gap: 8px; font-size: 0.82rem; color: var(--text-dim); padding: 4px 0; }
+.decision-item .dec-icon { flex-shrink: 0; font-size: 0.75rem; margin-top: 2px; color: var(--orange); }
+.decision-item .dec-due { font-size: 0.7rem; color: var(--text-muted); margin-left: auto; white-space: nowrap; padding-left: 8px; }
+
+/* === Card === */
+.card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: var(--radius); backdrop-filter: blur(10px); padding: 20px;
+}
+
+/* === Overview === */
+.overview { display: flex; gap: 20px; margin-bottom: 24px; flex-wrap: wrap; }
+.overview-left { flex: 0 0 260px; }
+.overview-right { flex: 1; min-width: 0; }
+
+/* Progress Ring */
+.ring-card { text-align: center; padding: 24px 20px; }
+.ring-wrap { position: relative; width: 150px; height: 150px; margin: 0 auto 12px; }
+.ring-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 8; }
+.ring-fill { fill: none; stroke: url(#rGrad); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 0.8s ease; }
+.ring-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring-pct { font-size: 2rem; font-weight: 800; }
+.ring-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+.ring-stats { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 16px; }
+.phase-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.phase-track { display: flex; height: 8px; border-radius: 4px; overflow: hidden; gap: 2px; background: rgba(255,255,255,0.05); }
+.phase-seg { height: 100%; opacity: 0.35; border-radius: 4px; }
+.phase-seg.on { opacity: 1; box-shadow: 0 0 8px currentColor; }
+.phase-names { display: flex; justify-content: space-between; margin-top: 6px; }
+.phase-name { font-size: 0.65rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+.phase-name.on { color: var(--text); font-weight: 600; }
+
+/* Bucket Grid */
+.bucket-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.b-card {
+  padding: 16px; border-radius: var(--radius); background: var(--card-bg);
+  border: 1px solid var(--card-border); position: relative; overflow: hidden; cursor: pointer;
+  transition: border-color 0.2s;
+}
+.b-card:hover { border-color: rgba(255,255,255,0.25); }
+.b-card-top { width: 100%; height: 3px; position: absolute; top: 0; left: 0; }
+.b-card-name { font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+.b-card-pct { font-size: 1.5rem; font-weight: 800; margin-bottom: 2px; }
+.b-card-stats { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 8px; }
+.b-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+.b-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
+.b-card-link { font-size: 0.7rem; color: var(--cyan); margin-top: 8px; display: block; }
+.color-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* === Filters — Two rows === */
+.filters {
+  margin-bottom: 20px; padding: 14px 16px;
+  background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius);
+}
+.filter-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.filter-row + .filter-row { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); }
+.filter-row .lbl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; min-width: 55px; }
+.chip {
+  padding: 4px 10px; border-radius: 50px; font-size: 0.7rem; cursor: pointer;
+  border: 1px solid var(--card-border); background: transparent; color: var(--text-dim); transition: all 0.2s;
+}
+.chip.on { color: white; }
+
+/* === Overdue Section === */
+.overdue-section {
+  background: linear-gradient(135deg, rgba(255,71,87,0.08), rgba(255,99,72,0.08));
+  border: 1px solid rgba(255,71,87,0.25); border-radius: var(--radius);
+  padding: 16px 20px; margin-bottom: 20px;
+}
+.overdue-section h3 { font-size: 0.85rem; color: var(--red); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.overdue-section h3 .count-badge {
+  background: rgba(255,71,87,0.2); padding: 2px 8px; border-radius: 50px;
+  font-size: 0.7rem; font-weight: 700;
+}
+.overdue-day-group { margin-bottom: 10px; }
+.overdue-day-label { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
+.overdue-task { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 0.82rem; color: var(--text-dim); }
+.overdue-task .cb { flex-shrink: 0; }
+.overdue-bucket-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+/* === Day Nav === */
+.day-nav { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.day-btn {
+  padding: 8px 16px; background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 8px; color: var(--text-dim); font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+}
+.day-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+.day-btn.today { background: rgba(255,20,147,0.15); border-color: rgba(255,20,147,0.3); color: var(--pink); }
+.day-picker {
+  padding: 8px 12px; background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 8px; color: var(--text); font-size: 0.8rem; outline: none;
+}
+.day-picker::-webkit-calendar-picker-indicator { filter: invert(1); }
+
+/* Day Header */
+.day-hdr { margin-bottom: 16px; padding: 20px; }
+.day-num { font-size: 1.4rem; font-weight: 800; }
+.day-date { font-size: 0.9rem; color: var(--text-dim); }
+.day-theme { font-size: 0.8rem; color: var(--cyan); margin-top: 4px; }
+.day-phase { display: inline-block; font-size: 0.7rem; padding: 3px 10px; border-radius: 50px; margin-top: 6px; border: 1px solid; }
+
+/* === Bucket Groups === */
+.bucket-group { margin-bottom: 16px; }
+.bg-header {
+  display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: var(--radius) var(--radius) 0 0; cursor: pointer; transition: background 0.2s;
+}
+.bg-header:hover { background: rgba(255,255,255,0.08); }
+.bg-bar { width: 4px; height: 20px; border-radius: 2px; flex-shrink: 0; }
+.bg-header h3 { font-size: 0.9rem; font-weight: 600; flex: 1; }
+.bg-count { font-size: 0.75rem; color: var(--text-muted); }
+.bg-chevron { font-size: 0.7rem; color: var(--text-muted); transition: transform 0.2s; }
+.bg-header.collapsed .bg-chevron { transform: rotate(-90deg); }
+.bg-tasks { border: 1px solid var(--card-border); border-top: none; border-radius: 0 0 var(--radius) var(--radius); overflow: hidden; }
+.bg-tasks.hidden { display: none; }
+
+/* === Task Item === */
+.task {
+  display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.2s;
+}
+.task:last-child { border-bottom: none; }
+.task:hover { background: rgba(255,255,255,0.03); }
+.task.done { opacity: 0.5; }
+.task.done .task-text { text-decoration: line-through; }
+.cb { position: relative; flex-shrink: 0; width: 22px; height: 22px; margin-top: 2px; }
+.cb input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 1; margin: 0; }
+.cb-mark {
+  width: 22px; height: 22px; border: 2px solid; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.cb input:checked + .cb-mark { color: white; }
+.cb input:checked + .cb-mark::after { content: '\2713'; font-size: 14px; font-weight: 700; }
+.task-body { flex: 1; min-width: 0; }
+.task-text { font-size: 0.85rem; line-height: 1.5; }
+.task-meta { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.tbadge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.tbadge.high { background: rgba(255,71,87,0.15); color: var(--red); }
+.tbadge.medium { background: rgba(255,165,2,0.15); color: var(--yellow); }
+.tbadge.low { background: rgba(46,213,115,0.15); color: var(--green); }
+.tbadge.dur { background: rgba(255,255,255,0.08); color: var(--text-muted); }
+.tbadge.day-ref { background: rgba(0,217,255,0.1); color: var(--cyan); }
+.notes-btn { background: none; border: none; color: var(--cyan); font-size: 0.7rem; cursor: pointer; padding: 2px 4px; }
+.notes-btn:hover { text-decoration: underline; }
+.task-notes {
+  display: none; margin-top: 8px; padding: 10px 12px; background: rgba(255,255,255,0.03);
+  border-radius: 8px; font-size: 0.8rem; color: var(--text-dim); line-height: 1.6;
+  border: 1px solid rgba(255,255,255,0.05); word-wrap: break-word;
+}
+.task-notes.show { display: block; }
+.no-tasks { padding: 40px; text-align: center; color: var(--text-muted); font-style: italic; }
+
+/* === Bucket Detail View === */
+#bucket-detail { display: none; }
+#bucket-detail.show { display: block; }
+.bd-back {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+  background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px;
+  color: var(--text-dim); font-size: 0.8rem; cursor: pointer; margin-bottom: 16px; transition: all 0.2s;
+}
+.bd-back:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+.bd-header { margin-bottom: 20px; padding: 24px; }
+.bd-title { font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+.bd-stats { font-size: 0.85rem; color: var(--text-dim); margin-top: 8px; }
+.bd-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; margin-top: 12px; }
+.bd-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+.bd-phase { margin-bottom: 24px; }
+.bd-phase-title {
+  font-size: 0.85rem; font-weight: 700; color: var(--text-dim); margin-bottom: 12px;
+  padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.bd-day-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; margin: 12px 0 4px 0; }
+.bd-decisions { margin-top: 20px; }
+.bd-decisions h4 { font-size: 0.85rem; color: var(--orange); margin-bottom: 10px; }
+
+/* === Decisions View === */
+#decisions-view { display: none; }
+#decisions-view.show { display: block; }
+.dec-card {
+  padding: 16px; background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: var(--radius); margin-bottom: 12px; transition: border-color 0.2s;
+}
+.dec-card:hover { border-color: rgba(255,255,255,0.2); }
+.dec-card.resolved { opacity: 0.5; }
+.dec-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.dec-title .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dec-desc { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 8px; }
+.dec-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 0.7rem; }
+.dec-context { font-size: 0.78rem; color: var(--text-muted); margin-top: 8px; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 8px; display: none; }
+.dec-context.show { display: block; }
+.dec-actions { margin-top: 10px; display: flex; gap: 8px; }
+.dec-btn {
+  padding: 4px 12px; border-radius: 6px; font-size: 0.7rem; cursor: pointer; border: 1px solid; transition: all 0.2s;
+}
+.dec-btn.resolve { background: rgba(46,213,115,0.1); border-color: rgba(46,213,115,0.3); color: var(--green); }
+.dec-btn.resolve:hover { background: rgba(46,213,115,0.2); }
+.dec-btn.detail { background: transparent; border-color: var(--card-border); color: var(--text-dim); }
+.dec-btn.detail:hover { border-color: var(--cyan); color: var(--cyan); }
+
+/* === Timeline === */
+#timeline { display: none; }
+#timeline.show { display: block; }
+#daily { display: block; }
+#daily.hide { display: none; }
+
+.tl-grid { display: grid; gap: 3px; margin-top: 16px; }
+.tl-week-row { display: contents; }
+.tl-label { font-size: 0.7rem; color: var(--text-dim); padding: 6px 10px; display: flex; align-items: center; font-weight: 500; }
+.tl-cell {
+  height: 36px; border-radius: 4px; cursor: pointer; position: relative;
+  display: flex; align-items: center; justify-content: center; font-size: 0.65rem;
+  color: rgba(255,255,255,0.6); transition: all 0.2s; font-weight: 500;
+}
+.tl-cell:hover { transform: scale(1.08); z-index: 1; }
+.tl-cell.today-cell { outline: 2px solid var(--pink); outline-offset: -2px; }
+.tl-cell.weekend { opacity: 0.6; }
+.tl-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; }
+.tl-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; color: var(--text-dim); }
+.tl-phase-divider { grid-column: 1 / -1; height: 2px; background: linear-gradient(90deg, transparent, var(--pink), transparent); margin: 6px 0; }
+.tl-day-headers { display: contents; }
+.tl-day-hdr { font-size: 0.6rem; color: var(--text-muted); text-align: center; padding: 4px 0; font-weight: 600; text-transform: uppercase; }
+
+/* === Reset === */
+.reset-area { text-align: center; padding: 32px; }
+.reset-btn {
+  padding: 8px 20px; background: rgba(255,71,87,0.1); border: 1px solid rgba(255,71,87,0.3);
+  border-radius: 8px; color: var(--red); font-size: 0.8rem; cursor: pointer;
+}
+.reset-btn:hover { background: rgba(255,71,87,0.2); }
+
+/* === Responsive === */
+@media (max-width: 900px) {
+  .overview { flex-direction: column; }
+  .overview-left { flex: none; }
+  .bucket-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .bucket-grid { grid-template-columns: 1fr; }
+  .nav { padding: 10px 16px; }
+  .wrap { padding: 16px; }
+  .hdr h1 { font-size: 1.4rem; }
+  .tl-label { font-size: 0.6rem; padding: 4px 6px; }
+}
+</style>
+</head>
+<body>
+
+<!-- App -->
+<div id="app" class="show">
+  <nav class="nav">
+    <div class="nav-brand"><span>Sprits AI</span> &mdash; 90 Day Plan</div>
+    <div class="nav-btns">
+      <button class="nav-btn active" id="btn-daily" onclick="switchView('daily')">Daily</button>
+      <button class="nav-btn" id="btn-tl" onclick="switchView('timeline')">Timeline</button>
+      <button class="nav-btn" id="btn-dec" onclick="switchView('decisions')">Decisions</button>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <div class="hdr">
+      <h1><span>Sprits AI</span> &mdash; 90 Day Plan</h1>
+      <div class="badges" id="hdr-badges"></div>
+    </div>
+
+    <div class="focus" id="focus-box"></div>
+
+    <div class="overview">
+      <div class="overview-left">
+        <div class="card ring-card">
+          <div class="ring-wrap">
+            <svg viewBox="0 0 160 160">
+              <defs><linearGradient id="rGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff1493"/><stop offset="100%" stop-color="#00d9ff"/>
+              </linearGradient></defs>
+              <circle class="ring-bg" cx="80" cy="80" r="65"/>
+              <circle class="ring-fill" id="ring" cx="80" cy="80" r="65"/>
+            </svg>
+            <div class="ring-text">
+              <div class="ring-pct" id="ring-pct">0%</div>
+              <div class="ring-label">Complete</div>
+            </div>
+          </div>
+          <div class="ring-stats" id="ring-stats"></div>
+          <div class="phase-label">Phase Progress</div>
+          <div class="phase-track" id="phase-track"></div>
+          <div class="phase-names" id="phase-names"></div>
+        </div>
+      </div>
+      <div class="overview-right">
+        <div class="bucket-grid" id="bucket-grid"></div>
+      </div>
+    </div>
+
+    <div class="filters" id="filter-bar"></div>
+
+    <!-- Daily View -->
+    <div id="daily">
+      <div class="day-nav">
+        <button class="day-btn" onclick="go(-1)">&larr; Previous</button>
+        <button class="day-btn today" onclick="goToday()">Today</button>
+        <button class="day-btn" onclick="go(1)">Next &rarr;</button>
+        <input type="date" class="day-picker" id="picker" onchange="pickDate(this.value)">
+      </div>
+      <div id="overdue-area"></div>
+      <div class="card day-hdr" id="day-hdr"></div>
+      <div id="tasks"></div>
+    </div>
+
+    <!-- Timeline View -->
+    <div id="timeline"></div>
+
+    <!-- Decisions View -->
+    <div id="decisions-view"></div>
+
+    <!-- Bucket Detail View -->
+    <div id="bucket-detail"></div>
+
+    <div class="reset-area">
+      <button class="reset-btn" onclick="resetAll()">Reset All Progress</button>
+    </div>
+  </div>
+</div>
+
+<script src="plan-data.js"></script>
+<script>
+(function(){
+  // Auth handled by .htaccess — app loads when page is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // State
+  var curIdx = 0;
+  var bucketOn = {};
+  var prioOn = { high: true, medium: true, low: true };
+  var currentView = 'daily';
+
+  function init(){
+    if(typeof PLAN_DATA === 'undefined'){
+      document.querySelector('.wrap').innerHTML = '<div style="text-align:center;padding:80px;color:#666"><h2>Error: plan-data.js not loaded</h2></div>';
+      return;
+    }
+    PLAN_DATA.buckets.forEach(function(b){ bucketOn[b.id] = true; });
+    curIdx = getTodayIdx();
+    render();
+  }
+
+  function getTodayIdx(){
+    var today = todayStr();
+    for(var i=0;i<PLAN_DATA.days.length;i++){
+      if(PLAN_DATA.days[i].date === today) return i;
+    }
+    // If before plan start, show day 1
+    if(today < PLAN_DATA.days[0].date) return 0;
+    // If after plan end, show last day
+    return PLAN_DATA.days.length - 1;
+  }
+
+  function todayStr(){ return new Date().toISOString().slice(0,10); }
+  function isChecked(id){ return localStorage.getItem('s90-'+id) === '1'; }
+  function setChecked(id,v){ if(v) localStorage.setItem('s90-'+id,'1'); else localStorage.removeItem('s90-'+id); }
+  function isDecResolved(id){ return localStorage.getItem('s90dec-'+id) === '1'; }
+  function setDecResolved(id,v){ if(v) localStorage.setItem('s90dec-'+id,'1'); else localStorage.removeItem('s90dec-'+id); }
+
+  function getAllTasks(){
+    var t=[];
+    PLAN_DATA.days.forEach(function(d){ d.tasks.forEach(function(tk){ t.push({task:tk, day:d}); }); });
+    return t;
+  }
+
+  function getBucket(id){ return PLAN_DATA.buckets.find(function(b){ return b.id===id; }); }
+  function getPhase(dayNum){ return PLAN_DATA.phases.find(function(p){ return dayNum>=p.startDay && dayNum<=p.endDay; }); }
+  function esc(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+  function render(){
+    renderHeader();
+    renderFocus();
+    renderOverview();
+    renderFilters();
+    renderDay();
+    renderOverdue();
+    renderTimeline();
+    renderDecisions();
+  }
+
+  function renderHeader(){
+    var d = PLAN_DATA.days[curIdx];
+    var phase = d ? getPhase(d.day) : PLAN_DATA.phases[0];
+    var dayNum = d ? d.day : 1;
+    var now = new Date();
+    var dateStr = now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+    document.getElementById('hdr-badges').innerHTML =
+      '<div class="badge-pill"><strong>'+dateStr+'</strong></div>'+
+      '<div class="badge-pill"><div class="dot" style="background:'+(phase?phase.color:'#00d9ff')+'"></div>'+(phase?phase.name:'—')+'</div>'+
+      '<div class="badge-pill">Day <strong>'+dayNum+'</strong> of <strong>'+PLAN_DATA.meta.totalDays+'</strong></div>';
+  }
+
+  function renderFocus(){
+    var d = PLAN_DATA.days[curIdx];
+    var box = document.getElementById('focus-box');
+    var html = '<h3>Today\'s Focus</h3>';
+
+    if(!d){
+      html += '<div class="focus-empty">Plan starts April 1, 2026 — showing Day 1 preview</div>';
+    } else if(d.dayOfWeek === 'Saturday' || d.dayOfWeek === 'Sunday'){
+      html += '<div class="focus-empty" style="color:var(--yellow)">Catch-Up Day — review and complete any missed tasks from this week</div>';
+    } else {
+      var high = d.tasks.filter(function(t){ return t.priority==='high' && !isChecked(t.id); });
+      if(high.length===0){
+        var left = d.tasks.filter(function(t){ return !isChecked(t.id); });
+        html += '<div class="focus-empty">'+(left.length===0?'All tasks done for today!':'No high-priority tasks remaining.')+'</div>';
+      } else {
+        high.forEach(function(t){
+          var b = getBucket(t.bucket);
+          html += '<div class="focus-item"><div class="focus-bullet" style="background:'+(b?b.color:'#ff1493')+'"></div>'+esc(t.task)+'</div>';
+        });
+      }
+    }
+
+    // Critical decisions due soon (within 3 days of current day)
+    if(PLAN_DATA.decisions){
+      var curDay = d ? d.day : 1;
+      var pending = PLAN_DATA.decisions.filter(function(dec){
+        return !isDecResolved(dec.id) && dec.dueByDay >= curDay - 2 && dec.dueByDay <= curDay + 5;
+      });
+      if(pending.length > 0){
+        html += '<div class="focus-section"><h4>Critical Decisions Needed</h4>';
+        pending.forEach(function(dec){
+          var overdue = dec.dueByDay < curDay;
+          html += '<div class="decision-item">';
+          html += '<span class="dec-icon">'+(overdue?'!!':'!!')+'</span>';
+          html += '<span>'+esc(dec.title)+'</span>';
+          html += '<span class="dec-due" style="'+(overdue?'color:var(--red)':'')+'">'+(overdue?'OVERDUE':'Due Day '+dec.dueByDay)+'</span>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+    }
+
+    box.innerHTML = html;
+  }
+
+  function renderOverview(){
+    var all = getAllTasks();
+    var done = all.filter(function(t){ return isChecked(t.task.id); }).length;
+    var total = all.length;
+    var pct = total>0 ? Math.round(done/total*100) : 0;
+
+    var circ = 2*Math.PI*65;
+    var ring = document.getElementById('ring');
+    ring.style.strokeDasharray = circ;
+    ring.style.strokeDashoffset = circ - (pct/100)*circ;
+    document.getElementById('ring-pct').textContent = pct+'%';
+    document.getElementById('ring-stats').innerHTML = '<strong>'+done+'</strong> of <strong>'+total+'</strong> tasks completed';
+
+    var d = PLAN_DATA.days[curIdx];
+    var curDay = d ? d.day : 1;
+    var trackHtml='', namesHtml='';
+    PLAN_DATA.phases.forEach(function(p){
+      var span = p.endDay - p.startDay + 1;
+      var on = curDay>=p.startDay && curDay<=p.endDay;
+      trackHtml += '<div class="phase-seg'+(on?' on':'')+'" style="flex:'+span+';background:'+p.color+';color:'+p.color+'"></div>';
+      namesHtml += '<div class="phase-name'+(on?' on':'')+'"><div class="dot" style="background:'+p.color+'"></div>'+p.name+'</div>';
+    });
+    document.getElementById('phase-track').innerHTML = trackHtml;
+    document.getElementById('phase-names').innerHTML = namesHtml;
+
+    var gridHtml = '';
+    PLAN_DATA.buckets.forEach(function(bucket){
+      var bt = all.filter(function(t){ return t.task.bucket===bucket.id; });
+      var bd = bt.filter(function(t){ return isChecked(t.task.id); }).length;
+      var bTotal = bt.length;
+      var bPct = bTotal>0 ? Math.round(bd/bTotal*100) : 0;
+      gridHtml +=
+        '<div class="b-card" onclick="showBucketDetail(\''+bucket.id+'\')">'+
+          '<div class="b-card-top" style="background:'+bucket.color+'"></div>'+
+          '<div class="b-card-name"><div class="color-dot" style="background:'+bucket.color+'"></div>'+esc(bucket.name)+'</div>'+
+          '<div class="b-card-pct" style="color:'+bucket.color+'">'+bPct+'%</div>'+
+          '<div class="b-card-stats"><strong>'+bd+'</strong> / '+bTotal+' tasks</div>'+
+          '<div class="b-bar"><div class="b-bar-fill" style="width:'+bPct+'%;background:'+bucket.color+'"></div></div>'+
+          '<div class="b-card-link">View all tasks &rarr;</div>'+
+        '</div>';
+    });
+    document.getElementById('bucket-grid').innerHTML = gridHtml;
+  }
+
+  function renderFilters(){
+    var html = '<div class="filter-row"><span class="lbl">Buckets:</span>';
+    PLAN_DATA.buckets.forEach(function(b){
+      var on = bucketOn[b.id];
+      html += '<button class="chip'+(on?' on':'')+'" style="'+(on?'background:'+b.color+';border-color:'+b.color:'')+'" onclick="toggleBucket(\''+b.id+'\')">'+esc(b.name)+'</button>';
+    });
+    html += '</div>';
+    html += '<div class="filter-row"><span class="lbl">Priority:</span>';
+    [{id:'high',l:'High',c:'var(--red)'},{id:'medium',l:'Medium',c:'var(--yellow)'},{id:'low',l:'Low',c:'var(--green)'}].forEach(function(p){
+      var on = prioOn[p.id];
+      html += '<button class="chip'+(on?' on':'')+'" style="'+(on?'background:'+p.c+';border-color:'+p.c:'')+'" onclick="togglePrio(\''+p.id+'\')">'+p.l+'</button>';
+    });
+    html += '</div>';
+    document.getElementById('filter-bar').innerHTML = html;
+  }
+
+  function renderOverdue(){
+    var area = document.getElementById('overdue-area');
+    var d = PLAN_DATA.days[curIdx];
+    if(!d){ area.innerHTML=''; return; }
+
+    var today = todayStr();
+    var overdueTasks = [];
+
+    // Find all incomplete tasks from days BEFORE the currently viewed day
+    // Use the current viewed day's date as reference
+    for(var i=0; i<curIdx; i++){
+      var pd = PLAN_DATA.days[i];
+      // Only look at days from the same work week (Mon-Fri before current day)
+      // Actually, show all overdue from past days
+      pd.tasks.forEach(function(t){
+        if(!isChecked(t.id)){
+          overdueTasks.push({task:t, fromDay:pd});
+        }
+      });
+    }
+
+    if(overdueTasks.length === 0){ area.innerHTML=''; return; }
+
+    // Group by day
+    var byDay = {};
+    overdueTasks.forEach(function(item){
+      var key = item.fromDay.day;
+      if(!byDay[key]) byDay[key] = {day:item.fromDay, tasks:[]};
+      byDay[key].tasks.push(item.task);
+    });
+
+    var html = '<div class="overdue-section">';
+    html += '<h3>Missed Tasks <span class="count-badge">'+overdueTasks.length+'</span></h3>';
+
+    var dayKeys = Object.keys(byDay).sort(function(a,b){ return parseInt(b)-parseInt(a); }); // newest first
+    // Show last 5 days max to avoid overwhelming
+    dayKeys.slice(0, 5).forEach(function(key){
+      var group = byDay[key];
+      var dt = new Date(group.day.date+'T12:00:00');
+      var fmtDate = dt.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+      html += '<div class="overdue-day-group">';
+      html += '<div class="overdue-day-label">Day '+group.day.day+' &mdash; '+fmtDate+'</div>';
+      group.tasks.forEach(function(t){
+        var b = getBucket(t.bucket);
+        var done = isChecked(t.id);
+        html += '<div class="overdue-task">';
+        html += '<div class="cb"><input type="checkbox"'+(done?' checked':'')+' onchange="onCheck(\''+t.id+'\',this.checked)"><div class="cb-mark" style="border-color:'+(b?b.color:'#666')+';'+(done?'background:'+(b?b.color:'#666'):'')+'""></div></div>';
+        html += '<div class="overdue-bucket-dot" style="background:'+(b?b.color:'#666')+'"></div>';
+        html += '<span style="font-size:0.82rem;color:var(--text-dim)">'+esc(t.task)+'</span>';
+        html += '</div>';
+      });
+      html += '</div>';
+    });
+
+    if(dayKeys.length > 5){
+      html += '<div style="font-size:0.75rem;color:var(--text-muted);margin-top:8px">+ '+(dayKeys.length-5)+' more days with missed tasks</div>';
+    }
+
+    html += '</div>';
+    area.innerHTML = html;
+  }
+
+  function isWeekend(d){
+    return d.dayOfWeek === 'Saturday' || d.dayOfWeek === 'Sunday';
+  }
+
+  function renderDay(){
+    var d = PLAN_DATA.days[curIdx];
+    if(!d) return;
+
+    var picker = document.getElementById('picker');
+    picker.value = d.date;
+    picker.min = PLAN_DATA.days[0].date;
+    picker.max = PLAN_DATA.days[PLAN_DATA.days.length-1].date;
+
+    var phase = getPhase(d.day);
+    var dateObj = new Date(d.date+'T12:00:00');
+    var fmtDate = dateObj.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+    var weekend = isWeekend(d);
+
+    document.getElementById('day-hdr').innerHTML =
+      '<div class="day-num">Day '+d.day+(weekend?' &mdash; Catch-Up Day':'')+'</div>'+
+      '<div class="day-date">'+fmtDate+'</div>'+
+      (weekend ? '<div class="day-theme" style="color:var(--yellow)">No new tasks — use today to complete missed tasks from the week</div>' :
+        (d.weekTheme ? '<div class="day-theme">'+esc(d.weekTheme)+'</div>' : ''))+
+      (phase ? '<div class="day-phase" style="border-color:'+phase.color+';color:'+phase.color+'">'+esc(phase.name)+'</div>' : '');
+
+    if(weekend){
+      document.getElementById('tasks').innerHTML = '<div class="no-tasks" style="padding:30px;font-style:normal;color:var(--text-dim)">'+
+        '<strong style="font-size:1.1rem;display:block;margin-bottom:8px;color:var(--yellow)">Catch-Up Day</strong>'+
+        'No new tasks are scheduled for weekends. Use Saturday and Sunday to:<br><br>'+
+        '&bull; Complete any missed tasks from the work week (shown above)<br>'+
+        '&bull; Review what you accomplished this week<br>'+
+        '&bull; Prep and plan for next week\'s priorities<br>'+
+        '&bull; Rest and recharge'+
+        '</div>';
+      return;
+    }
+
+    var byBucket = {};
+    d.tasks.forEach(function(t){
+      if(!bucketOn[t.bucket]) return;
+      if(!prioOn[t.priority]) return;
+      if(!byBucket[t.bucket]) byBucket[t.bucket] = [];
+      byBucket[t.bucket].push(t);
+    });
+
+    var ids = PLAN_DATA.buckets.map(function(b){return b.id;}).filter(function(id){return byBucket[id];});
+
+    if(ids.length===0){
+      document.getElementById('tasks').innerHTML = '<div class="no-tasks">No tasks match your filters for this day.</div>';
+      return;
+    }
+
+    var html = '';
+    ids.forEach(function(bid){
+      var bucket = getBucket(bid);
+      var tasks = byBucket[bid];
+      var doneCount = tasks.filter(function(t){return isChecked(t.id);}).length;
+
+      html += '<div class="bucket-group">';
+      html += '<div class="bg-header" onclick="toggleGroup(this)">';
+      html += '<div class="bg-bar" style="background:'+bucket.color+'"></div>';
+      html += '<h3>'+esc(bucket.name)+'</h3>';
+      html += '<span class="bg-count">'+doneCount+'/'+tasks.length+'</span>';
+      html += '<span class="bg-chevron">&#9660;</span>';
+      html += '</div><div class="bg-tasks">';
+
+      tasks.forEach(function(t){ html += renderTaskItem(t, bucket); });
+      html += '</div></div>';
+    });
+
+    document.getElementById('tasks').innerHTML = html;
+  }
+
+  function renderTaskItem(t, bucket, showDayRef){
+    var done = isChecked(t.id);
+    var hasNotes = t.notes && t.notes.trim().length>0;
+    var html = '<div class="task'+(done?' done':'')+'">';
+    html += '<div class="cb"><input type="checkbox"'+(done?' checked':'')+' onchange="onCheck(\''+t.id+'\',this.checked)"><div class="cb-mark" style="border-color:'+bucket.color+';'+(done?'background:'+bucket.color:'')+'""></div></div>';
+    html += '<div class="task-body"><div class="task-text">'+esc(t.task)+'</div>';
+    html += '<div class="task-meta">';
+    html += '<span class="tbadge '+t.priority+'">'+t.priority+'</span>';
+    if(t.duration) html += '<span class="tbadge dur">'+esc(t.duration)+'</span>';
+    if(showDayRef) html += '<span class="tbadge day-ref">Day '+showDayRef+'</span>';
+    if(hasNotes) html += '<button class="notes-btn" onclick="toggleNotes(this)">Notes &#9660;</button>';
+    html += '</div>';
+    if(hasNotes) html += '<div class="task-notes">'+esc(t.notes)+'</div>';
+    html += '</div></div>';
+    return html;
+  }
+
+  function renderTimeline(){
+    var days = PLAN_DATA.days;
+    var today = todayStr();
+
+    // Group into Monday-start weeks
+    var weeks = [];
+    var curWeek = null;
+
+    days.forEach(function(d, idx){
+      var dt = new Date(d.date+'T12:00:00');
+      var dow = dt.getDay(); // 0=Sun, 1=Mon
+      var isMonday = dow === 1;
+
+      // Start new week on Monday (or for the very first entry)
+      if(!curWeek || isMonday){
+        if(curWeek) weeks.push(curWeek);
+        curWeek = { days: [], startDate: d.date };
+      }
+      curWeek.days.push(d);
+    });
+    if(curWeek && curWeek.days.length > 0) weeks.push(curWeek);
+
+    var html = '<h3 style="margin-bottom:12px;font-size:1rem;">Timeline Overview</h3>';
+    html += '<div class="tl-grid" style="grid-template-columns: 120px repeat(7, 1fr);">';
+
+    // Day headers
+    html += '<div class="tl-day-hdr"></div>';
+    ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(function(d){
+      html += '<div class="tl-day-hdr">'+d+'</div>';
+    });
+
+    var lastPhase = null;
+
+    weeks.forEach(function(week, wi){
+      var firstDay = week.days[0];
+      var phase = getPhase(firstDay.day);
+
+      // Phase divider
+      if(phase && lastPhase && phase.id !== lastPhase.id){
+        html += '<div class="tl-phase-divider"></div>';
+      }
+      lastPhase = phase;
+
+      // Week label: "Week of [date]"
+      var startDt = new Date(week.startDate+'T12:00:00');
+      var weekLabel = 'Week of '+startDt.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+      html += '<div class="tl-label">'+weekLabel+'</div>';
+
+      // Figure out which day-of-week the first day falls on
+      var firstDt = new Date(week.days[0].date+'T12:00:00');
+      var firstDow = firstDt.getDay(); // 0=Sun
+      var mondayOffset = firstDow === 0 ? 6 : firstDow - 1; // Convert to Mon=0
+
+      // Pad empty cells before first day
+      for(var p=0; p<mondayOffset; p++){
+        html += '<div class="tl-cell" style="background:transparent;cursor:default"></div>';
+      }
+
+      // Render each day
+      week.days.forEach(function(d){
+        var dt = new Date(d.date+'T12:00:00');
+        var dow = dt.getDay();
+        var isWeekend = (dow === 0 || dow === 6);
+        var isToday = d.date === today;
+        var totalT = d.tasks.length;
+        var doneT = d.tasks.filter(function(t){return isChecked(t.id);}).length;
+        var pct = totalT > 0 ? doneT/totalT : 0;
+
+        var bucketCounts = {};
+        d.tasks.forEach(function(t){ bucketCounts[t.bucket] = (bucketCounts[t.bucket]||0)+1; });
+        var topBucket = '', topCount = 0;
+        for(var bid in bucketCounts){ if(bucketCounts[bid]>topCount){ topCount=bucketCounts[bid]; topBucket=bid; } }
+        var bk = getBucket(topBucket);
+        var color = bk ? bk.color : '#333';
+        var opacity = totalT === 0 ? 0.1 : (0.2 + pct*0.8);
+
+        var idx = PLAN_DATA.days.indexOf(d);
+        html += '<div class="tl-cell'+(isToday?' today-cell':'')+(isWeekend?' weekend':'')+'" style="background:'+color+';opacity:'+opacity+'" onclick="jumpTo('+idx+')" title="Day '+d.day+': '+doneT+'/'+totalT+' done">';
+        html += d.day;
+        html += '</div>';
+      });
+
+      // Pad remaining cells
+      var totalCells = mondayOffset + week.days.length;
+      for(var r=totalCells; r<7; r++){
+        html += '<div class="tl-cell" style="background:transparent;cursor:default"></div>';
+      }
+    });
+
+    html += '</div>';
+
+    html += '<div class="tl-legend">';
+    PLAN_DATA.buckets.forEach(function(b){
+      html += '<div class="tl-legend-item"><div class="dot" style="background:'+b.color+'"></div>'+b.name+'</div>';
+    });
+    html += '</div>';
+
+    document.getElementById('timeline').innerHTML = html;
+  }
+
+  function renderDecisions(){
+    if(!PLAN_DATA.decisions) return;
+    var d = PLAN_DATA.days[curIdx];
+    var curDay = d ? d.day : 1;
+
+    var html = '<h3 style="font-size:1rem;margin-bottom:4px;">Critical Decisions</h3>';
+    html += '<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:16px;">Decisions both partners should discuss and document together.</p>';
+
+    // Separate into pending and resolved
+    var pending = PLAN_DATA.decisions.filter(function(dec){ return !isDecResolved(dec.id); });
+    var resolved = PLAN_DATA.decisions.filter(function(dec){ return isDecResolved(dec.id); });
+
+    if(pending.length > 0){
+      html += '<h4 style="font-size:0.85rem;color:var(--orange);margin-bottom:10px;">Pending ('+pending.length+')</h4>';
+      pending.forEach(function(dec){
+        var b = getBucket(dec.bucket);
+        var overdue = dec.dueByDay < curDay;
+        html += '<div class="dec-card">';
+        html += '<div class="dec-title"><div class="status-dot" style="background:'+(overdue?'var(--red)':'var(--orange)')+'"></div>'+esc(dec.title)+'</div>';
+        html += '<div class="dec-desc">'+esc(dec.description)+'</div>';
+        html += '<div class="dec-meta">';
+        if(b) html += '<span class="tbadge" style="background:'+b.color+'22;color:'+b.color+'">'+esc(b.name)+'</span>';
+        html += '<span class="tbadge '+(overdue?'high':'medium')+'">'+(overdue?'Overdue':'Due by Day '+dec.dueByDay)+'</span>';
+        html += '<span class="tbadge dur">'+esc(dec.date)+'</span>';
+        html += '</div>';
+        html += '<div class="dec-context" id="ctx-'+dec.id+'">'+esc(dec.context)+'</div>';
+        html += '<div class="dec-actions">';
+        html += '<button class="dec-btn resolve" onclick="resolveDec(\''+dec.id+'\')">Mark Resolved</button>';
+        html += '<button class="dec-btn detail" onclick="toggleCtx(\''+dec.id+'\')">Context</button>';
+        html += '</div></div>';
+      });
+    }
+
+    if(resolved.length > 0){
+      html += '<h4 style="font-size:0.85rem;color:var(--green);margin:20px 0 10px;">Resolved ('+resolved.length+')</h4>';
+      resolved.forEach(function(dec){
+        var b = getBucket(dec.bucket);
+        html += '<div class="dec-card resolved">';
+        html += '<div class="dec-title"><div class="status-dot" style="background:var(--green)"></div>'+esc(dec.title)+'</div>';
+        html += '<div class="dec-meta">';
+        if(b) html += '<span class="tbadge" style="background:'+b.color+'22;color:'+b.color+'">'+esc(b.name)+'</span>';
+        html += '<span class="tbadge low">Resolved</span>';
+        html += '</div>';
+        html += '<div class="dec-actions">';
+        html += '<button class="dec-btn detail" onclick="unresolveDec(\''+dec.id+'\')">Reopen</button>';
+        html += '</div></div>';
+      });
+    }
+
+    document.getElementById('decisions-view').innerHTML = html;
+  }
+
+  // Bucket Detail View
+  window.showBucketDetail = function(bucketId){
+    var bucket = getBucket(bucketId);
+    if(!bucket) return;
+
+    var all = getAllTasks().filter(function(t){ return t.task.bucket === bucketId; });
+    var done = all.filter(function(t){ return isChecked(t.task.id); }).length;
+    var total = all.length;
+    var pct = total>0 ? Math.round(done/total*100) : 0;
+
+    var html = '<button class="bd-back" onclick="hideBucketDetail()">&larr; Back to Dashboard</button>';
+    html += '<div class="card bd-header">';
+    html += '<div class="bd-title"><div class="color-dot" style="background:'+bucket.color+';width:14px;height:14px"></div>'+esc(bucket.name)+'</div>';
+    html += '<div class="bd-stats"><strong>'+done+'</strong> of <strong>'+total+'</strong> tasks completed ('+pct+'%)</div>';
+    html += '<div class="bd-bar"><div class="bd-bar-fill" style="width:'+pct+'%;background:'+bucket.color+'"></div></div>';
+    html += '</div>';
+
+    // Group by phase
+    PLAN_DATA.phases.forEach(function(phase){
+      var phaseDays = PLAN_DATA.days.filter(function(d){ return d.day >= phase.startDay && d.day <= phase.endDay; });
+      var phaseTasks = [];
+      phaseDays.forEach(function(d){
+        d.tasks.forEach(function(t){
+          if(t.bucket === bucketId) phaseTasks.push({task:t, day:d});
+        });
+      });
+
+      if(phaseTasks.length === 0) return;
+
+      var phaseDone = phaseTasks.filter(function(t){ return isChecked(t.task.id); }).length;
+
+      html += '<div class="bd-phase">';
+      html += '<div class="bd-phase-title" style="color:'+phase.color+'">'+phase.name+' &mdash; '+phaseDone+'/'+phaseTasks.length+' completed</div>';
+
+      // Group by day within phase
+      var byDay = {};
+      phaseTasks.forEach(function(item){
+        if(!byDay[item.day.day]) byDay[item.day.day] = {day:item.day, tasks:[]};
+        byDay[item.day.day].tasks.push(item.task);
+      });
+
+      Object.keys(byDay).sort(function(a,b){return parseInt(a)-parseInt(b);}).forEach(function(key){
+        var group = byDay[key];
+        var dt = new Date(group.day.date+'T12:00:00');
+        var fmtDate = dt.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+        html += '<div class="bd-day-label">Day '+group.day.day+' &mdash; '+fmtDate+' ('+group.day.dayOfWeek+')</div>';
+        group.tasks.forEach(function(t){
+          html += renderTaskItem(t, bucket);
+        });
+      });
+
+      html += '</div>';
+    });
+
+    // Related decisions
+    if(PLAN_DATA.decisions){
+      var relatedDecs = PLAN_DATA.decisions.filter(function(dec){ return dec.bucket === bucketId; });
+      if(relatedDecs.length > 0){
+        html += '<div class="bd-decisions"><h4>Related Decisions</h4>';
+        relatedDecs.forEach(function(dec){
+          var resolved = isDecResolved(dec.id);
+          html += '<div class="dec-card'+(resolved?' resolved':'')+'">';
+          html += '<div class="dec-title"><div class="status-dot" style="background:'+(resolved?'var(--green)':'var(--orange)')+'"></div>'+esc(dec.title)+'</div>';
+          html += '<div class="dec-desc">'+esc(dec.description)+'</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+    }
+
+    document.getElementById('bucket-detail').innerHTML = html;
+    switchView('bucket-detail');
+  };
+
+  window.hideBucketDetail = function(){
+    switchView('daily');
+  };
+
+  // Global functions
+  window.toggleBucket = function(id){
+    bucketOn[id] = !bucketOn[id];
+    var anyOn = false;
+    for(var k in bucketOn) if(bucketOn[k]) anyOn=true;
+    if(!anyOn) bucketOn[id] = true;
+    renderFilters(); renderDay();
+  };
+
+  window.togglePrio = function(id){
+    prioOn[id] = !prioOn[id];
+    var anyOn = false;
+    for(var k in prioOn) if(prioOn[k]) anyOn=true;
+    if(!anyOn) prioOn[id] = true;
+    renderFilters(); renderDay();
+  };
+
+  window.onCheck = function(id, checked){
+    setChecked(id, checked);
+    render();
+  };
+
+  window.go = function(dir){
+    var next = curIdx + dir;
+    if(next>=0 && next<PLAN_DATA.days.length){ curIdx=next; render(); }
+  };
+
+  window.goToday = function(){ curIdx = getTodayIdx(); render(); };
+
+  window.pickDate = function(val){
+    for(var i=0;i<PLAN_DATA.days.length;i++){
+      if(PLAN_DATA.days[i].date===val){ curIdx=i; render(); return; }
+    }
+  };
+
+  window.jumpTo = function(idx){
+    if(idx>=0 && idx<PLAN_DATA.days.length){
+      curIdx=idx;
+      switchView('daily');
+      render();
+      document.getElementById('daily').scrollIntoView({behavior:'smooth'});
+    }
+  };
+
+  window.toggleGroup = function(el){
+    el.classList.toggle('collapsed');
+    el.nextElementSibling.classList.toggle('hidden');
+  };
+
+  window.toggleNotes = function(btn){
+    var notes = btn.closest('.task-body').querySelector('.task-notes');
+    notes.classList.toggle('show');
+    btn.innerHTML = notes.classList.contains('show') ? 'Notes &#9650;' : 'Notes &#9660;';
+  };
+
+  window.toggleCtx = function(id){
+    document.getElementById('ctx-'+id).classList.toggle('show');
+  };
+
+  window.resolveDec = function(id){
+    setDecResolved(id, true);
+    render();
+  };
+
+  window.unresolveDec = function(id){
+    setDecResolved(id, false);
+    render();
+  };
+
+  window.switchView = function(v){
+    currentView = v;
+    document.getElementById('daily').className = v==='daily'?'':'hide';
+    document.getElementById('timeline').className = v==='timeline'?'show':'';
+    document.getElementById('decisions-view').className = v==='decisions'?'show':'';
+    document.getElementById('bucket-detail').className = v==='bucket-detail'?'show':'';
+    document.getElementById('btn-daily').className = 'nav-btn'+(v==='daily'?' active':'');
+    document.getElementById('btn-tl').className = 'nav-btn'+(v==='timeline'?' active':'');
+    document.getElementById('btn-dec').className = 'nav-btn'+(v==='decisions'?' active':'');
+  };
+
+  window.resetAll = function(){
+    if(!confirm('Reset all progress? This cannot be undone.')) return;
+    var keys = [];
+    for(var i=0;i<localStorage.length;i++){
+      var k = localStorage.key(i);
+      if(k && (k.startsWith('s90-') || k.startsWith('s90dec-'))) keys.push(k);
+    }
+    keys.forEach(function(k){ localStorage.removeItem(k); });
+    render();
+  };
+})();
+</script>
+</body>
+</html>
