@@ -35,7 +35,95 @@
 <p class="back"><a href="../">&larr; Cessna 152 Home Cockpit</a></p>
 <h1>Questions</h1>
 <p>Problems worked through while building this — the ones still open as well as the ones
-settled. 2 open, 0 settled.</p>
+settled. 4 open, 0 settled.</p>
+<article>
+<h2>Switching the reference aircraft from the 152 to a 172 — why, and what does it change?</h2>
+<p><span class="tag" data-s="open">open</span><span class="when">2026-09-01</span></p>
+<p>Raised by me. No reason for the switch has been recorded yet — that is the first half of
+the question and it needs answering before anything moves, because the 152 was itself a
+deliberate change from the T182T on 25 Aug and reversing course twice in a week is how a
+build stops converging.</p>
+<p><strong>Two candidate reasons, and they lead different places</strong> (raised in conversation, not yet
+my position):</p>
+<ul>
+<li><em>The aircraft actually being purchased is a 172.</em> That is a premise change. The
+  non-goal gets rewritten to say 172, <code>AircraftLimits.h</code> gets 172 numbers, and the project
+  continues unchanged in shape.</li>
+<li><em>A 172 is the better platform to instruct in.</em> That is the instructing half of the
+  motivation starting to drive hardware decisions rather than only the right-seat
+  constraint — worth naming as such, because it would be the first time the CFII goal
+  moved a build choice.</li>
+</ul>
+<p>Which of these it is determines whether this is a one-line premise edit or a shift in what
+the Why section is steering by.</p>
+<p><strong>This crosses a stated non-goal.</strong> The third non-goal reads: <em>"Not a 182 or anything
+larger — the reference aircraft is a 152 and stays a 152. Bigger airframes bring back the
+prop control, cowl flaps and turbo that the 152 decision deliberately removed."</em> A 172 is
+larger than a 152. Recording it as an open question rather than quietly building it is
+the point; if the switch happens, that non-goal gets <strong>rewritten deliberately</strong>, not
+ignored. Note the stated rationale mostly survives a 172 — the common 172s are still
+four-cylinder, carburetted or injected, <strong>fixed-pitch, no cowl flaps, no turbo</strong> — so the
+non-goal's <em>reasoning</em> may not actually exclude a 172 even though its <em>wording</em> does.
+That is a wording bug worth fixing either way.</p>
+<p><strong>What it changes, cheaply:</strong> less than the T182T reversal did. The architecture is
+aircraft-agnostic; the six-pack decision, the panel-overlay approach, the AOC scale work,
+the preview tooling and <code>sim-check</code> all carry over untouched. Crucially the <em>shape</em> of the
+engine model survives — four cylinders, fixed-pitch, no manifold pressure — which is
+exactly what the 182-to-152 change had to demolish.</p>
+<p><strong>What it changes, expensively:</strong></p>
+<ul>
+<li><strong>Every number in <code>AircraftLimits.h</code> again.</strong> They are currently wrong for the 152 and
+  would become wrong for a 172 differently. This is the second full invalidation of that
+  header in a week.</li>
+<li><strong>The current Next action</strong> — "rewrite <code>AircraftLimits.h</code> for the 152" — is at risk of
+  being written twice. That is the concrete cost of leaving this open, and the reason to
+  settle it before touching the header.</li>
+<li><strong>The whole "Awaiting verification" list</strong> resets: airspeed arcs, engine limits, usable
+  fuel, electrical voltage, panel dimensions.</li>
+<li><strong>Panel geometry improves.</strong> The 152's narrow panel is recorded as a tight fit for the
+  GTN 650Xi / GNC 255A / GTX 345 stack; a 172 panel is wider, so that pressure eases.</li>
+<li><strong>Possibly the CFII framing.</strong> Whether instrument training actually happens in a 152 or
+  a 172 bears on the motivation, and the 152 was chosen partly as "what CFII instruction
+  happens in".</li>
+</ul>
+<p><strong>Which 172, and it matters:</strong> the arcs and fuel differ enough across variants that
+"a 172" is not a specification. Broad shape of the split — a 172M/N/P is a carburetted
+O-320 with carb heat, close to the 152's control set; a 172R/S is a fuel-injected IO-360
+with no carb heat, higher Vne and roughly double the usable fuel. Picking the wrong one
+means the carb-heat control either exists or doesn't. <strong>No figure here is from a POH</strong>, so
+all of it stays <code>VERIFY</code> until one is in hand — which is the same document gap already
+blocking the 152 numbers.</p>
+</article>
+<article>
+<h2>Right seat — legible, or a full working position?</h2>
+<p><span class="tag" data-s="open">open</span><span class="when">2026-09-01</span></p>
+<p>Raised by Claude while writing the Why section, and agreed as a real gap rather than a
+wording problem.</p>
+<p>The <strong>Who it's for</strong> line now says <em>me</em> — a single-user rig — and the right-seat
+constraint is reconciled with that by saying the instructor in that seat is one teaching
+me, not a student I'm teaching. That holds today. But the same section's motivation says
+"practice now, <strong>instruct later</strong>", and instructing inverts the seats: student in the
+left, me in the right. The two halves of Why imply different rigs.</p>
+<p>What's actually at stake is panel geometry, and the constraint already says so — right-seat
+legibility <em>and control reach</em> are requirements "not nice-to-haves", affecting geometry
+from Phase 3 onward. The open part is how far that goes:</p>
+<ul>
+<li><strong>Legible only</strong> (today's reading): the right seat has to <em>read</em> the panel at an angle.
+  That's what already rules out the TN CYD panels for anything scanned, and what makes the
+  IPS AOC the right carrier for the six-pack.</li>
+<li><strong>Full working position</strong>: the right seat also has to <em>fly</em> it — reach the yoke, throttle,
+  mixture, carb heat, and work the radios. That's a much stronger claim. It likely means
+  centring the panel between the seats rather than at my own eye height, and it may mean
+  duplicated or centrally-placed engine controls.</li>
+</ul>
+<p>The distinction matters now rather than later because Phase 3 cuts the panel, and panel
+geometry is the one thing that isn't cheap to redo — unlike the overlay, which is a cut
+sheet. Getting this wrong means cutting twice.</p>
+<p>Bearing on it: whether the CFII actually happens, and whether anyone else ever sits in the
+rig. "Just me" was chosen deliberately, so the honest reading may be that the full working
+position is a <em>later</em> requirement, and the question is whether to build geometry that
+accommodates it now or accept a rebuild then.</p>
+</article>
 <article>
 <h2>Does the sim PC have to be bought, or is there a machine on hand that can run X-Plane at a usable frame rate?</h2>
 <p><span class="tag" data-s="open">open</span><span class="when">2026-09-01</span></p>

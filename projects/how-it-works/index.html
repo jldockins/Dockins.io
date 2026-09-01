@@ -30,48 +30,14 @@
 
 <p>Every project on this site keeps a single file, <code>BUILDLOG.md</code>, that lives in
 the project's own git repository. It is the working file and the source of the published
-page — not a write-up done afterward. The page you read is generated from that file and
-rebuilt as the work happens, rather than written up at the end.</p>
+page — not a write-up done afterward. The page you read is generated from it on every
+push, so it cannot fall behind the work.</p>
 
 <p>The problem it solves is specific. Working on a project with an AI coding assistant,
 the reasoning behind every decision lives in a conversation that disappears when the
 session ends. Come back after two weeks and the ramp-up costs as much as handing the
 project to a stranger. Writing the log as you go fixes that, and it happens to produce
 most of a good build write-up for free.</p>
-
-<h2>Why it lives in git</h2>
-
-<p>The log sits in the project's own repository, versioned alongside the firmware, the
-schematics and the photos. That is not incidental — it is what makes the rest work.</p>
-
-<p>Committing the log with the code means the two cannot drift apart silently. Every entry
-has a commit behind it, so the log carries its own history: when a decision was made, what
-the state of the project was at the time, and what changed afterward. A decision that later
-got reversed is still visible, with its date, rather than quietly edited away.</p>
-
-<p>It also makes the log auditable against reality. The session-open command reads the
-recent commit history and compares it against the newest entry — if code changed and the
-log did not, it says so before anything else happens. A build log that quietly falls behind
-the build is worse than none, because it is trusted.</p>
-
-<p>And it means the work is backed up. Nine days of reasoning that exists only on one
-laptop is one spilled coffee from gone.</p>
-
-<h2>How a page gets here</h2>
-
-<p>Pushing to the project repository triggers a build: a script reads
-<code>BUILDLOG.md</code>, strips the private sections, renders the rest to HTML, copies the
-photos, and writes a small manifest describing the project's status. That output is
-committed into this site's repository, which triggers a second job that uploads the changed
-files over FTP to the host.</p>
-
-<p>The index you came from is regenerated from those manifests, so a new project appears in
-the list without anyone editing a page. Status — in progress, paused, complete — is derived
-from the date of the most recent session rather than declared, because a status that has to
-be maintained by hand is a status that goes stale.</p>
-
-<p>The point of all of it is that publishing is not a step. There is no moment where the
-documentation gets written up, which is the moment it would otherwise not happen.</p>
 
 <h2>What is public and what is not</h2>
 
@@ -129,8 +95,7 @@ finished, <code>/log-ask</code> when a real question comes up, <code>/log-note</
 everything else.</div>
 <div class="step"><strong>5. Close.</strong> <code>/log-close</code> before stopping. This
 is the one that matters most, and the one easiest to skip.</div>
-<div class="step"><strong>6. Push.</strong> The commit carries the log and the code
-together. The page is rebuilt from the log and deployed to this site.</div>
+<div class="step"><strong>6. Push.</strong> The page rebuilds and deploys itself.</div>
 
 <h2>The part that keeps it honest</h2>
 
