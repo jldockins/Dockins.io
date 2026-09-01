@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How these build logs are made - Dockins Family</title>
+<link rel="stylesheet" href="/style.css">
+<style>
+  .howto { max-width: 42rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+  body > header img { max-height: 60px; width: auto; }
+  .howto .back { font-size: .875rem; }
+  .howto h2 { margin-top: 2rem; }
+  .howto table { border-collapse: collapse; width: 100%; margin: 1rem 0;
+    display: block; overflow-x: auto; }
+  .howto th, .howto td { border: 1px solid #ccc; padding: .45rem .6rem;
+    text-align: left; vertical-align: top; }
+  .howto code { background: #f4f4f4; padding: .1rem .3rem; }
+  .howto .step { padding: .6rem 0; border-bottom: 1px solid #eee; }
+</style>
+</head>
+<body>
+<header>
+  <a href="/index.html"><img src="/images/Dio.png" alt="Dockins Family Symbol"></a>
+  <nav><a href="/projects.html">Projects</a></nav>
+</header>
+<main class="howto">
+<p class="back"><a href="/projects/">&larr; Build logs</a></p>
+
+<h1>How these build logs are made</h1>
+
+<p>Every project on this site keeps a single file, <code>BUILDLOG.md</code>, that lives in
+the project's own git repository. It is the working file and the source of the published
+page — not a write-up done afterward. The page you read is generated from it on every
+push, so it cannot fall behind the work.</p>
+
+<p>The problem it solves is specific. Working on a project with an AI coding assistant,
+the reasoning behind every decision lives in a conversation that disappears when the
+session ends. Come back after two weeks and the ramp-up costs as much as handing the
+project to a stranger. Writing the log as you go fixes that, and it happens to produce
+most of a good build write-up for free.</p>
+
+<h2>What is public and what is not</h2>
+
+<p>The log holds more than the page shows. Current state, the next action, and the raw
+session journal stay private — nobody needs to read a scratchpad. What publishes is the
+premise, the reasoning, the bill of materials, the build steps, the measured results,
+the questions, and the things that went wrong.</p>
+
+<p>That last one is deliberate. Dead ends and open questions are published as-is. A build
+log that only shows the path that worked is a brochure.</p>
+
+<h2>The commands</h2>
+
+<p>These are slash commands for Claude Code. Each one edits <code>BUILDLOG.md</code>
+directly.</p>
+
+<table>
+<tr><th>Command</th><th>When</th><th>What it does</th></tr>
+<tr><td><code>/log-init</code></td><td>Starting a project</td>
+<td>Interrogates the premise, the constraints, the build phases, and — the part that
+matters — what the project is deliberately <em>not</em>. Pushes back if the finish line
+is vague.</td></tr>
+<tr><td><code>/log-adopt</code></td><td>After a planning session</td>
+<td>Turns a project brief written elsewhere into a build log, without re-asking anything
+the brief already answers.</td></tr>
+<tr><td><code>/log-open</code></td><td>Start of every session</td>
+<td>Cold-start briefing: the premise, the non-goals verbatim, where the work stopped, the
+single next action, live constraints, and any past dead end the next action risks
+repeating. Also checks the log against git and flags work that was never logged.</td></tr>
+<tr><td><code>/log-step</code></td><td>A build step is finished</td>
+<td>Writes the step into the published walkthrough — what was done, <em>why that way</em>,
+what verified it, and the photo. Refuses steps that aren't actually done.</td></tr>
+<tr><td><code>/log-ask</code></td><td>A question comes up</td>
+<td>Records a question and the thinking around it, open or settled. Open questions publish
+as open.</td></tr>
+<tr><td><code>/log-note</code></td><td>Mid-session</td>
+<td>Catches a decision, a part substitution, or a reference without breaking flow.</td></tr>
+<tr><td><code>/log-close</code></td><td>End of every session</td>
+<td>Writes the session in, rewrites the current state so it stands alone, and records
+decisions, dead ends, measurements, and completed steps.</td></tr>
+<tr><td><code>/log-publish</code></td><td>Before a public release</td>
+<td>Drafts the reader-facing narrative from the working log.</td></tr>
+</table>
+
+<h2>The loop</h2>
+
+<div class="step"><strong>1. Plan.</strong> Work out the premise, the constraints, and
+the non-goals in conversation. Write it into a brief.</div>
+<div class="step"><strong>2. Adopt.</strong> <code>/log-adopt</code> turns the brief into
+the log. Nothing gets re-litigated.</div>
+<div class="step"><strong>3. Open.</strong> Every session starts with
+<code>/log-open</code>, so a two-week gap costs a paragraph instead of an afternoon.</div>
+<div class="step"><strong>4. Work.</strong> <code>/log-step</code> when something is
+finished, <code>/log-ask</code> when a real question comes up, <code>/log-note</code> for
+everything else.</div>
+<div class="step"><strong>5. Close.</strong> <code>/log-close</code> before stopping. This
+is the one that matters most, and the one easiest to skip.</div>
+<div class="step"><strong>6. Push.</strong> The page rebuilds and deploys itself.</div>
+
+<h2>The part that keeps it honest</h2>
+
+<p>Each project states its non-goals — what it is deliberately not. Drift almost never
+contradicts a project's purpose; it arrives as a reasonable-looking improvement that
+happens to serve a different project. Naming the non-goals up front is what makes that
+visible, so a suggestion that crosses one gets flagged before the work starts rather than
+discovered three phases later.</p>
+
+</main>
+</body>
+</html>
