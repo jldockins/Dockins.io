@@ -1,0 +1,12 @@
+{
+  "slug": "flight-sim",
+  "title": "Cessna 152 Home Cockpit",
+  "description": "A home flight-simulator cockpit built around a 1980\u201381 Cessna 152 II \u2014",
+  "status": "active",
+  "last_worked": "2026-08-31",
+  "sessions": 4,
+  "photo_gaps": 0,
+  "unfilled": 0,
+  "repo": "https://github.com/jldockins/flight-sim.git",
+  "generated": "2026-09-01T01:59:59+00:00"
+}

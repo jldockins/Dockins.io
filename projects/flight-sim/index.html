@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cessna 152 Home Cockpit - Dockins Family</title>
+<meta name="description" content="A home flight-simulator cockpit built around a 1980–81 Cessna 152 II —">
+<link rel="stylesheet" href="/style.css">
+<style>
+  .buildlog { max-width: 42rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+  .buildlog h1 { margin-bottom: .25rem; }
+  .buildlog .status { display: inline-block; font-size: .875rem;
+    padding: .2rem .6rem; border: 1px solid currentColor; border-radius: 2px;
+    margin-bottom: 1.5rem; }
+  .buildlog .status[data-status="active"] { color: #1a6b2f; }
+  .buildlog .status[data-status="dormant"] { color: #8a6d1f; }
+  .buildlog .status[data-status="complete"] { color: #444; }
+  .buildlog table { border-collapse: collapse; width: 100%; margin: 1rem 0;
+    display: block; overflow-x: auto; }
+  .buildlog th, .buildlog td { border: 1px solid #ccc; padding: .4rem .6rem;
+    text-align: left; vertical-align: top; }
+  .buildlog img { max-width: 100%; height: auto; }
+  .buildlog pre { overflow-x: auto; padding: .75rem; background: #f4f4f4; }
+  .buildlog .meta { font-size: .875rem; color: #555; margin-top: 3rem;
+    border-top: 1px solid #ddd; padding-top: 1rem; }
+</style>
+</head>
+<body>
+<header>
+  <a href="/index.html"><img src="/images/Dio.png" alt="Dockins Family Symbol"></a>
+  <nav><a href="/projects.html">Projects</a></nav>
+</header>
+<main class="buildlog">
+<h1>Cessna 152 Home Cockpit</h1>
+<p class="status" data-status="active">In progress — last worked 2026-08-31</p>
+<h2>What this is</h2>
+<p><strong>What this is:</strong> A home flight-simulator cockpit built around a 1980–81 Cessna 152 II —
+a traditional six-pack rendered on a monitor behind a physical panel overlay, with real
+controls for anything a pilot would physically touch.</p>
+<p><strong>Why I'm building it:</strong> Currency and procedure practice — scan, holds, approaches,
+missed approaches — cheaper and more available than renting. The path runs through CFII,
+so eventually instructing from it, not only training in it. The build itself is also part
+of the point.</p>
+<p><strong>Done looks like:</strong> Hand-fly a full ILS from a real approach plate, in the chair, with
+all six instruments driven live by the simulator. No keyboard, no mouse.</p>
+<h2>Specs</h2>
+<table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>Target</th>
+<th>Measured</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Panel display density</td>
+<td>~141 PPI assumed</td>
+<td><strong>140.7 PPI</strong> (800 px bar = 5.6875 in)</td>
+</tr>
+<tr>
+<td>Instrument diameter on glass</td>
+<td>3.125 in</td>
+<td><strong>3.125 in</strong> (ruler, independent check)</td>
+</tr>
+<tr>
+<td>Panel active area</td>
+<td>—</td>
+<td><strong>13.65 × 7.68 in</strong></td>
+</tr>
+<tr>
+<td>Six-pack fits the display</td>
+<td>must fit</td>
+<td><strong>10.125 × 6.625 in</strong> of 13.65 × 7.68</td>
+</tr>
+<tr>
+<td>Gauge frame rate</td>
+<td>30 fps</td>
+<td><strong>22–28 fps</strong> at 40 MHz SPI</td>
+</tr>
+<tr>
+<td>Continuous run without fault</td>
+<td>30 min</td>
+<td><strong>30 min</strong>, 40,135 renders, heap flat</td>
+</tr>
+<tr>
+<td>Free heap after buffer allocation</td>
+<td>headroom for 10 pages</td>
+<td><strong>116 KB</strong> of ~342 KB</td>
+</tr>
+<tr>
+<td>Hand-flown ILS, no keyboard or mouse</td>
+<td>the finish line</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Approach-to-missed on physical controls only</td>
+<td>stretch goal</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Panel legible from right seat</td>
+<td>requirement</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Constraints</h2>
+<ul>
+<li><strong>Budget:</strong> Under $1,000 total. Soft ceiling — flag a decision that would exceed it
+  rather than blocking on it.</li>
+<li><strong>Deadline / contest target:</strong> End of November 2026 (2–3 months). No contest; a write-up
+  may come out of it later. Documentation quality is a goal in its own right.</li>
+<li><strong>Must use:</strong> Hardware already on hand — several DIYmalls ESP32-2432S028R displays,
+  an AOC 16T20 monitor, a 24-inch vinyl cutter for panel templates and masks.</li>
+<li><strong>Must work from the right seat.</strong> An instructor sits there. Panel legibility and
+  control reach from the right seat are requirements, not nice-to-haves. Affects panel
+  geometry from Phase 3 onward: readable at an angle, not only dead-on from the left seat
+  at my own eye height.</li>
+<li><strong>Must not:</strong> Rely on a display page knowing where its data came from. Transport stays
+  separate from presentation so the simulator platform can change late.</li>
+</ul>
+<h3>Consequence of the right-seat requirement</h3>
+<p>Already relevant to hardware on hand:</p>
+<ul>
+<li>The <strong>AOC 16T20 is IPS</strong>, which holds contrast off-axis. Good for the right seat.</li>
+<li>The <strong>CYD's 2.8-inch panel is TN</strong>, which shifts noticeably off-axis. Anything an
+  instructor must read is a poor fit for those boards.</li>
+</ul>
+<h2>Bill of materials</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Spec</th>
+<th>Qty</th>
+<th>Source</th>
+<th>Cost</th>
+<th>Status</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DIYmalls ESP32-2432S028R</td>
+<td>2.8 in 240×320 TFT, XPT2046 touch</td>
+<td>several</td>
+<td>on hand</td>
+<td>—</td>
+<td>received</td>
+<td>Display and touch on separate SPI buses. TN panel — poor off-axis.</td>
+</tr>
+<tr>
+<td>AOC 16T20</td>
+<td>15.6 in 1920×1080 IPS, USB-C</td>
+<td>1</td>
+<td>on hand</td>
+<td>—</td>
+<td>received</td>
+<td>Measured 140.7 PPI. <strong>Not a touchscreen.</strong></td>
+</tr>
+<tr>
+<td>Vinyl cutter / plotter</td>
+<td>24 in</td>
+<td>1</td>
+<td>on hand</td>
+<td>—</td>
+<td>received</td>
+<td>Pre-existing. Panel templates, labels, paint masks.</td>
+</tr>
+<tr>
+<td>Simulator PC</td>
+<td>—</td>
+<td>1</td>
+<td>not chosen</td>
+<td>—</td>
+<td>—</td>
+<td>May be an existing machine. Biggest budget risk.</td>
+</tr>
+<tr>
+<td>Yoke</td>
+<td>—</td>
+<td>1</td>
+<td>not chosen</td>
+<td>—</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>Rudder pedals</td>
+<td>—</td>
+<td>1</td>
+<td>not chosen</td>
+<td>—</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>Panel material</td>
+<td>sheet, cuttable</td>
+<td>—</td>
+<td>not chosen</td>
+<td>—</td>
+<td>—</td>
+<td>Cardboard prototype first.</td>
+</tr>
+<tr>
+<td>Encoders, switches, wiring</td>
+<td>—</td>
+<td>—</td>
+<td>not chosen</td>
+<td>—</td>
+<td>—</td>
+<td>Phase 4.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Budget note:</strong> costs above are blank because actual prices paid are not recorded, not
+because the items are free. The unchosen items — particularly whether a simulator PC has
+to be bought — are what decide whether the $1,000 ceiling holds.</p>
+<hr />
+<h2>Build</h2>
+<h3>Phase 1 — Visual and embedded prototypes</h3>
+<p><strong>Status:</strong> substantially complete</p>
+<h4>Four-page display prototype on the CYD</h4>
+<p>Firmware for the ESP32-2432S028R with four swipeable pages — engine monitor, DME and
+timer, electronic standby instrument, fuel and systems — driven by internally generated
+data. Flashed and running; touch, swiping and page wrap confirmed on the board.</p>
+<p><strong>Why this way:</strong> LovyanGFX rather than TFT_eSPI, because this board puts the touchscreen
+on a <em>second</em> SPI bus and TFT_eSPI's touch path assumes a shared one. Not LVGL, because
+these are custom aviation gauges rather than widgets — it would add a large dependency and
+a frame buffer the board has no room for, without helping draw a pitch ladder.
+<strong>Verified by:</strong> Flashed to hardware; display init, touch controller, and all page buffers
+reported healthy over serial. Swipe navigation and wrap exercised in both directions.</p>
+<p><img alt="Build step photo" src="_needed_" /></p>
+<h4>Off-device page renderer</h4>
+<p>A host-side tool that compiles the real page code and renders it into images on a desktop
+machine, without a board.</p>
+<p><strong>Why this way:</strong> Required changing every drawing function to take the base graphics type
+rather than the board's concrete device. Pages never called a board-specific method, so
+nothing was lost — and if one ever starts needing the board header, the preview stops
+building, which is a useful tripwire.
+<strong>Verified by:</strong> Renders 49 images covering every page. Found four defects on first use
+that no amount of reading the code had surfaced.</p>
+<p><img alt="Build step photo" src="_needed_" /></p>
+<h4>Six round instruments</h4>
+<p>A six-pack preview added to the firmware — airspeed, attitude, altimeter, turn
+coordinator, heading, vertical speed — bringing the board to ten pages.</p>
+<p><strong>Why this way:</strong> All six share a single 216×216 canvas. Six separate buffers would not
+fit; the board has no PSRAM and 116 KB of heap remains after allocation as it is.
+<strong>Verified by:</strong> 30-minute continuous soak on the attitude page — 40,135 renders, free
+heap identical at every five-minute sample.</p>
+<p><img alt="Build step photo" src="_needed_" /></p>
+<h4>Panel display measured and calibrated</h4>
+<p>A true-scale calibration target displayed on the AOC and measured with a ruler,
+establishing the real pixel density that every later panel dimension depends on.</p>
+<p><strong>Why this way:</strong> The density was previously assumed from the marketing screen size, which
+was 0.4% high. Measuring an 800-pixel bar removes the assumption; measuring the 3⅛-inch
+instrument dimension independently confirms the thing the project actually cares about.
+<strong>Verified by:</strong> Two independent ruler measurements agreeing — 140.7 PPI, and a 3⅛-inch
+instrument that measures 3⅛ inches on the glass.</p>
+<p><img alt="Build step photo" src="_needed_" /></p>
+<p>Select X-Plane or MSFS, define the normalised aircraft-state schema, build the PC-side
+bridge, and drive the panel from live data. The firmware is already structured for this:
+pages consume an interface, so a real adapter replaces the generator without page changes.</p>
+<p>Full-size vector drawing, tiled paper template, cardboard prototype, then a cut panel with
+the monitor behind it. Hole centres are already calculated for the measured display.
+<strong>Right-seat legibility gets checked at the cardboard stage, not after cutting.</strong></p>
+<p>Encoders for altimeter setting, heading bug and course. Switches, ignition, fuel selector.
+Annunciators and backlighting. Throttle, mixture and carburettor heat — no propeller
+control, the 152 has a fixed-pitch prop.</p>
+<p>Final material and finish, permanent labels, serviceable harnesses, startup and shutdown
+behaviour, failure and disconnection handling, procedure-based test scenarios.</p>
+<hr />
+<h2>Results</h2>
+<ul>
+<li><strong>Display firmware:</strong> ten pages on an ESP32-2432S028R, 26 KB static RAM, 116 KB free
+  heap after all buffers allocate.</li>
+<li><strong>Endurance:</strong> 30 minutes continuous on the heaviest page, 40,135 renders, free heap
+  identical at every five-minute sample. No leak, no drift, no crash.</li>
+<li><strong>Frame rate:</strong> 22–28 fps across the six round gauges, measured with on-device
+  instrumentation. Below the 30 fps target; see Dead Ends for why it stays there.</li>
+<li><strong>Panel scale:</strong> 140.7 PPI measured, 13.65 × 7.68 in active area. A 3⅛-inch instrument
+  renders at 3⅛ inches, confirmed by ruler twice.</li>
+<li><strong>Data model:</strong> 654,499 automated checks passing over three simulated hours — value
+  ranges, derived-vs-independent quantities, and framerate independence.</li>
+</ul>
+<hr />
+<h2>What went wrong</h2>
+<h3>80 MHz display SPI clock — 2026-08-22 to 08-24</h3>
+<ul>
+<li><strong>Tried:</strong> Raising the display clock from 40 to 80 MHz to reach the 30 fps target. It
+  worked on paper: every gauge hit a clean 30.2 fps, render times halved, heap stayed flat,
+  and every serial diagnostic reported healthy.</li>
+<li><strong>Failed because:</strong> The panel visibly corrupted. 80 MHz is past the ILI9341's nominal
+  write rate and these boards have long unshielded traces; the bus was mangling pixels in
+  transit. <strong>Nothing on the device can see its own output</strong>, so no diagnostic could ever
+  have caught it — it took a human looking at the screen.</li>
+<li><strong>Salvaged:</strong> The frame instrumentation built to measure it, which also caught an
+  unverified 30 fps claim that was really 22. Written into the board config as a warning
+  rather than a tunable, so the next person looking for speed doesn't repeat it.</li>
+</ul>
+<h3>Rendering the six gauges at a single instant — 2026-08-30</h3>
+<ul>
+<li><strong>Tried:</strong> Previewing each gauge at one moment of the demo flight.</li>
+<li><strong>Failed because:</strong> That is the worst case for finding sign errors — every pointer sits
+  mid-scale where being wrong doesn't show. Four real defects were hiding, including
+  turn-coordinator index marks placed where the wingtip could never reach them.</li>
+<li><strong>Salvaged:</strong> The preview now samples seven points across the flight, putting each
+  instrument somewhere revealing — airspeed below its scale, VSI at exactly zero and in
+  both directions, turn coordinator left, right and centred.</li>
+</ul>
+<hr />
+<h2>Decisions and why</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Decision</th>
+<th>Alternatives</th>
+<th>Why</th>
+<th>Reversed?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-08-22</td>
+<td>LovyanGFX graphics stack</td>
+<td>TFT_eSPI, LVGL</td>
+<td>Touch is on a second SPI bus that TFT_eSPI can't drive; LVGL adds a frame buffer that doesn't fit</td>
+<td>No</td>
+</tr>
+<tr>
+<td>2026-08-22</td>
+<td>Reference aircraft: 2001–03 T182T</td>
+<td>Older 182 with retrofits</td>
+<td>A real airframe to measure against rather than a composite</td>
+<td><strong>Yes</strong> — 25 Aug</td>
+</tr>
+<tr>
+<td>2026-08-22</td>
+<td>Autopilot: Bendix/King KAP 140</td>
+<td>Garmin GFC 500</td>
+<td>Rate-based, so no electronic attitude source needed</td>
+<td><strong>Yes</strong> — 25 Aug</td>
+</tr>
+<tr>
+<td>2026-08-25</td>
+<td>Reference aircraft: 1980–81 Cessna 152 II</td>
+<td>Staying with the T182T</td>
+<td>What CFII instruction happens in; removes prop, cowl flap and turbo controls from the build</td>
+<td>No</td>
+</tr>
+<tr>
+<td>2026-08-25</td>
+<td>Autopilot: Garmin GFC 500</td>
+<td>No autopilot, KAP 140</td>
+<td>The dual-G5 panel supplies the attitude source it needs</td>
+<td><strong>Open again</strong> — 30 Aug</td>
+</tr>
+<tr>
+<td>2026-08-25</td>
+<td>G5 vs GI 275: deferred</td>
+<td>Deciding now</td>
+<td>Waiting on the aircraft purchase; both are electronic attitude and HSI</td>
+<td>No</td>
+</tr>
+<tr>
+<td>2026-08-30</td>
+<td>Panel presentation: traditional six-pack</td>
+<td>Dual-G5 glass to match the aircraft</td>
+<td>A stock 152 has one; preserves teaching traditional partial panel, a different drill from the glass equivalent</td>
+<td>No</td>
+</tr>
+<tr>
+<td>2026-08-30</td>
+<td>AOC carries display-only instruments</td>
+<td>Sharing it with a GTN 650Xi</td>
+<td>Not a touchscreen — a rendered touch navigator would be a dead picture</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>What I'd do differently</h2>
+<ul>
+<li><strong>Flash the board earlier.</strong> Three sessions of firmware were written and reviewed before
+  anything ran on hardware. The board was plugged in the whole time.</li>
+<li><strong>Measure before assuming, every time.</strong> The display density, the frame rate, and the
+  panel scale were all asserted from specifications before being measured. Two of the three
+  were wrong — not badly, but wrong.</li>
+<li><strong>Update the front door when the baseline changes.</strong> The top-level README described the
+  wrong aircraft for five days after the change, because the detailed docs were updated and
+  the summary was not.</li>
+</ul>
+<hr />
+<h2>References</h2>
+<ul>
+<li><code>project-updates/decisions/</code> — approved decision records, including superseded ones with
+  their reasoning intact.</li>
+<li><code>hardware/esp32-2432s028r.md</code> — pin map. Display and touch are on separate SPI buses;
+  that fact causes most first-time failures with this board.</li>
+<li><code>hardware/aoc-16t20.md</code> — measured display geometry and what it can and cannot carry.</li>
+<li><code>tools/sim-check</code> — native build of the data model, 654,499 assertions.</li>
+<li><code>tools/page-preview</code> — renders real page code to images without hardware.</li>
+<li><code>tools/panel-calibration</code> — true-scale targets for measuring the panel display.</li>
+</ul>
+<hr />
+<p class="meta">
+Build log generated from <code>BUILDLOG.md</code> at <code>98e904e</code>.
+4 work sessions logged. <a href="https://github.com/jldockins/flight-sim.git">Source</a>.
+</p>
+</main>
+</body>
+</html>

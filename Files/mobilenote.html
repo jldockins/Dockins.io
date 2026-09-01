@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Pitch Trainer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1em;
+        }
+
+        .note-selection {
+            margin-bottom: 20px;
+        }
+
+        .pitch-displays {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .box-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .note-dropdown {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .note-dropdown:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .note-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 20px 15px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+
+        .target-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .note-name {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .note-freq {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .current-freq-display {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            padding: 20px 15px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .singing-freq {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+
+        .selectors {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .selector-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .selector-btn {
+            padding: 10px 20px;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            color: #333;
+            flex: 1;
+            min-width: 90px;
+        }
+
+        .selector-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .selector-btn.active {
+            border-color: #4ade80;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+        }
+
+        .voice-btn.active {
+            border-color: #f093fb;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .selector-label {
+            font-size: 0.8em;
+            margin-top: 3px;
+            opacity: 0.8;
+        }
+
+        .meter-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .horizontal-meter {
+            width: 100%;
+            max-width: 450px;
+            height: 80px;
+            background: #e5e7eb;
+            border-radius: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .meter-fill-horizontal {
+            height: 100%;
+            position: absolute;
+            left: 0;
+            background: linear-gradient(to right, #ef4444 0%, #fbbf24 50%, #22c55e 100%);
+            transition: width 0.1s ease;
+            border-radius: 40px;
+        }
+
+        .meter-center-line {
+            position: absolute;
+            height: 100%;
+            width: 4px;
+            background: white;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .tolerance-zone {
+            position: absolute;
+            height: 100%;
+            background: rgba(74, 222, 128, 0.3);
+            top: 0;
+            transition: all 0.3s;
+            border: 2px solid rgba(74, 222, 128, 0.5);
+        }
+
+        .meter-labels-horizontal {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 450px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .button {
+            padding: 18px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            margin: 8px;
+            width: calc(100% - 16px);
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
+        }
+
+        .stop-button {
+            background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+        }
+
+        .stop-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .info {
+            background: #f0f9ff;
+            border-left: 4px solid #667eea;
+            padding: 12px;
+            border-radius: 5px;
+            color: #333;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.7em;
+            }
+
+            .pitch-displays {
+                gap: 8px;
+            }
+
+            .singing-freq {
+                font-size: 1.8em;
+            }
+
+            .note-name {
+                font-size: 2.5em;
+            }
+
+            .note-freq {
+                font-size: 1em;
+            }
+
+            .box-label {
+                font-size: 0.8em;
+            }
+
+            .horizontal-meter {
+                height: 70px;
+            }
+
+            .meter-labels-horizontal {
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Mobile Pitch Trainer</h1>
+
+        <div class="selectors">
+            <div class="selector-group">
+                <div>
+                    <button class="selector-btn" data-difficulty="shower" data-tolerance="50">
+                        🚿
+                        <div class="selector-label">±50¢</div>
+                    </button>
+                </div>
+                <div>
+                    <button class="selector-btn active" data-difficulty="campfire" data-tolerance="25">
+                        🔥
+                        <div class="selector-label">±25¢</div>
+                    </button>
+                </div>
+                <div>
+                    <button class="selector-btn" data-difficulty="arena" data-tolerance="10">
+                        🎭
+                        <div class="selector-label">±10¢</div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="selector-group">
+                <div>
+                    <button class="selector-btn voice-btn active" data-voice="tenor">
+                        🎤
+                        <div class="selector-label">Tenor</div>
+                    </button>
+                </div>
+                <div>
+                    <button class="selector-btn voice-btn" data-voice="alto">
+                        🎵
+                        <div class="selector-label">Alto</div>
+                    </button>
+                </div>
+                <div>
+                    <button class="selector-btn voice-btn" data-voice="soprano">
+                        🎶
+                        <div class="selector-label">Soprano</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="note-selection">
+            <select class="note-dropdown" id="noteDropdown">
+                <option value="" selected disabled>Select a note to practice...</option>
+            </select>
+
+            <div class="pitch-displays">
+                <div class="note-box target-box" id="noteBox" data-note="" data-freq="">
+                    <div class="box-label">Target Note</div>
+                    <div class="note-name" id="noteName" style="font-size: 2em; opacity: 0.5;">Select</div>
+                    <div class="note-freq" id="noteFreq" style="opacity: 0.5;">a note</div>
+                </div>
+
+                <div class="current-freq-display">
+                    <div class="box-label">Your Pitch</div>
+                    <div class="singing-freq" id="currentFreq">-- Hz</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="meter-container">
+            <div class="meter-labels-horizontal">
+                <span>Low</span>
+                <span>Perfect</span>
+                <span>High</span>
+            </div>
+            <div class="horizontal-meter">
+                <div class="meter-center-line"></div>
+                <div class="tolerance-zone" id="toleranceZone"></div>
+                <div class="meter-fill-horizontal" id="meter" style="width: 50%;"></div>
+            </div>
+        </div>
+
+        <button id="startButton" class="button start-button">Start Listening</button>
+        <button id="stopButton" class="button stop-button" style="display: none;">Stop</button>
+
+        <div class="info">
+            <strong>Tip:</strong> Select your voice type and skill level, choose a note, then tap it to hear the reference tone. Hit "Start Listening" and sing!
+        </div>
+    </div>
+
+    <script>
+        let audioContext;
+        let analyser;
+        let microphone;
+        let isListening = false;
+        let toleranceCents = 25;
+        let currentVoiceType = 'tenor';
+        let selectedNote = { note: null, freq: null };
+
+        const allNotes = [
+            { note: 'C3', freq: 130.81 },
+            { note: 'C#3', freq: 138.59 },
+            { note: 'D3', freq: 146.83 },
+            { note: 'D#3', freq: 155.56 },
+            { note: 'E3', freq: 164.81 },
+            { note: 'F3', freq: 174.61 },
+            { note: 'F#3', freq: 185.00 },
+            { note: 'G3', freq: 196.00 },
+            { note: 'G#3', freq: 207.65 },
+            { note: 'A3', freq: 220.00 },
+            { note: 'A#3', freq: 233.08 },
+            { note: 'B3', freq: 246.94 },
+            { note: 'C4', freq: 261.63 },
+            { note: 'C#4', freq: 277.18 },
+            { note: 'D4', freq: 293.66 },
+            { note: 'D#4', freq: 311.13 },
+            { note: 'E4', freq: 329.63 },
+            { note: 'F4', freq: 349.23 },
+            { note: 'F#4', freq: 369.99 },
+            { note: 'G4', freq: 392.00 },
+            { note: 'G#4', freq: 415.30 },
+            { note: 'A4', freq: 440.00 },
+            { note: 'A#4', freq: 466.16 },
+            { note: 'B4', freq: 493.88 },
+            { note: 'C5', freq: 523.25 },
+            { note: 'C#5', freq: 554.37 },
+            { note: 'D5', freq: 587.33 },
+            { note: 'D#5', freq: 622.25 },
+            { note: 'E5', freq: 659.25 },
+            { note: 'F5', freq: 698.46 },
+            { note: 'F#5', freq: 739.99 },
+            { note: 'G5', freq: 783.99 },
+            { note: 'G#5', freq: 830.61 },
+            { note: 'A5', freq: 880.00 }
+        ];
+
+        const voiceRanges = {
+            tenor: { start: 'C3', end: 'A4' },
+            alto: { start: 'G3', end: 'D5' },
+            soprano: { start: 'C4', end: 'A5' }
+        };
+
+        populateDropdown();
+        updateToleranceZone();
+
+        function getNotesForVoiceType(voiceType) {
+            const range = voiceRanges[voiceType];
+            const startIdx = allNotes.findIndex(n => n.note === range.start);
+            const endIdx = allNotes.findIndex(n => n.note === range.end);
+            return allNotes.slice(startIdx, endIdx + 1);
+        }
+
+        function populateDropdown() {
+            const dropdown = document.getElementById('noteDropdown');
+            const notesForVoice = getNotesForVoiceType(currentVoiceType);
+            
+            dropdown.innerHTML = '';
+            
+            const placeholderOption = document.createElement('option');
+            placeholderOption.value = '';
+            placeholderOption.textContent = 'Select a note to practice...';
+            placeholderOption.disabled = true;
+            placeholderOption.selected = !selectedNote.note;
+            dropdown.appendChild(placeholderOption);
+            
+            const noteInRange = notesForVoice.find(n => n.note === selectedNote.note);
+            if (selectedNote.note && !noteInRange) {
+                selectedNote = { note: null, freq: null };
+                document.getElementById('noteName').textContent = 'Select';
+                document.getElementById('noteName').style.fontSize = '2em';
+                document.getElementById('noteName').style.opacity = '0.5';
+                document.getElementById('noteFreq').textContent = 'a note';
+                document.getElementById('noteFreq').style.opacity = '0.5';
+                document.getElementById('noteBox').dataset.note = '';
+                document.getElementById('noteBox').dataset.freq = '';
+            }
+            
+            const reversedNotes = [...notesForVoice].reverse();
+            reversedNotes.forEach(noteData => {
+                const option = document.createElement('option');
+                option.value = noteData.note;
+                option.dataset.freq = noteData.freq;
+                option.textContent = `${noteData.note} - ${noteData.freq} Hz`;
+                
+                if (noteData.note === selectedNote.note) {
+                    option.selected = true;
+                }
+                
+                dropdown.appendChild(option);
+            });
+            
+            updateToleranceZone();
+        }
+
+        document.querySelectorAll('[data-difficulty]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('[data-difficulty]').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                toleranceCents = parseInt(this.dataset.tolerance);
+                updateToleranceZone();
+            });
+        });
+
+        document.querySelectorAll('[data-voice]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('[data-voice]').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentVoiceType = this.dataset.voice;
+                populateDropdown();
+            });
+        });
+
+        document.getElementById('noteDropdown').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const noteName = selectedOption.value;
+            const freq = parseFloat(selectedOption.dataset.freq);
+            
+            selectedNote = { note: noteName, freq: freq };
+            
+            const noteNameElement = document.getElementById('noteName');
+            const noteFreqElement = document.getElementById('noteFreq');
+            
+            noteNameElement.textContent = noteName;
+            noteNameElement.style.fontSize = '';
+            noteNameElement.style.opacity = '';
+            
+            noteFreqElement.textContent = freq + ' Hz';
+            noteFreqElement.style.opacity = '';
+            
+            document.getElementById('noteBox').dataset.note = noteName;
+            document.getElementById('noteBox').dataset.freq = freq;
+            
+            updateToleranceZone();
+            playReference(freq);
+        });
+
+        document.getElementById('noteBox').addEventListener('click', function() {
+            const freq = parseFloat(this.dataset.freq);
+            if (freq) {
+                playReference(freq);
+            }
+        });
+
+        document.getElementById('startButton').addEventListener('click', startListening);
+        document.getElementById('stopButton').addEventListener('click', stopListening);
+
+        function updateToleranceZone() {
+            const toleranceZone = document.getElementById('toleranceZone');
+            
+            if (!selectedNote.freq) {
+                toleranceZone.style.width = '0%';
+                return;
+            }
+            
+            const ratio = Math.pow(2, toleranceCents / 1200);
+            const upperFreq = selectedNote.freq * ratio;
+            const lowerFreq = selectedNote.freq / ratio;
+            const hzRange = upperFreq - lowerFreq;
+            const percentOfRange = (hzRange / 2) / 50 * 50;
+            
+            toleranceZone.style.width = percentOfRange + '%';
+            toleranceZone.style.left = `calc(50% - ${percentOfRange / 2}%)`;
+        }
+
+        function playReference(frequency) {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5);
+
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 1.5);
+        }
+
+        async function startListening() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                microphone = audioContext.createMediaStreamSource(stream);
+
+                analyser.fftSize = 4096;
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+
+                microphone.connect(analyser);
+
+                isListening = true;
+                document.getElementById('startButton').style.display = 'none';
+                document.getElementById('stopButton').style.display = 'block';
+
+                function detectPitch() {
+                    if (!isListening) return;
+
+                    analyser.getByteTimeDomainData(dataArray);
+                    const frequency = autoCorrelate(dataArray, audioContext.sampleRate);
+
+                    if (frequency > 0) {
+                        updateMeter(frequency);
+                    }
+
+                    requestAnimationFrame(detectPitch);
+                }
+
+                detectPitch();
+
+            } catch (error) {
+                alert('Could not access microphone. Please grant permission and try again.');
+                console.error('Error accessing microphone:', error);
+            }
+        }
+
+        function stopListening() {
+            isListening = false;
+            
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+
+            document.getElementById('startButton').style.display = 'block';
+            document.getElementById('stopButton').style.display = 'none';
+            document.getElementById('currentFreq').textContent = '-- Hz';
+            
+            const meter = document.getElementById('meter');
+            meter.style.width = '50%';
+            meter.style.background = 'linear-gradient(to right, #ef4444 0%, #fbbf24 50%, #22c55e 100%)';
+        }
+
+        function autoCorrelate(buffer, sampleRate) {
+            let SIZE = buffer.length;
+            let sumOfSquares = 0;
+            
+            for (let i = 0; i < SIZE; i++) {
+                let val = (buffer[i] - 128) / 128;
+                sumOfSquares += val * val;
+            }
+            
+            let rms = Math.sqrt(sumOfSquares / SIZE);
+            if (rms < 0.01) return -1;
+
+            let r1 = 0, r2 = SIZE - 1, threshold = 0.2;
+            
+            for (let i = 0; i < SIZE / 2; i++) {
+                if (Math.abs((buffer[i] - 128) / 128) < threshold) {
+                    r1 = i;
+                    break;
+                }
+            }
+            
+            for (let i = 1; i < SIZE / 2; i++) {
+                if (Math.abs((buffer[SIZE - i] - 128) / 128) < threshold) {
+                    r2 = SIZE - i;
+                    break;
+                }
+            }
+
+            buffer = buffer.slice(r1, r2);
+            SIZE = buffer.length;
+
+            let c = new Array(SIZE).fill(0);
+            
+            for (let i = 0; i < SIZE; i++) {
+                for (let j = 0; j < SIZE - i; j++) {
+                    c[i] = c[i] + ((buffer[j] - 128) / 128) * ((buffer[j + i] - 128) / 128);
+                }
+            }
+
+            let d = 0;
+            while (c[d] > c[d + 1]) d++;
+            
+            let maxValue = -1, maxPosition = -1;
+            
+            for (let i = d; i < SIZE; i++) {
+                if (c[i] > maxValue) {
+                    maxValue = c[i];
+                    maxPosition = i;
+                }
+            }
+
+            let T0 = maxPosition;
+
+            if (T0 > 0 && T0 < SIZE - 1) {
+                let x1 = c[T0 - 1], x2 = c[T0], x3 = c[T0 + 1];
+                let a = (x1 + x3 - 2 * x2) / 2;
+                let b = (x3 - x1) / 2;
+                
+                if (a) T0 = T0 - b / (2 * a);
+            }
+
+            return sampleRate / T0;
+        }
+
+        function getCents(frequency, targetFreq) {
+            return 1200 * Math.log2(frequency / targetFreq);
+        }
+
+        function updateMeter(frequency) {
+            const roundedFreq = Math.round(frequency);
+            document.getElementById('currentFreq').textContent = roundedFreq + ' Hz';
+
+            if (!selectedNote.freq) {
+                return;
+            }
+            
+            const cents = getCents(frequency, selectedNote.freq);
+            const clampedCents = Math.max(-50, Math.min(50, cents));
+            const meterPercent = 50 + clampedCents;
+            
+            const meter = document.getElementById('meter');
+            meter.style.width = meterPercent + '%';
+            
+            if (Math.abs(cents) <= toleranceCents) {
+                meter.style.background = 'linear-gradient(to right, #22c55e 0%, #4ade80 50%, #22c55e 100%)';
+            } else {
+                meter.style.background = 'linear-gradient(to right, #ef4444 0%, #fbbf24 50%, #22c55e 100%)';
+            }
+        }
+    </script>
+</body>
+</html>

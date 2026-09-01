@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocal Pitch Trainer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .tuner-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .current-note {
+            font-size: 4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .frequency {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .pitch-meter {
+            position: relative;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .pitch-indicator {
+            position: absolute;
+            width: 4px;
+            height: 100%;
+            background: #fff;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: left 0.1s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .center-line {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .pitch-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .status {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 15px;
+            min-height: 30px;
+        }
+
+        .status.perfect {
+            color: #4ade80;
+        }
+
+        .status.close {
+            color: #fbbf24;
+        }
+
+        .status.off {
+            color: #f87171;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        select {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.1em;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
+        }
+
+        .stop-button {
+            background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+        }
+
+        .stop-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info {
+            background: #f0f9ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 5px;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .current-note {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 Vocal Pitch Trainer</h1>
+        <p class="subtitle">Practice hitting the perfect pitch</p>
+
+        <div class="tuner-display">
+            <div class="current-note" id="currentNote">-</div>
+            <div class="frequency" id="frequency">--- Hz</div>
+            
+            <div class="pitch-meter">
+                <div class="center-line"></div>
+                <div class="pitch-indicator" id="pitchIndicator"></div>
+            </div>
+            <div class="pitch-labels">
+                <span>Flat</span>
+                <span>Perfect</span>
+                <span>Sharp</span>
+            </div>
+
+            <div class="status" id="status">Select a target note and start</div>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="targetNote">Target Note:</label>
+                <select id="targetNote">
+                    <option value="C3">C3 (130.81 Hz)</option>
+                    <option value="D3">D3 (146.83 Hz)</option>
+                    <option value="E3">E3 (164.81 Hz)</option>
+                    <option value="F3">F3 (174.61 Hz)</option>
+                    <option value="G3">G3 (196.00 Hz)</option>
+                    <option value="A3">A3 (220.00 Hz)</option>
+                    <option value="B3">B3 (246.94 Hz)</option>
+                    <option value="C4" selected>C4 (261.63 Hz) - Middle C</option>
+                    <option value="D4">D4 (293.66 Hz)</option>
+                    <option value="E4">E4 (329.63 Hz)</option>
+                    <option value="F4">F4 (349.23 Hz)</option>
+                    <option value="G4">G4 (392.00 Hz)</option>
+                    <option value="A4">A4 (440.00 Hz)</option>
+                    <option value="B4">B4 (493.88 Hz)</option>
+                    <option value="C5">C5 (523.25 Hz)</option>
+                    <option value="D5">D5 (587.33 Hz)</option>
+                    <option value="E5">E5 (659.25 Hz)</option>
+                </select>
+            </div>
+
+            <button id="startButton" class="button start-button">Start Listening</button>
+            <button id="stopButton" class="button stop-button" style="display: none;">Stop</button>
+        </div>
+
+        <div class="info">
+            <strong>How to use:</strong> Select your target note, click "Start Listening", and sing! The meter will show if you're flat (too low), sharp (too high), or perfect. Your browser will ask for microphone permission.
+        </div>
+    </div>
+
+    <script>
+        let audioContext;
+        let analyser;
+        let microphone;
+        let javascriptNode;
+        let isListening = false;
+
+        const noteFrequencies = {
+            'C3': 130.81, 'D3': 146.83, 'E3': 164.81, 'F3': 174.61,
+            'G3': 196.00, 'A3': 220.00, 'B3': 246.94, 'C4': 261.63,
+            'D4': 293.66, 'E4': 329.63, 'F4': 349.23, 'G4': 392.00,
+            'A4': 440.00, 'B4': 493.88, 'C5': 523.25, 'D5': 587.33,
+            'E5': 659.25
+        };
+
+        const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+        document.getElementById('startButton').addEventListener('click', startListening);
+        document.getElementById('stopButton').addEventListener('click', stopListening);
+
+        async function startListening() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                microphone = audioContext.createMediaStreamSource(stream);
+                javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+
+                analyser.smoothingTimeConstant = 0.8;
+                analyser.fftSize = 2048;
+
+                microphone.connect(analyser);
+                analyser.connect(javascriptNode);
+                javascriptNode.connect(audioContext.destination);
+
+                javascriptNode.onaudioprocess = function() {
+                    const array = new Uint8Array(analyser.frequencyBinCount);
+                    analyser.getByteFrequencyData(array);
+                    
+                    const pitch = autoCorrelate(array, audioContext.sampleRate);
+                    
+                    if (pitch > -1) {
+                        updateDisplay(pitch);
+                    }
+                };
+
+                isListening = true;
+                document.getElementById('startButton').style.display = 'none';
+                document.getElementById('stopButton').style.display = 'block';
+                document.getElementById('targetNote').disabled = true;
+
+            } catch (error) {
+                alert('Could not access microphone. Please grant permission and try again.');
+                console.error('Error accessing microphone:', error);
+            }
+        }
+
+        function stopListening() {
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+            
+            isListening = false;
+            document.getElementById('startButton').style.display = 'block';
+            document.getElementById('stopButton').style.display = 'none';
+            document.getElementById('targetNote').disabled = false;
+            document.getElementById('currentNote').textContent = '-';
+            document.getElementById('frequency').textContent = '--- Hz';
+            document.getElementById('status').textContent = 'Select a target note and start';
+            document.getElementById('status').className = 'status';
+            document.getElementById('pitchIndicator').style.left = '50%';
+        }
+
+        function autoCorrelate(buffer, sampleRate) {
+            let SIZE = buffer.length;
+            let sumOfSquares = 0;
+            
+            for (let i = 0; i < SIZE; i++) {
+                let val = (buffer[i] - 128) / 128;
+                sumOfSquares += val * val;
+            }
+            
+            let rootMeanSquare = Math.sqrt(sumOfSquares / SIZE);
+            if (rootMeanSquare < 0.01) return -1;
+
+            let r1 = 0, r2 = SIZE - 1, threshold = 0.2;
+            
+            for (let i = 0; i < SIZE / 2; i++) {
+                if (Math.abs((buffer[i] - 128) / 128) < threshold) {
+                    r1 = i;
+                    break;
+                }
+            }
+            
+            for (let i = 1; i < SIZE / 2; i++) {
+                if (Math.abs((buffer[SIZE - i] - 128) / 128) < threshold) {
+                    r2 = SIZE - i;
+                    break;
+                }
+            }
+
+            buffer = buffer.slice(r1, r2);
+            SIZE = buffer.length;
+
+            let c = new Array(SIZE).fill(0);
+            
+            for (let i = 0; i < SIZE; i++) {
+                for (let j = 0; j < SIZE - i; j++) {
+                    c[i] = c[i] + ((buffer[j] - 128) / 128) * ((buffer[j + i] - 128) / 128);
+                }
+            }
+
+            let d = 0;
+            while (c[d] > c[d + 1]) d++;
+            
+            let maxValue = -1, maxPosition = -1;
+            
+            for (let i = d; i < SIZE; i++) {
+                if (c[i] > maxValue) {
+                    maxValue = c[i];
+                    maxPosition = i;
+                }
+            }
+
+            let T0 = maxPosition;
+
+            let x1 = c[T0 - 1], x2 = c[T0], x3 = c[T0 + 1];
+            let a = (x1 + x3 - 2 * x2) / 2;
+            let b = (x3 - x1) / 2;
+            
+            if (a) T0 = T0 - b / (2 * a);
+
+            return sampleRate / T0;
+        }
+
+        function frequencyToNote(frequency) {
+            const noteNum = 12 * (Math.log(frequency / 440) / Math.log(2));
+            const roundedNoteNum = Math.round(noteNum) + 69;
+            const octave = Math.floor(roundedNoteNum / 12) - 1;
+            const noteName = noteNames[roundedNoteNum % 12];
+            return noteName + octave;
+        }
+
+        function getCentsOffPitch(frequency, targetFreq) {
+            return Math.floor(1200 * Math.log2(frequency / targetFreq));
+        }
+
+        function updateDisplay(frequency) {
+            const targetNote = document.getElementById('targetNote').value;
+            const targetFreq = noteFrequencies[targetNote];
+            
+            const detectedNote = frequencyToNote(frequency);
+            const cents = getCentsOffPitch(frequency, targetFreq);
+            
+            document.getElementById('currentNote').textContent = detectedNote;
+            document.getElementById('frequency').textContent = frequency.toFixed(2) + ' Hz';
+
+            // Update pitch indicator (cents to percentage, clamped to -50 to +50 cents)
+            const clampedCents = Math.max(-50, Math.min(50, cents));
+            const percentage = 50 + (clampedCents);
+            document.getElementById('pitchIndicator').style.left = percentage + '%';
+
+            // Update status
+            const statusElement = document.getElementById('status');
+            
+            if (detectedNote === targetNote && Math.abs(cents) <= 5) {
+                statusElement.textContent = '🎯 Perfect!';
+                statusElement.className = 'status perfect';
+            } else if (detectedNote === targetNote && Math.abs(cents) <= 15) {
+                statusElement.textContent = cents > 0 ? '↗ Slightly Sharp' : '↙ Slightly Flat';
+                statusElement.className = 'status close';
+            } else if (cents > 15) {
+                statusElement.textContent = '⬆ Too Sharp';
+                statusElement.className = 'status off';
+            } else if (cents < -15) {
+                statusElement.textContent = '⬇ Too Flat';
+                statusElement.className = 'status off';
+            } else {
+                statusElement.textContent = 'Singing ' + detectedNote + ', target is ' + targetNote;
+                statusElement.className = 'status off';
+            }
+        }
+    </script>
+</body>
+</html>
