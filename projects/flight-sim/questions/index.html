@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cessna 152 Home Cockpit — Questions</title>
+<link rel="stylesheet" href="/style.css">
+<style>
+  .qa { max-width: 42rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+  body > header img { max-height: 60px; width: auto; }
+  .qa .back { font-size: .875rem; }
+  .qa article { padding: 1.25rem 0; border-bottom: 1px solid #ddd; }
+  .qa h2 { font-size: 1.125rem; margin: 0 0 .35rem; }
+  .qa .tag { display: inline-block; font-size: .75rem; letter-spacing: .04em;
+    text-transform: uppercase; padding: .12rem .5rem; border: 1px solid currentColor;
+    border-radius: 2px; margin-right: .5rem; }
+  .qa .tag[data-s="open"] { color: #8a6d1f; }
+  .qa .tag[data-s="resolved"] { color: #1a6b2f; }
+  .qa .tag[data-s="deferred"] { color: #555; }
+  .qa .tag[data-s="moot"] { color: #777; }
+  .qa .when { font-size: .8125rem; color: #666; }
+  .qa table { border-collapse: collapse; width: 100%; margin: .75rem 0;
+    display: block; overflow-x: auto; }
+  .qa th, .qa td { border: 1px solid #ccc; padding: .4rem .6rem; text-align: left; }
+  .qa img { max-width: 100%; height: auto; }
+  .qa pre { overflow-x: auto; padding: .75rem; background: #f4f4f4; }
+</style>
+</head>
+<body>
+<header>
+  <a href="/index.html"><img src="/images/Dio.png" alt="Dockins Family Symbol"></a>
+  <nav><a href="/projects.html">Projects</a></nav>
+</header>
+<main class="qa">
+<p class="back"><a href="../">&larr; Cessna 152 Home Cockpit</a></p>
+<h1>Questions</h1>
+<p>Problems worked through while building this — the ones still open as well as the ones
+settled. 2 open, 0 settled.</p>
+<article>
+<h2>Does the sim PC have to be bought, or is there a machine on hand that can run X-Plane at a usable frame rate?</h2>
+<p><span class="tag" data-s="open">open</span><span class="when">2026-09-01</span></p>
+<p>This is the single biggest budget risk and it is unanswered. The ceiling is <strong>$1,000
+total</strong> (soft, but a decision that would blow it gets flagged). Everything received so
+far — the CYD boards, the AOC monitor, the vinyl cutter — was already on hand and cost
+this project nothing. So the whole ceiling is still notionally available, and a purchased
+simulator PC capable of X-Plane at a usable frame rate would consume most of it.</p>
+<p>The consequence, not just the cost: if it's a purchase, <strong>Phases 3–4 get squeezed</strong> — the
+panel material, yoke, rudder pedals, encoders, switches and wiring are all still unchosen
+and all still unpaid. Those are the phases where the build stops being firmware and
+becomes a cockpit.</p>
+<p>What bears on it and isn't known yet:</p>
+<ul>
+<li>Whether an existing machine can do it at all. "Usable frame rate" needs a number before
+  this is testable, and the platform question (<strong>X-Plane vs MSFS</strong>) is itself unresolved —
+  MSFS is the heavier target, so answering the platform question first may answer this one.</li>
+<li>The bridge is deliberately transport-agnostic and the pages don't know their data
+  source, so the sim PC can be decided late without invalidating firmware work. That is
+  what makes deferring this safe; it is not a reason to leave it unanswered, because the
+  budget for Phases 3–4 can't be planned until it's settled.</li>
+</ul>
+</article>
+<article>
+<h2>The CYD boards shift off-axis — what are they actually for?</h2>
+<p><span class="tag" data-s="open">open</span><span class="when">2026-09-01</span></p>
+<p>The three ESP32-2432S028R boards are "must use" hardware, and until now the working
+assumption was that they'd carry instruments. That collides with the right-seat
+constraint. Their 2.8-inch panels are <strong>TN</strong>, which shifts noticeably off-axis; an
+instructor in the right seat reads the panel at an angle, so anything that has to be
+<em>scanned</em> from that seat is a poor fit for those boards. The AOC 16T20 is IPS and holds
+contrast off-axis, which is why it already carries the display-only instruments.</p>
+<p>That rules out a use rather than supplying one. The framing that survives is: give the
+CYDs things a pilot <strong>glances at</strong> rather than scans, where a shifted grey level costs
+nothing because the information is presence/absence or a single value read deliberately.
+Candidates on the table:</p>
+<ul>
+<li><strong>Annunciators</strong> — discrete lamps. Legibility off-axis barely matters when the signal is
+  "something is lit".</li>
+<li><strong>A standby instrument</strong> — read deliberately, and only when the primary is gone.</li>
+<li><strong>The audio panel</strong> — but note these boards <em>are</em> touch, and the working rule is that if
+  a pilot touches it, prefer a physical control. An audio panel is touched constantly.</li>
+</ul>
+<p>Bearing on it: the deferred <strong>G5 vs GI 275</strong> question. If the glass retrofit happens, a
+CYD is a near-scale stand-in for a G5 and the calculus changes; if it doesn't, the CYDs
+go back to being preview devices. So this may not be answerable before the aircraft
+purchase.</p>
+<hr />
+</article>
+</main>
+</body>
+</html>
