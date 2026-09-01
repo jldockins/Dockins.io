@@ -26,4 +26,5 @@ jobs:
             **/.DS_Store
             **/node_modules/**
             README.md
-          dry-run: true
+          dry-run: false
+          dangerous-clean-slate: true
