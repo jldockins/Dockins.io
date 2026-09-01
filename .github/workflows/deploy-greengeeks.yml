@@ -27,4 +27,4 @@ jobs:
             **/node_modules/**
             README.md
           dry-run: false
-          dangerous-clean-slate: true
+          dangerous-clean-slate: false
