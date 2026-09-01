@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIY Flight Sim — Research</title>
+<link rel="stylesheet" href="/style.css">
+<style>
+  .research { max-width: 42rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+  body > header img { max-height: 60px; width: auto; }
+  .research .back { font-size: .875rem; }
+  .research article { padding: 1.25rem 0; border-bottom: 1px solid #ddd; }
+  .research h2 { font-size: 1.125rem; margin: 0 0 .35rem; }
+  .research .tag { display: inline-block; font-size: .75rem; letter-spacing: .04em;
+    text-transform: uppercase; padding: .12rem .5rem; border: 1px solid currentColor;
+    border-radius: 2px; margin-right: .5rem; }
+  .research .tag[data-c="verified"] { color: #1a6b2f; }
+  .research .tag[data-c="secondary"] { color: #8a6d1f; }
+  .research .tag[data-c="unverified"] { color: #a33; }
+  .research .src { font-size: .8125rem; color: #666; }
+  .research table { border-collapse: collapse; width: 100%; margin: .75rem 0;
+    display: block; overflow-x: auto; }
+  .research th, .research td { border: 1px solid #ccc; padding: .4rem .6rem;
+    text-align: left; vertical-align: top; }
+  .research img { max-width: 100%; height: auto; }
+</style>
+</head>
+<body>
+<header>
+  <a href="/index.html"><img src="/images/Dio.png" alt="Dockins Family Symbol"></a>
+  <nav><a href="/projects.html">Projects</a></nav>
+</header>
+<main class="research">
+<p class="back"><a href="../">&larr; DIY Flight Sim</a></p>
+<h1>Research</h1>
+<p>Things looked up while building this, with sources. Confidence is marked honestly —
+<em>verified</em> means read in a primary document, <em>unverified</em> means it is a
+working assumption and should be treated as one.</p>
+<article>
+<h2>Certificate credit — an uncertified home sim earns none</h2>
+<p><span class="tag" data-c="verified">verified</span><span class="src">14 CFR 61.51(g); FAA AC 61-136B · looked up 2026-09-01</span></p>
+<p>Part 61 credit attaches to an FAA-approved device only — a full flight simulator, a flight
+training device (FTD), or an aviation training device (ATD, basic/BATD or advanced/AATD).
+Approval is <em>device-specific</em>, carried by a Letter of Authorization valid five years. A
+consumer setup running X-Plane or MSFS earns nothing toward a certificate unless that
+specific hardware configuration has been qualified.
+<strong>Bearing on this project:</strong> This rig will not be an approved device. Hours in it are worth
+zero toward any rating. That is a fact about the regulation, not a defect in the build —
+but it removes "hours toward the instrument rating" as an available goal.</p>
+</article>
+<article>
+<h2>Credit caps, if the device *were* approved</h2>
+<p><span class="tag" data-c="verified">verified</span><span class="src">14 CFR 61.65(i)-(j), 61.109(k)(1), 61.129(i)(1)(i), 61.159(a)(4)(i) · looked up 2026-09-01</span></p>
+<table>
+<thead>
+<tr>
+<th>Certificate / rating</th>
+<th>BATD</th>
+<th>AATD</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Private (61.109)</td>
+<td>2.5 hr combined</td>
+<td>2.5 hr combined</td>
+<td>of the 40 hr minimum</td>
+</tr>
+<tr>
+<td>Instrument (61.65)</td>
+<td>10 hr</td>
+<td>20 hr</td>
+<td>20 hr combined cap across all device types</td>
+</tr>
+<tr>
+<td>Commercial (61.129)</td>
+<td>—</td>
+<td>50 hr</td>
+<td>of the 250 hr total</td>
+</tr>
+<tr>
+<td>ATP (61.159)</td>
+<td>—</td>
+<td>25 hr</td>
+<td></td>
+</tr>
+<tr>
+<td>The instrument cap is one pool, not additive: 18 hr in an AATD plus 9 hr in a BATD credits</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>18 + 2, not 27.</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Bearing on this project:</strong> Context only — none of it applies to an unapproved device.</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</article>
+<article>
+<h2>Instrument currency — the one case needing no instructor</h2>
+<p><span class="tag" data-c="verified">verified</span><span class="src">14 CFR 61.57(c); 61.51(g)(5) · looked up 2026-09-01</span></p>
+<p>Instrument currency is six approaches, holding procedures, and intercepting and tracking
+courses within the preceding six calendar months, completable in any combination of
+aircraft, FFS, FTD or ATD. Since the 2018 rule change the device-based portion needs no
+instructor sign-off — but the device must still be approved, and the logbook must identify
+device, time and content. Separately, 61.57(d): an IPC cannot be done in an ATD at all,
+only an aircraft, FFS or FTD. So an ATD <em>maintains</em> currency but cannot restore it once
+lapsed past twelve months.
+<strong>Bearing on this project:</strong> The nearest thing to a certifiable use case here, and still
+out of reach without approval. Practically, currency has to be earned in the airplane.</p>
+</article>
+<article>
+<h2>Logged training still requires an instructor present</h2>
+<p><span class="tag" data-c="verified">verified</span><span class="src">14 CFR 61.51(g)(4), 61.51(h) · looked up 2026-09-01</span></p>
+<p>Instrument aeronautical experience in a simulator or training device counts only with an
+authorized instructor present to observe the session, signing the logbook or training
+record. Solo practice in a device is not loggable training regardless of the device.
+<strong>Bearing on this project:</strong> Even an approved device would not turn solo evening practice
+into logged time. The value here is proficiency, not paperwork.</p>
+</article>
+</main>
+</body>
+</html>
